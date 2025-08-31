@@ -38,29 +38,26 @@ local function distOK(part)
 	return (root and part) and ((root.Position - part.Position).Magnitude <= MAX_DISTANCE) or false
 end
 
-local function hasTagDeep(model, tag)
-	if CollectionService:HasTag(model, tag) then return true end
-	if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, tag) then return true end
-	for _, d in ipairs(model:GetDescendants()) do
-		if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
-			return true
-		end
-	end
-	return false
-end
-
 local function focusPart(model)
-	if not model then return nil end
-	local hit = model:FindFirstChild("Hitbox")
-	if hit and hit:IsA("BasePart") then return hit end
-	return model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart", true)
+        if not model then return nil end
+        local hit = model:FindFirstChild("Hitbox")
+        if hit and hit:IsA("BasePart") then return hit end
+        return model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart", true)
 end
 
-local function nodeInfoFrom(model)
-	if not (model and model:IsA("Model")) then return nil end
-	if hasTagDeep(model, "Stone")   then return "Stone",   focusPart(model) end
-	if hasTagDeep(model, "Crystal") then return "Crystal", focusPart(model) end
-	return nil
+local function nodeInfoFrom(inst)
+        local obj = inst
+        while obj and obj ~= Workspace do
+                if CollectionService:HasTag(obj, "Stone") then
+                        local m = obj:IsA("Model") and obj or obj:FindFirstAncestorOfClass("Model")
+                        return "Stone", focusPart(m or obj), m or obj
+                elseif CollectionService:HasTag(obj, "Crystal") then
+                        local m = obj:IsA("Model") and obj or obj:FindFirstAncestorOfClass("Model")
+                        return "Crystal", focusPart(m or obj), m or obj
+                end
+                obj = obj.Parent
+        end
+        return nil
 end
 
 local function ownsAutoMinePass()
@@ -208,10 +205,9 @@ end)
 function M:start(_, SoundManager)
 	ClientSoundManager = SoundManager
 
-	RunService.RenderStepped:Connect(function()
-		local target = mouse.Target
-		local model  = target and target:FindFirstAncestorOfClass("Model") or nil
-		local nodeType, focus = nodeInfoFrom(model)
+        RunService.RenderStepped:Connect(function()
+                local target = mouse.Target
+                local nodeType, focus, model = nodeInfoFrom(target)
 
 		if nodeType == "Stone" then
 			local canMine = focus and distOK(focus)
