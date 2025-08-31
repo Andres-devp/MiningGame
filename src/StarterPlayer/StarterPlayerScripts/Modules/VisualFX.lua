@@ -1,5 +1,5 @@
 -- StarterPlayerScripts/Modules/VisualFX.lua
--- v1.0 - Efectos ligeros: polvo (roca) y burst (cristal) + mini camera shake
+-- v1.1 - Efectos mejorados: polvo extra (roca) y destellos con luz (cristal)
 
 local Debris    = game:GetService("Debris")
 local RunService= game:GetService("RunService")
@@ -38,59 +38,94 @@ local function shakeCamera(duration, magnitude)
 end
 
 function M.impactDust(pos: Vector3)
-	local part = mkAnchorPart(pos)
-	local pe = Instance.new("ParticleEmitter")
-	pe.Texture = "rbxassetid://243660364" -- chispas genéricas
-	pe.Speed = NumberRange.new(6,10)
-	pe.Lifetime = NumberRange.new(0.25,0.45)
-	pe.Rate = 0
-	pe.Rotation = NumberRange.new(-180,180)
-	pe.RotSpeed = NumberRange.new(-90,90)
-	pe.SpreadAngle = Vector2.new(45,45)
-	pe.Size = NumberSequence.new{
-		NumberSequenceKeypoint.new(0.0, 0.6),
-		NumberSequenceKeypoint.new(0.5, 0.4),
-		NumberSequenceKeypoint.new(1.0, 0.0)
-	}
-	pe.Color = ColorSequence.new(Color3.fromRGB(200,200,200))
-	pe.Parent = part
-	pe:Emit(18)
+        local part = mkAnchorPart(pos)
+        local spark = Instance.new("ParticleEmitter")
+        spark.Texture = "rbxassetid://243660364" -- chispas genéricas
+        spark.Speed = NumberRange.new(6,10)
+        spark.Lifetime = NumberRange.new(0.25,0.45)
+        spark.Rate = 0
+        spark.Rotation = NumberRange.new(-180,180)
+        spark.RotSpeed = NumberRange.new(-90,90)
+        spark.SpreadAngle = Vector2.new(45,45)
+        spark.Size = NumberSequence.new{
+                NumberSequenceKeypoint.new(0.0, 0.6),
+                NumberSequenceKeypoint.new(0.5, 0.4),
+                NumberSequenceKeypoint.new(1.0, 0.0)
+        }
+        spark.Color = ColorSequence.new(Color3.fromRGB(200,200,200))
+        spark.Parent = part
+        spark:Emit(18)
 
-	shakeCamera(0.08, 1.0)
-	Debris:AddItem(part, 1.0)
+        local dust = Instance.new("ParticleEmitter")
+        dust.Texture = "rbxassetid://243660364"
+        dust.Speed = NumberRange.new(2,4)
+        dust.Lifetime = NumberRange.new(0.45,0.65)
+        dust.Rate = 0
+        dust.SpreadAngle = Vector2.new(15,15)
+        dust.Size = NumberSequence.new{
+                NumberSequenceKeypoint.new(0.0, 1.2),
+                NumberSequenceKeypoint.new(1.0, 0.0)
+        }
+        dust.Color = ColorSequence.new(Color3.fromRGB(150,150,150))
+        dust.Parent = part
+        dust:Emit(12)
+
+        shakeCamera(0.10, 1.2)
+        Debris:AddItem(part, 1.0)
 end
 
 function M.crystalBurst(pos: Vector3)
-	local part = mkAnchorPart(pos)
-	local ring = Instance.new("ParticleEmitter")
-	ring.Texture = "rbxassetid://3018581294" -- ring
-	ring.Rate = 0
-	ring.Speed = NumberRange.new(2,4)
-	ring.Lifetime = NumberRange.new(0.35,0.55)
-	ring.Size = NumberSequence.new{
-		NumberSequenceKeypoint.new(0.0, 0.3),
-		NumberSequenceKeypoint.new(1.0, 1.2)
-	}
-	ring.Color = ColorSequence.new(Color3.fromRGB(120,200,255))
-	ring.Transparency = NumberSequence.new{
-		NumberSequenceKeypoint.new(0.0, 0.2),
-		NumberSequenceKeypoint.new(1.0, 1.0)
-	}
-	ring.Parent = part
-	ring:Emit(10)
+        local part = mkAnchorPart(pos)
+        local ring = Instance.new("ParticleEmitter")
+        ring.Texture = "rbxassetid://3018581294" -- ring
+        ring.Rate = 0
+        ring.Speed = NumberRange.new(2,4)
+        ring.Lifetime = NumberRange.new(0.35,0.55)
+        ring.Size = NumberSequence.new{
+                NumberSequenceKeypoint.new(0.0, 0.3),
+                NumberSequenceKeypoint.new(1.0, 1.2)
+        }
+        ring.Color = ColorSequence.new(Color3.fromRGB(120,200,255))
+        ring.Transparency = NumberSequence.new{
+                NumberSequenceKeypoint.new(0.0, 0.2),
+                NumberSequenceKeypoint.new(1.0, 1.0)
+        }
+        ring.Parent = part
+        ring:Emit(10)
 
-	local spark = Instance.new("ParticleEmitter")
-	spark.Texture = "rbxassetid://243660364"
-	spark.Rate = 0
-	spark.Speed = NumberRange.new(10,14)
-	spark.Lifetime = NumberRange.new(0.25,0.35)
-	spark.Size = NumberSequence.new(0.25, 0)
-	spark.Color = ColorSequence.new(Color3.fromRGB(160,230,255))
-	spark.Parent = part
-	spark:Emit(12)
+        local spark = Instance.new("ParticleEmitter")
+        spark.Texture = "rbxassetid://243660364"
+        spark.Rate = 0
+        spark.Speed = NumberRange.new(10,14)
+        spark.Lifetime = NumberRange.new(0.25,0.35)
+        spark.Size = NumberSequence.new(0.25, 0)
+        spark.Color = ColorSequence.new(Color3.fromRGB(160,230,255))
+        spark.Parent = part
+        spark:Emit(12)
 
-	shakeCamera(0.10, 1.2)
-	Debris:AddItem(part, 1.0)
+        local shards = Instance.new("ParticleEmitter")
+        shards.Texture = "rbxassetid://243660364"
+        shards.Rate = 0
+        shards.Speed = NumberRange.new(8,12)
+        shards.Lifetime = NumberRange.new(0.4,0.6)
+        shards.RotSpeed = NumberRange.new(-180,180)
+        shards.Size = NumberSequence.new{
+                NumberSequenceKeypoint.new(0.0, 0.4),
+                NumberSequenceKeypoint.new(1.0, 0.0)
+        }
+        shards.Color = ColorSequence.new(Color3.fromRGB(140,200,255))
+        shards.Parent = part
+        shards:Emit(16)
+
+        local light = Instance.new("PointLight")
+        light.Range = 8
+        light.Brightness = 5
+        light.Color = Color3.fromRGB(150,220,255)
+        light.Parent = part
+        Debris:AddItem(light, 0.15)
+
+        shakeCamera(0.12, 1.4)
+        Debris:AddItem(part, 1.0)
 end
 
 return M
