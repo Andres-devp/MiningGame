@@ -47,9 +47,14 @@ function ConversionHandler:init()
 				soundContainer.Name = "SoundContainer"
 				soundContainer.Anchored = true
 				soundContainer.CanCollide = false
-				soundContainer.Transparency = 1
-				soundContainer.Position = character:FindFirstChild("HumanoidRootPart").Position
-				soundContainer.Parent = workspace
+                                soundContainer.Transparency = 1
+                                local root = character:FindFirstChild("HumanoidRootPart")
+                                if root then
+                                        soundContainer.Position = root.Position
+                                else
+                                        soundContainer.Position = character:GetPivot().Position
+                                end
+                                soundContainer.Parent = workspace
 
 				local newSound = conversionSoundTemplate:Clone()
 				newSound.Parent = soundContainer
