@@ -16,7 +16,7 @@
       "LeaderboardDisplay":{ "$path": "src/Workspace/LeaderboardDisplay.rbxmx" },
       "TiendaPico":        { "$path": "src/Workspace/TiendaPico.rbxmx" },
       "Baseplate":         { "$path": "src/Workspace/Baseplate.rbxmx" },
-      "PickAceBasic":      { "$path": "src/Workspace/PickAceBasic.rbxmx" }
+      "PickaxeBasic":      { "$path": "src/Workspace/PickaxeBasic.rbxmx" }
     },
 
     "ServerScriptService": {

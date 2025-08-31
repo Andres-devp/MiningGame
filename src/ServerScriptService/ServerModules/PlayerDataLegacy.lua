@@ -1,4 +1,4 @@
--- ServerModules/LeaderstatsScript.lua
+-- ServerModules/PlayerDataLegacy.lua
 -- v2.7 - DataStore (gems, stones, upgrades, tools) + AutoMine + MÍNIMOS EN CARGA
 
 local START_ROCK_AMOUNT        = 5
