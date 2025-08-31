@@ -1,0 +1,90 @@
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<Meta name="ExplicitAutoJoints">true</Meta>
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Folder" referent="RBX659EC5E8919043039C83FF55752129D2">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+			<bool name="DefinesCapabilities">false</bool>
+			<string name="Name">Sounds</string>
+			<int64 name="SourceAssetId">-1</int64>
+			<BinaryString name="Tags"></BinaryString>
+		</Properties>
+		<Item class="Sound" referent="RBX7BF43E200EBC4704B1F1194D6CC22146">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="IsMutedForCapture">false</bool>
+				<NumberRange name="LoopRegion">0 60000 </NumberRange>
+				<bool name="Looped">false</bool>
+				<string name="Name">CrystalSound</string>
+				<bool name="PlayOnRemove">false</bool>
+				<NumberRange name="PlaybackRegion">0 60000 </NumberRange>
+				<bool name="PlaybackRegionsEnabled">false</bool>
+				<float name="PlaybackSpeed">1</float>
+				<bool name="Playing">false</bool>
+				<float name="RollOffMaxDistance">10000</float>
+				<float name="RollOffMinDistance">10</float>
+				<token name="RollOffMode">3</token>
+				<Ref name="SoundGroup">null</Ref>
+				<Content name="SoundId"><url>rbxassetid://9114592867</url></Content>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<double name="TimePosition">0</double>
+				<float name="Volume">3.5</float>
+			</Properties>
+		</Item>
+		<Item class="Sound" referent="RBX8F277555B130497D92BC516818788DE2">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="IsMutedForCapture">false</bool>
+				<NumberRange name="LoopRegion">0 60000 </NumberRange>
+				<bool name="Looped">false</bool>
+				<string name="Name">ConversionSound</string>
+				<bool name="PlayOnRemove">false</bool>
+				<NumberRange name="PlaybackRegion">0 60000 </NumberRange>
+				<bool name="PlaybackRegionsEnabled">false</bool>
+				<float name="PlaybackSpeed">1</float>
+				<bool name="Playing">false</bool>
+				<float name="RollOffMaxDistance">10000</float>
+				<float name="RollOffMinDistance">10</float>
+				<token name="RollOffMode">3</token>
+				<Ref name="SoundGroup">null</Ref>
+				<Content name="SoundId"><url>rbxassetid://3020841054</url></Content>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<double name="TimePosition">0</double>
+				<float name="Volume">0.5</float>
+			</Properties>
+		</Item>
+		<Item class="Sound" referent="RBX075AA170C4C546A1813EBAF9F3A93280">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="IsMutedForCapture">false</bool>
+				<NumberRange name="LoopRegion">0 60000 </NumberRange>
+				<bool name="Looped">false</bool>
+				<string name="Name">BreakSound</string>
+				<bool name="PlayOnRemove">false</bool>
+				<NumberRange name="PlaybackRegion">0 60000 </NumberRange>
+				<bool name="PlaybackRegionsEnabled">false</bool>
+				<float name="PlaybackSpeed">1</float>
+				<bool name="Playing">false</bool>
+				<float name="RollOffMaxDistance">10000</float>
+				<float name="RollOffMinDistance">10</float>
+				<token name="RollOffMode">3</token>
+				<Ref name="SoundGroup">null</Ref>
+				<Content name="SoundId"><url>rbxassetid://7158347304</url></Content>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<double name="TimePosition">0</double>
+				<float name="Volume">0.5</float>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>

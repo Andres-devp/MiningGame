@@ -1,0 +1,15 @@
+@'
+# Salidas/artefactos
+build/
+
+# VS Code
+.vscode/
+
+# SO / temporales
+Thumbs.db
+.DS_Store
+
+# Roblox Studio temp
+*.rbxlx.tmp
+*.rbxmx.tmp
+'@ | Set-Content -Encoding utf8 .gitignore

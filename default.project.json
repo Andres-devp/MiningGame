@@ -1,0 +1,57 @@
+{
+  "name": "MiningGame",
+  "tree": {
+    "$className": "DataModel",
+
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "$ignoreUnknownInstances": true,
+      "Bootstrap":     { "$path": "src/ServerScriptService/Bootstrap.server.lua" },
+      "ServerModules": { "$path": "src/ServerScriptService/ServerModules" },
+      "Services":      { "$path": "src/ServerScriptService/Services" },
+      "Systems":       { "$path": "src/ServerScriptService/Systems" }
+    },
+
+    "ServerStorage": {
+      "$className": "ServerStorage",
+      "$ignoreUnknownInstances": true,
+      "NodeTemplates": { "$path": "src/ServerStorage/NodeTemplates.rbxmx" }
+    },
+
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "$ignoreUnknownInstances": true,
+      "Remotes":      { "$path": "src/ReplicatedStorage/Remotes.rbxmx" },
+      "Shared":       { "$path": "src/ReplicatedStorage/Shared" },
+      "Sounds":       { "$path": "src/ReplicatedStorage/Sounds.rbxmx" },
+      "PickaxeModel": { "$path": "src/ReplicatedStorage/PickaxeModel.rbxmx" }
+    },
+
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$ignoreUnknownInstances": true,
+        "$path": "src/StarterPlayer/StarterPlayerScripts"
+      },
+      "StarterPlayerGui": {
+        "$className": "StarterPlayerGui",
+        "$ignoreUnknownInstances": true,
+        "MainGui":        { "$path": "src/StarterPlayerGui/MainGui.rbxmx" },
+        "PlayerStatsGui": { "$path": "src/StarterPlayerGui/PlayerStatsGui.rbxmx" }
+      }
+    },
+
+    "Workspace": {
+      "$className": "Workspace",
+      "$ignoreUnknownInstances": true,
+      "Hub":               { "$path": "src/Workspace/Hub.rbxmx" },
+      "Plots":             { "$path": "src/Workspace/Plots.rbxmx" },
+      "SpawnLocation":     { "$path": "src/Workspace/SpawnLocation.rbxmx" },
+      "Cave":              { "$path": "src/Workspace/Cave.rbxmx" },
+      "ConversionBase":    { "$path": "src/Workspace/ConversionBase.rbxmx" },
+      "LeaderboardDisplay":{ "$path": "src/Workspace/LeaderboardDisplay.rbxmx" },
+      "TiendaPico":        { "$path": "src/Workspace/TiendaPico.rbxmx" }
+    }
+  }
+}
