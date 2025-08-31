@@ -1,11 +1,28 @@
 {
   "name": "MiningGame",
+  "servePlaceIds": [ 116227459207208 ],
   "tree": {
     "$className": "DataModel",
+
+    "Workspace": {
+      "$className": "Workspace",
+      "$ignoreUnknownInstances": true,
+
+      "Hub":               { "$path": "src/Workspace/Hub.rbxmx" },
+      "Plots":             { "$path": "src/Workspace/Plots.rbxmx" },
+      "SpawnLocation":     { "$path": "src/Workspace/SpawnLocation.rbxmx" },
+      "Cave":              { "$path": "src/Workspace/Cave.rbxmx" },
+      "ConversionBase":    { "$path": "src/Workspace/ConversionBase.rbxmx" },
+      "LeaderboardDisplay":{ "$path": "src/Workspace/LeaderboardDisplay.rbxmx" },
+      "TiendaPico":        { "$path": "src/Workspace/TiendaPico.rbxmx" },
+      "Baseplate":         { "$path": "src/Workspace/Baseplate.rbxmx" },
+      "PickAceBasic":      { "$path": "src/Workspace/PickAceBasic.rbxmx" }
+    },
 
     "ServerScriptService": {
       "$className": "ServerScriptService",
       "$ignoreUnknownInstances": true,
+
       "Bootstrap":     { "$path": "src/ServerScriptService/Bootstrap.server.lua" },
       "ServerModules": { "$path": "src/ServerScriptService/ServerModules" },
       "Services":      { "$path": "src/ServerScriptService/Services" },
@@ -21,6 +38,7 @@
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
       "$ignoreUnknownInstances": true,
+
       "Remotes":      { "$path": "src/ReplicatedStorage/Remotes.rbxmx" },
       "Shared":       { "$path": "src/ReplicatedStorage/Shared" },
       "Sounds":       { "$path": "src/ReplicatedStorage/Sounds.rbxmx" },
@@ -33,25 +51,14 @@
         "$className": "StarterPlayerScripts",
         "$ignoreUnknownInstances": true,
         "$path": "src/StarterPlayer/StarterPlayerScripts"
-      },
-      "StarterPlayerGui": {
-        "$className": "StarterPlayerGui",
-        "$ignoreUnknownInstances": true,
-        "MainGui":        { "$path": "src/StarterPlayerGui/MainGui.rbxmx" },
-        "PlayerStatsGui": { "$path": "src/StarterPlayerGui/PlayerStatsGui.rbxmx" }
       }
     },
 
-    "Workspace": {
-      "$className": "Workspace",
+    "StarterGui": {
+      "$className": "StarterGui",
       "$ignoreUnknownInstances": true,
-      "Hub":               { "$path": "src/Workspace/Hub.rbxmx" },
-      "Plots":             { "$path": "src/Workspace/Plots.rbxmx" },
-      "SpawnLocation":     { "$path": "src/Workspace/SpawnLocation.rbxmx" },
-      "Cave":              { "$path": "src/Workspace/Cave.rbxmx" },
-      "ConversionBase":    { "$path": "src/Workspace/ConversionBase.rbxmx" },
-      "LeaderboardDisplay":{ "$path": "src/Workspace/LeaderboardDisplay.rbxmx" },
-      "TiendaPico":        { "$path": "src/Workspace/TiendaPico.rbxmx" }
+      "MainGui":        { "$path": "src/StarterGui/MainGui.rbxmx" },
+      "PlayerStatsGui": { "$path": "src/StarterGui/PlayerStatsGui.rbxmx" }
     }
   }
 }

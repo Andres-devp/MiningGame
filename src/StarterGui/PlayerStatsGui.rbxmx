@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="ScreenGui" referent="RBX225F4FF4DB464A81A8B2DE94B743D417">
+	<Item class="ScreenGui" referent="RBX538AEA5D29D44C10960D478C49193C25">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<bool name="AutoLocalize">true</bool>
@@ -25,7 +25,7 @@
 			<BinaryString name="Tags"></BinaryString>
 			<token name="ZIndexBehavior">1</token>
 		</Properties>
-		<Item class="Frame" referent="RBX0F2264088BF44F82A32132E3E6E13709">
+		<Item class="Frame" referent="RBX5FCDFA9512914722B9E8A4F61C70519C">
 			<Properties>
 				<bool name="Active">false</bool>
 				<Vector2 name="AnchorPoint">
@@ -88,7 +88,7 @@
 				<bool name="Visible">true</bool>
 				<int name="ZIndex">1</int>
 			</Properties>
-			<Item class="Frame" referent="RBXE2CF7CED906F49C287118A8E2FF97AD3">
+			<Item class="Frame" referent="RBX9149AC56B5CA4937A97A2FE997203A02">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -151,7 +151,7 @@
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="UISizeConstraint" referent="RBXF899D7C4EEC24EAC83111C97ED94B73E">
+				<Item class="UISizeConstraint" referent="RBX8B7DD1D181034CB2891D7F3232E2A84E">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -169,7 +169,7 @@
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ImageButton" referent="RBXF57B72AD0DED4784A7AEADC239100AC1">
+				<Item class="ImageButton" referent="RBX54F29BF5C99045E9B4C8C8E9A752B64A">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -273,7 +273,7 @@
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UIAspectRatioConstraint" referent="RBXC20C9D227E844C59A214ED38F6B58248">
+					<Item class="UIAspectRatioConstraint" referent="RBX31C4CCF6E0A04CC79822F343231DEC4E">
 						<Properties>
 							<float name="AspectRatio">1</float>
 							<token name="AspectType">0</token>
@@ -287,7 +287,7 @@
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="TextLabel" referent="RBX7F983480182147AE9545F79A1CC88225">
+				<Item class="TextLabel" referent="RBXDDDB534F701C43D682794AB9B8C3133D">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -380,7 +380,7 @@
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UITextSizeConstraint" referent="RBXE415388BB671428BB997452DBBCEB7A9">
+					<Item class="UITextSizeConstraint" referent="RBX8CCE489B6A7944098CF4A231B72B72D6">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -393,7 +393,7 @@
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="UICorner" referent="RBX8A6DBF94F71847A5907CFC64A7A2CD5F">
+				<Item class="UICorner" referent="RBX9B8E7C561EB644F899F578F29A478498">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -407,7 +407,7 @@
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="UIStroke" referent="RBX6F0098BDD2D642BA814C81717313BA27">
+				<Item class="UIStroke" referent="RBX7E46D27112A143E58BA11252164B3229">
 					<Properties>
 						<token name="ApplyStrokeMode">0</token>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -434,7 +434,7 @@
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="UIPadding" referent="RBX7C63AC7B6BF844698C6FF762C98278CA">
+				<Item class="UIPadding" referent="RBXCA452A8E39BB457D96761CEDF989FDC4">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -460,7 +460,7 @@
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ImageLabel" referent="RBX4C520714118D434181EDDFCCB74714B7">
+				<Item class="ImageLabel" referent="RBXD244B97795C74CDDA53B160C8A290802">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -556,7 +556,7 @@
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">2</int>
 					</Properties>
-					<Item class="UIAspectRatioConstraint" referent="RBX7C55E3F771CE4CD5853681043CFA0D09">
+					<Item class="UIAspectRatioConstraint" referent="RBX74E200860A6E47BDA4C03E57160B49BD">
 						<Properties>
 							<float name="AspectRatio">1</float>
 							<token name="AspectType">0</token>
@@ -570,7 +570,7 @@
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="ImageLabel" referent="RBX0289784985304C70BBEA4B6A54CA3A61">
+				<Item class="ImageLabel" referent="RBX55CA9860FC6C43D7ADC56A7596B77681">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -668,7 +668,7 @@
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="UIListLayout" referent="RBX5D00A3C1C7F2418DBE920316C75374F5">
+			<Item class="UIListLayout" referent="RBXCA71432F4DE2408F88AF93119713A30C">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -690,7 +690,7 @@
 					<bool name="Wraps">false</bool>
 				</Properties>
 			</Item>
-			<Item class="UIPadding" referent="RBXA3145138588347D4814B122B1540A4CA">
+			<Item class="UIPadding" referent="RBX9B67B81297A642A0AA59DB9F573F2822">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -716,7 +716,7 @@
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="Frame" referent="RBX72265B5A18A64F70BF5B920E04E26BBD">
+			<Item class="Frame" referent="RBX18F4BC92A3564289B8880CABBC6D1036">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -779,7 +779,7 @@
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="UISizeConstraint" referent="RBX000646AFF32443AE8061056A611AFF89">
+				<Item class="UISizeConstraint" referent="RBX6C52D634220E4159BB53133D5DDF0FC1">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -797,7 +797,7 @@
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ImageButton" referent="RBXF2C0E320F92749CAAE6D996B974AC5B4">
+				<Item class="ImageButton" referent="RBXE1689C4140CE4955B113E24B84101938">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -901,7 +901,7 @@
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UIAspectRatioConstraint" referent="RBX57C09939F3BC413AA4977B13D86217CE">
+					<Item class="UIAspectRatioConstraint" referent="RBXDA216EDD4E984243B1163598B4C1546C">
 						<Properties>
 							<float name="AspectRatio">1</float>
 							<token name="AspectType">0</token>
@@ -915,7 +915,7 @@
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="TextLabel" referent="RBX39F8A2DCB235411C952B52AF1433AC2B">
+				<Item class="TextLabel" referent="RBX0C34481954A04C42A128B44091B01670">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -1008,7 +1008,7 @@
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UITextSizeConstraint" referent="RBX56C52E94B98348CFAF6F72DC853C911E">
+					<Item class="UITextSizeConstraint" referent="RBX320CA725AD07493885C227807EA0AC0E">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -1021,7 +1021,7 @@
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="UICorner" referent="RBX2AB00B0588DD4D7ABE9820617B414446">
+				<Item class="UICorner" referent="RBXB7273598863945B1AB31F2EA6DE137AB">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -1035,7 +1035,7 @@
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="UIStroke" referent="RBX563908E767AF415AB51301B2AC6A6C3F">
+				<Item class="UIStroke" referent="RBX98BB712E91884E27BE3044997D57E866">
 					<Properties>
 						<token name="ApplyStrokeMode">0</token>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -1062,7 +1062,7 @@
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="UIPadding" referent="RBX44BF1242D23D4FDB90A058AABE666A57">
+				<Item class="UIPadding" referent="RBX6E4F06475DB547FF858E825BE12C6F47">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -1088,7 +1088,7 @@
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="ImageLabel" referent="RBX27A9DD325DE04F67A5FA0DAA58BAADA1">
+				<Item class="ImageLabel" referent="RBXF93CF70C02AB439F93E9EBAF3A5078A9">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -1184,7 +1184,7 @@
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">2</int>
 					</Properties>
-					<Item class="UIAspectRatioConstraint" referent="RBX7EE103A02E15477DAE06D6546EA3E9F6">
+					<Item class="UIAspectRatioConstraint" referent="RBX0433D3A13837463B887D875C5008D9C1">
 						<Properties>
 							<float name="AspectRatio">1</float>
 							<token name="AspectType">0</token>
@@ -1198,7 +1198,7 @@
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="ImageLabel" referent="RBX8DB173A355184283BE192913C2FCDA69">
+				<Item class="ImageLabel" referent="RBX78391D69F397454B8C749441C2A8FD61">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
