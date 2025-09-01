@@ -35,9 +35,9 @@ function M.init()
 		return
 	end
 
-	local ok1 = connectAny(btnPlot,  function() toPlot:FireServer() end)
-	local ok2 = connectAny(btnShops, function() toPOI:FireServer("Converter") end)
-	print(("[TPButtons] Hooks listos  plot=%s  shops=%s"):format(tostring(ok1), tostring(ok2)))
+        local ok1 = connectAny(btnPlot,  function() toPlot:FireServer() end)
+        local ok2 = connectAny(btnShops, function() toPOI:FireServer("Shops") end)
+        print(("[TPButtons] Hooks listos  plot=%s  shops=%s"):format(tostring(ok1), tostring(ok2)))
 end
 
 return M
