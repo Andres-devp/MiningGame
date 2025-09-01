@@ -11,9 +11,11 @@ local sellRequest = Remotes:WaitForChild("SellRequest")
 local M = {}
 
 function M.init()
+
     local shops = workspace:WaitForChild("Shops")
     local npcContainer = shops:WaitForChild("SaleShop")
     local npc = npcContainer:WaitForChild("SaleShop")
+
     local prompt = npc:WaitForChild("ProximityPrompt")
 
     local dialogObject = Dialog.new("Shop", npc, prompt)

@@ -17,6 +17,7 @@ local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 local saleDialog = playerGui:WaitForChild("SaleDialog")
 local DIALOG_RESPONSES_UI = saleDialog:WaitForChild("dialogResponses")
 
+
 -- Constructor
 function Dialog.new(npcName, npc, prompt, animation)
     local self = setmetatable({}, Dialog)
