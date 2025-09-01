@@ -57,12 +57,12 @@ function M.init()
         end
 
 	-- Ajusta estos valores a como los tengas en UpgradeHandler (servidor)
-	local UPGRADE = {
-		RockAmount        = { base = 50,  mult = 1.5, start = 5 },
-		SpawnRate         = { base = 100, mult = 2.0, start = 4.0, step = 0.25, min = 0.5 },
-		CrystalAmount     = { base = 150, mult = 1.6, start = 0 },
-		CrystalSpawnRate  = { base = 200, mult = 1.9, start = 8.0, step = 0.5,  min = 2.0 },
-	}
+        local UPGRADE = {
+                RockAmount        = { base = 25,  mult = 1.3, start = 5 },
+                SpawnRate         = { base = 50,  mult = 1.5, start = 4.0, step = 0.25, min = 0.5 },
+                CrystalAmount     = { base = 75,  mult = 1.4, start = 0 },
+                CrystalSpawnRate  = { base = 100, mult = 1.6, start = 8.0, step = 0.5,  min = 2.0 },
+        }
 
 	local GREEN = Color3.fromRGB(40,167,69)
 	local RED   = Color3.fromRGB(220,53,69)

@@ -7,6 +7,8 @@ local Players = game:GetService("Players")
 
 local ConversionHandler = {}
 
+local GEMS_PER_STONE = 2 -- Gemas obtenidas por cada piedra convertida
+
 local function findSound(name: string): Sound?
 	local soundsFolder = ReplicatedStorage:FindFirstChild("Sounds")
 	if soundsFolder and soundsFolder:FindFirstChild(name) then
@@ -37,10 +39,10 @@ function ConversionHandler:init()
 		local gemsFolder = player:FindFirstChild("leaderstats")
 		local gems = gemsFolder and gemsFolder:FindFirstChild("Gems")
 
-		if stones and gems and stones.Value > 0 then
-			local stonesToConvert = stones.Value
-			stones.Value = 0
-			gems.Value += stonesToConvert
+                if stones and gems and stones.Value > 0 then
+                        local stonesToConvert = stones.Value
+                        stones.Value = 0
+                        gems.Value += stonesToConvert * GEMS_PER_STONE
 
 			if conversionSoundTemplate then
 				local soundContainer = Instance.new("Part")
