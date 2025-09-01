@@ -119,16 +119,18 @@ function M.init()
 		end
 	end
 
-        -- Mostrar/ocultar (ProximityPrompt en UpgradeShop)
+        -- Mostrar/ocultar (ProximityPrompt en UpgradesShop/UpgradeShop)
         upgradeFrame.Visible = false
-        local prompt = workspace:WaitForChild("POIs"):WaitForChild("UpgradeShop"):FindFirstChild("ProximityPrompt", true)
+        local poiFolder = workspace:WaitForChild("POIs")
+        local upShop = poiFolder:FindFirstChild("UpgradesShop") or poiFolder:FindFirstChild("UpgradeShop")
+        local prompt = upShop and upShop:FindFirstChild("ProximityPrompt", true)
         if prompt then
                 prompt.Triggered:Connect(function()
                         upgradeFrame.Visible = not upgradeFrame.Visible
                         if upgradeFrame.Visible then update() end
                 end)
         else
-                warn("[ShopController] No encontré ProximityPrompt en UpgradeShop")
+                warn("[ShopController] No encontré ProximityPrompt en UpgradesShop")
         end
 
         -- Botón para tienda de Robux (si existe)
