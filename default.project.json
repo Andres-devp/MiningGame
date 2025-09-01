@@ -8,7 +8,6 @@
       "$className": "Workspace",
       "$ignoreUnknownInstances": true,
 
-      "Hub":               { "$path": "src/Workspace/Hub.rbxmx" },
       "Plots":             { "$path": "src/Workspace/Plots.rbxmx" },
       "SpawnLocation":     { "$path": "src/Workspace/SpawnLocation.rbxmx" },
       "Cave":              { "$path": "src/Workspace/Cave.rbxmx" },
