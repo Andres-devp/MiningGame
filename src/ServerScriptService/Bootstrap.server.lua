@@ -3,6 +3,7 @@
 
 local ServerScriptService = game:GetService("ServerScriptService")
 local modulesFolder = ServerScriptService:WaitForChild("ServerModules")
+local servicesFolder = ServerScriptService:WaitForChild("Services")
 
 local modules = {
     "PlotManager",
@@ -17,10 +18,10 @@ local modules = {
     "SpawnPlotAssociation",
 }
 
-local function safeRequire(name)
-    local inst = modulesFolder:FindFirstChild(name)
+local function safeRequire(folder, name)
+    local inst = folder:FindFirstChild(name)
     if not inst then
-        warn(string.format("[FALLO] require %s (NO encontrado: %s/%s)", name, modulesFolder:GetFullName(), name))
+        warn(string.format("[FALLO] require %s (NO encontrado: %s/%s)", name, folder:GetFullName(), name))
         return nil
     end
     local ok, mod = pcall(require, inst)
@@ -39,7 +40,13 @@ local function safeRequire(name)
 end
 
 for _, name in ipairs(modules) do
-    safeRequire(name)
+    safeRequire(modulesFolder, name)
+end
+
+-- Cargar servicios esenciales que requieren inicialización explícita
+local services = { "MiningService" }
+for _, name in ipairs(services) do
+    safeRequire(servicesFolder, name)
 end
 
 print("[Bootstrap] módulos cargados")
