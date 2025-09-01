@@ -3,12 +3,12 @@ local RS = game:GetService("ReplicatedStorage")
 local Remotes = RS:WaitForChild("Remotes")
 local plotsFolder = workspace:WaitForChild("Plots")
 
--- carpeta de puntos de interés puede estar en 'Hub/POIs' o directamente en 'POIs'
-local poisParent = workspace:FindFirstChild("Hub") or workspace
-local pois = poisParent:WaitForChild("POIs")
+-- carpeta de tiendas puede estar en 'Hub/Shops' o directamente en 'Shops'
+local shopsParent = workspace:FindFirstChild("Hub") or workspace
+local shops = shopsParent:WaitForChild("Shops")
 
 local toPlot = Remotes:WaitForChild("TeleportToPlot")
-local toPOI  = Remotes:WaitForChild("TeleportToPOI")
+local toShop = Remotes:WaitForChild("TeleportToShop")
 
 -- intenta leer el Plot del jugador por PlotName (y como fallback, por owner en plotsData)
 local function getPlayerPlotModel(plr)
@@ -49,10 +49,10 @@ toPlot.OnServerEvent:Connect(function(plr)
 	pivotCharacter(char, tp.CFrame)
 end)
 
-toPOI.OnServerEvent:Connect(function(plr, poiName)
-	poiName = tostring(poiName or "")
-	local poi = pois:FindFirstChild(poiName)
-	if not poi then return end
-	local char = plr.Character or plr.CharacterAdded:Wait()
-	pivotCharacter(char, poi.CFrame)
+toShop.OnServerEvent:Connect(function(plr, shopName)
+       shopName = tostring(shopName or "")
+       local shop = shops:FindFirstChild(shopName)
+       if not shop then return end
+       local char = plr.Character or plr.CharacterAdded:Wait()
+       pivotCharacter(char, shop.CFrame)
 end)
