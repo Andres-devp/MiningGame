@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Part" referent="RBXFFC3252D968848C48E040576F05ED40C">
+	<Item class="Part" referent="RBX7D1D8EDA0FEA42D3AC10522348E782BE">
 		<Properties>
 			<bool name="Anchored">false</bool>
 			<BinaryString name="AttributesSerialize"></BinaryString>
@@ -16,9 +16,9 @@
 			<token name="BottomSurface">0</token>
 			<token name="BottomSurfaceInput">0</token>
 			<CoordinateFrame name="CFrame">
-				<X>-17.7533741</X>
-				<Y>1.3827579</Y>
-				<Z>170.587021</Z>
+				<X>9.08016872</X>
+				<Y>0.395997882</Y>
+				<Z>236.316696</Z>
 				<R00>0</R00>
 				<R01>0</R01>
 				<R02>1</R02>
