@@ -23,8 +23,8 @@ local function connectAny(btn, cb)
 end
 
 function M.init()
-	local toPlot  = Remotes:WaitForChild("TeleportToPlot")
-	local toPOI   = Remotes:WaitForChild("TeleportToPOI")
+       local toPlot  = Remotes:WaitForChild("TeleportToPlot")
+       local toShop  = Remotes:WaitForChild("TeleportToShop")
 
 	local gui = Players.LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("MainGui")
 	local btnPlot  = gui:FindFirstChild("TPPlotButton")  or findDesc(gui, "TPPlotButton", 5)
@@ -35,9 +35,9 @@ function M.init()
 		return
 	end
 
-        local ok1 = connectAny(btnPlot,  function() toPlot:FireServer() end)
-        local ok2 = connectAny(btnShops, function() toPOI:FireServer("Shops") end)
-        print(("[TPButtons] Hooks listos  plot=%s  shops=%s"):format(tostring(ok1), tostring(ok2)))
+       local ok1 = connectAny(btnPlot,  function() toPlot:FireServer() end)
+       local ok2 = connectAny(btnShops, function() toShop:FireServer("Shops") end)
+       print(("[TPButtons] Hooks listos  plot=%s  shops=%s"):format(tostring(ok1), tostring(ok2)))
 end
 
 return M

@@ -11,10 +11,9 @@
       "Plots":             { "$path": "src/Workspace/Plots.rbxmx" },
       "SpawnLocation":     { "$path": "src/Workspace/SpawnLocation.rbxmx" },
       "Cave":              { "$path": "src/Workspace/Cave.rbxmx" },
-      "ConversionBase":    { "$path": "src/Workspace/ConversionBase.rbxmx" },
       "LeaderboardDisplay":{ "$path": "src/Workspace/LeaderboardDisplay.rbxmx" },
       "TiendaPico":        { "$path": "src/Workspace/TiendaPico.rbxmx" },
-      "POIs":             { "$path": "src/Workspace/POIs.rbxmx" },
+      "Shops":            { "$path": "src/Workspace/Shops.rbxmx" },
       "Baseplate":         { "$path": "src/Workspace/Baseplate.rbxmx" },
       "PickaxeBasic":      { "$path": "src/Workspace/PickaxeBasic.rbxmx" }
     },
@@ -42,7 +41,8 @@
       "Remotes":      { "$path": "src/ReplicatedStorage/Remotes.rbxmx" },
       "Shared":       { "$path": "src/ReplicatedStorage/Shared" },
       "Sounds":       { "$path": "src/ReplicatedStorage/Sounds.rbxmx" },
-      "PickaxeModel": { "$path": "src/ReplicatedStorage/PickaxeModel.rbxmx" }
+      "PickaxeModel": { "$path": "src/ReplicatedStorage/PickaxeModel.rbxmx" },
+      "Dialog":       { "$path": "src/ReplicatedStorage/Dialog.lua" }
     },
 
     "StarterPlayer": {
@@ -58,7 +58,8 @@
       "$className": "StarterGui",
       "$ignoreUnknownInstances": true,
       "MainGui":        { "$path": "src/StarterGui/MainGui.rbxmx" },
-      "PlayerStatsGui": { "$path": "src/StarterGui/PlayerStatsGui.rbxmx" }
+      "PlayerStatsGui": { "$path": "src/StarterGui/PlayerStatsGui.rbxmx" },
+      "SaleDialog":    { "$path": "src/StarterGui/SaleDialog.rbxmx" }
     }
   }
 }
