@@ -54,7 +54,7 @@
 				<bool name="Draggable">false</bool>
 				<bool name="Interactable">true</bool>
 				<int name="LayoutOrder">0</int>
-				<string name="Name">UpgradeShopFrame </string>
+				<string name="Name">UpgradeShopFrame</string>
 				<Ref name="NextSelectionDown">null</Ref>
 				<Ref name="NextSelectionLeft">null</Ref>
 				<Ref name="NextSelectionRight">null</Ref>
@@ -235,7 +235,7 @@
 						<token name="SizeConstraint">0</token>
 						<int64 name="SourceAssetId">-1</int64>
 						<BinaryString name="Tags"></BinaryString>
-						<string name="Text">M&#195;&#131;&#194;&#161;s Rocas</string>
+						<string name="Text">M&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#131;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#161;s Rocas</string>
 						<Color3 name="TextColor3">
 							<R>1</R>
 							<G>1</G>
