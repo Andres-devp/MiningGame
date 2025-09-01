@@ -20,7 +20,7 @@
 
     "ServerScriptService": {
       "$className": "ServerScriptService",
-      "$ignoreUnknownInstances": true,
+      "$ignoreUnknownInstances": false,
 
       "Bootstrap":     { "$path": "src/ServerScriptService/Bootstrap.server.lua" },
       "ServerModules": { "$path": "src/ServerScriptService/ServerModules" },
