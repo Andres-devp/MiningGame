@@ -14,6 +14,7 @@
       "ConversionBase":    { "$path": "src/Workspace/ConversionBase.rbxmx" },
       "LeaderboardDisplay":{ "$path": "src/Workspace/LeaderboardDisplay.rbxmx" },
       "TiendaPico":        { "$path": "src/Workspace/TiendaPico.rbxmx" },
+      "POIs":             { "$path": "src/Workspace/POIs.rbxmx" },
       "Baseplate":         { "$path": "src/Workspace/Baseplate.rbxmx" },
       "PickaxeBasic":      { "$path": "src/Workspace/PickaxeBasic.rbxmx" }
     },
