@@ -121,8 +121,11 @@ function M.init()
 
         -- Mostrar/ocultar (ProximityPrompt en UpgradesShop/UpgradeShop)
         upgradeFrame.Visible = false
-        local poiFolder = workspace:WaitForChild("POIs")
-        local upShop = poiFolder:FindFirstChild("UpgradesShop") or poiFolder:FindFirstChild("UpgradeShop")
+       -- carpeta de POIs puede estar en 'Hub/POIs' o directamente en 'POIs'
+       local poiParent = workspace:FindFirstChild("Hub") or workspace
+       local poiFolder = poiParent:WaitForChild("POIs")
+       local upShop = poiFolder:FindFirstChild("UpgradesShop") or poiFolder:FindFirstChild("UpgradeShop")
+
         local prompt = upShop and upShop:FindFirstChild("ProximityPrompt", true)
         if prompt then
                 prompt.Triggered:Connect(function()
