@@ -38,40 +38,8 @@ local function shakeCamera(duration, magnitude)
 end
 
 function M.impactDust(pos: Vector3)
-        local part = mkAnchorPart(pos)
-        local spark = Instance.new("ParticleEmitter")
-        spark.Texture = "rbxassetid://243660364" -- chispas genéricas
-        spark.Speed = NumberRange.new(6,10)
-        spark.Lifetime = NumberRange.new(0.25,0.45)
-        spark.Rate = 0
-        spark.Rotation = NumberRange.new(-180,180)
-        spark.RotSpeed = NumberRange.new(-90,90)
-        spark.SpreadAngle = Vector2.new(45,45)
-        spark.Size = NumberSequence.new{
-                NumberSequenceKeypoint.new(0.0, 0.6),
-                NumberSequenceKeypoint.new(0.5, 0.4),
-                NumberSequenceKeypoint.new(1.0, 0.0)
-        }
-        spark.Color = ColorSequence.new(Color3.fromRGB(200,200,200))
-        spark.Parent = part
-        spark:Emit(18)
-
-        local dust = Instance.new("ParticleEmitter")
-        dust.Texture = "rbxassetid://243660364"
-        dust.Speed = NumberRange.new(2,4)
-        dust.Lifetime = NumberRange.new(0.45,0.65)
-        dust.Rate = 0
-        dust.SpreadAngle = Vector2.new(15,15)
-        dust.Size = NumberSequence.new{
-                NumberSequenceKeypoint.new(0.0, 1.2),
-                NumberSequenceKeypoint.new(1.0, 0.0)
-        }
-        dust.Color = ColorSequence.new(Color3.fromRGB(150,150,150))
-        dust.Parent = part
-        dust:Emit(12)
-
+        -- Particle effects removed; retain only camera shake
         shakeCamera(0.10, 1.2)
-        Debris:AddItem(part, 1.0)
 end
 
 function M.crystalBurst(pos: Vector3)
