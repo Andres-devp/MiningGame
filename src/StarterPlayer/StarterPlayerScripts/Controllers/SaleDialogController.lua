@@ -22,11 +22,11 @@ function M.init()
     dialogObject:addDialog(
         "¿Tienes algo para vender?",
         {
-            "1) Vender todo: rocas y minerales",
-            "2) Vender rocas",
-            "3) Vender solo lo que tengo seleccionado",
-            "4) Cuanto me dan por lo que tengo en rocas",
-            "5) Nada",
+            "Vender todo: rocas y minerales",
+            "Vender rocas",
+            "Vender solo lo que tengo seleccionado",
+            "Cuanto me dan por lo que tengo en rocas",
+            "Nada",
         }
     )
 
