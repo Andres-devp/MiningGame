@@ -27,33 +27,34 @@ function M.init()
 	local leaderstats = player:WaitForChild("leaderstats")
 	local gems        = leaderstats:WaitForChild("Gems")
 
-	local gui = player:WaitForChild("PlayerGui"):WaitForChild("MainGui")
+        local gui = player:WaitForChild("PlayerGui"):WaitForChild("MainGui")
 
-	-- Widgets del GUI (busca recursivo por si cambió la jerarquía)
-	local shopFrame = gui:FindFirstChild("ShopFrame") or findDesc(gui, "ShopFrame")
-	local openBtn   = gui:FindFirstChild("OpenShopButton") or findDesc(gui, "OpenShopButton")
+        -- Widgets del GUI (busca recursivo por si cambió la jerarquía)
+        local upgradeFrame = gui:FindFirstChild("UpgradeShopFrame") or findDesc(gui, "UpgradeShopFrame")
+        local robuxBtn     = gui:FindFirstChild("OpenShopButton") or findDesc(gui, "OpenShopButton")
+        local robuxFrame   = gui:FindFirstChild("RobuxShopFrame") or findDesc(gui, "RobuxShopFrame")
 
-	if not shopFrame or not openBtn then
-		warn("[ShopController] No encontré ShopFrame u OpenShopButton en MainGui")
-		return
-	end
+        if not upgradeFrame then
+                warn("[ShopController] No encontré UpgradeShopFrame en MainGui")
+                return
+        end
 
 	-- Rocas
-	local amountBtn   = findDesc(shopFrame, "AmountButton")
-	local amountInfo  = findDesc(shopFrame, "AmountInfo")
-	local rateBtn     = findDesc(shopFrame, "RateButton")
-	local rateInfo    = findDesc(shopFrame, "RateInfo")
+        local amountBtn   = findDesc(upgradeFrame, "AmountButton")
+        local amountInfo  = findDesc(upgradeFrame, "AmountInfo")
+        local rateBtn     = findDesc(upgradeFrame, "RateButton")
+        local rateInfo    = findDesc(upgradeFrame, "RateInfo")
 	-- Cristales
-	local cAmountBtn  = findDesc(shopFrame, "CrystalAmountButton")
-	local cAmountInfo = findDesc(shopFrame, "CrystalAmountInfo")
-	local cRateBtn    = findDesc(shopFrame, "CrystalRateButton")
-	local cRateInfo   = findDesc(shopFrame, "CrystalRateInfo")
+        local cAmountBtn  = findDesc(upgradeFrame, "CrystalAmountButton")
+        local cAmountInfo = findDesc(upgradeFrame, "CrystalAmountInfo")
+        local cRateBtn    = findDesc(upgradeFrame, "CrystalRateButton")
+        local cRateInfo   = findDesc(upgradeFrame, "CrystalRateInfo")
 
 	if not (amountBtn and amountInfo and rateBtn and rateInfo and
 	        cAmountBtn and cAmountInfo and cRateBtn and cRateInfo) then
-		warn("[ShopController] Faltan labels/botones dentro de ShopFrame")
-		return
-	end
+                warn("[ShopController] Faltan labels/botones dentro de UpgradeShopFrame")
+                return
+        end
 
 	-- Ajusta estos valores a como los tengas en UpgradeHandler (servidor)
 	local UPGRADE = {
@@ -118,12 +119,29 @@ function M.init()
 		end
 	end
 
-	-- Mostrar/ocultar
-	shopFrame.Visible = false
-	openBtn.Activated:Connect(function()
-		shopFrame.Visible = not shopFrame.Visible
-		if shopFrame.Visible then update() end
-	end)
+        -- Mostrar/ocultar (ProximityPrompt en UpgradesShop/UpgradeShop)
+        upgradeFrame.Visible = false
+       -- carpeta de POIs puede estar en 'Hub/POIs' o directamente en 'POIs'
+       local poiParent = workspace:FindFirstChild("Hub") or workspace
+       local poiFolder = poiParent:WaitForChild("POIs")
+       local upShop = poiFolder:FindFirstChild("UpgradesShop") or poiFolder:FindFirstChild("UpgradeShop")
+        local prompt = upShop and upShop:FindFirstChild("ProximityPrompt", true)
+        if prompt then
+                prompt.Triggered:Connect(function()
+                        upgradeFrame.Visible = not upgradeFrame.Visible
+                        if upgradeFrame.Visible then update() end
+                end)
+        else
+                warn("[ShopController] No encontré ProximityPrompt en UpgradesShop")
+        end
+
+        -- Botón para tienda de Robux (si existe)
+        if robuxBtn and robuxFrame then
+                robuxFrame.Visible = false
+                robuxBtn.Activated:Connect(function()
+                        robuxFrame.Visible = not robuxFrame.Visible
+                end)
+        end
 
 	-- Botones de compra
 	amountBtn.Activated:Connect(function() if amountBtn.Active then upgradeEvent:FireServer("RockAmount") end end)
