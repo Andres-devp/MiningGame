@@ -5,12 +5,17 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UpgradeHandler = {}
 
 function UpgradeHandler:init()
-	local upgradeEvent = ReplicatedStorage:FindFirstChild("UpgradePlotEvent")
-	if not upgradeEvent then
-		upgradeEvent = Instance.new("RemoteEvent")
-		upgradeEvent.Name = "UpgradePlotEvent"
-		upgradeEvent.Parent = ReplicatedStorage
-	end
+        -- RemoteEvent compartido con el cliente en ReplicatedStorage/Remotes
+        local remotes = ReplicatedStorage:FindFirstChild("Remotes") or Instance.new("Folder")
+        remotes.Name = "Remotes"
+        remotes.Parent = ReplicatedStorage
+
+        local upgradeEvent = remotes:FindFirstChild("UpgradePlotEvent")
+        if not upgradeEvent then
+                upgradeEvent = Instance.new("RemoteEvent")
+                upgradeEvent.Name = "UpgradePlotEvent"
+                upgradeEvent.Parent = remotes
+        end
 
 	-- >>> Alinea estos "start" con LeaderstatsScript <<<
         local UPGRADE = {
