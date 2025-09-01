@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Part" referent="RBX90B2DB1CDDD841EEAF4029D67343F329">
+	<Item class="Part" referent="RBX54022FB24E424B8FA607BC9668B59CCD">
 		<Properties>
 			<bool name="Anchored">true</bool>
 			<BinaryString name="AttributesSerialize"></BinaryString>
@@ -16,9 +16,9 @@
 			<token name="BottomSurface">0</token>
 			<token name="BottomSurfaceInput">0</token>
 			<CoordinateFrame name="CFrame">
-				<X>-22.7658615</X>
-				<Y>1.71409798</Y>
-				<Z>235.848511</Z>
+				<X>-21.6593552</X>
+				<Y>1.45321155</Y>
+				<Z>254.973953</Z>
 				<R00>1</R00>
 				<R01>0</R01>
 				<R02>0</R02>
@@ -100,7 +100,7 @@
 				<Z>5.70718145</Z>
 			</Vector3>
 		</Properties>
-		<Item class="SurfaceGui" referent="RBX03A8522C20C041F7894BC07E0C8E67FA">
+		<Item class="SurfaceGui" referent="RBXCE5AECE995BC4F06962409355C6F4824">
 			<Properties>
 				<bool name="Active">true</bool>
 				<Ref name="Adornee">null</Ref>
@@ -135,7 +135,7 @@
 				<token name="ZIndexBehavior">1</token>
 				<float name="ZOffset">0</float>
 			</Properties>
-			<Item class="TextLabel" referent="RBX7FD599537B984FC0A4EA85E057A2573D">
+			<Item class="TextLabel" referent="RBX48EA904943F843A1B8A6BFABE426AE84">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -230,7 +230,7 @@
 				</Properties>
 			</Item>
 		</Item>
-		<Item class="ProximityPrompt" referent="RBX74CC7A24CF6049B49F05FDB8402A6933">
+		<Item class="ProximityPrompt" referent="RBX3920DB9B183447CE867BA111A86587C7">
 			<Properties>
 				<string name="ActionText">Comprar</string>
 				<BinaryString name="AttributesSerialize"></BinaryString>

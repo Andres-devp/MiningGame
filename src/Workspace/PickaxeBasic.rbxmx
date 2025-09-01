@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Folder" referent="RBX7FCAB9735A22476D9BFC8C5EDD92FE73">
+	<Item class="Folder" referent="RBX1BC115C9CBF94872B1794005DF5AD31A">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -11,7 +11,7 @@
 			<int64 name="SourceAssetId">-1</int64>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="Part" referent="RBXD61F4C7B550247D5B1BBC03845A88EE0">
+		<Item class="Part" referent="RBXF218C4960FBB4A83BC9D84A6344EA713">
 			<Properties>
 				<bool name="Anchored">true</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -25,9 +25,9 @@
 				<token name="BottomSurface">0</token>
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
-					<X>-22.7907944</X>
-					<Y>5.67664289</Y>
-					<Z>235.679901</Z>
+					<X>-21.684288</X>
+					<Y>5.41575623</Y>
+					<Z>254.805344</Z>
 					<R00>0.0106215524</R00>
 					<R01>0.0577534251</R01>
 					<R02>0.998274446</R02>
@@ -109,34 +109,34 @@
 					<Z>0.551999509</Z>
 				</Vector3>
 			</Properties>
-			<Item class="WeldConstraint" referent="RBXF9DAED7C01034378A0007982723380AE">
+			<Item class="WeldConstraint" referent="RBX03853F776BDF40BF9E1C2A0CE44B1E77">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<CoordinateFrame name="CFrame0">
 						<X>1.4894352</X>
-						<Y>-1.11489868</Y>
+						<Y>-1.11491394</Y>
 						<Z>-1.52587891e-05</Z>
-						<R00>-4.26080078e-08</R00>
-						<R01>1.00000012</R01>
+						<R00>-4.17931005e-08</R00>
+						<R01>1.00000024</R01>
 						<R02>9.31322575e-10</R02>
-						<R10>-2.08616257e-07</R10>
-						<R11>-9.31322575e-10</R11>
-						<R12>1</R12>
-						<R20>1.00000012</R20>
-						<R21>4.22005542e-08</R21>
+						<R10>-2.12341547e-07</R10>
+						<R11>-1.86264515e-09</R11>
+						<R12>1.00000012</R12>
+						<R20>1.00000024</R20>
+						<R21>4.21423465e-08</R21>
 						<R22>2.04890966e-07</R22>
 					</CoordinateFrame>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
 					<string name="Name">WeldConstraint</string>
-					<Ref name="Part0Internal">RBXD61F4C7B550247D5B1BBC03845A88EE0</Ref>
-					<Ref name="Part1Internal">RBX1BD773376D494CDEB257FBCD625CC3AC</Ref>
+					<Ref name="Part0Internal">RBXF218C4960FBB4A83BC9D84A6344EA713</Ref>
+					<Ref name="Part1Internal">RBX439FD7889AFF4019B06874D242A8A658</Ref>
 					<int64 name="SourceAssetId">-1</int64>
 					<int name="State">3</int>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="WeldConstraint" referent="RBXFF2992E391E94AF1913AF2EBB980BEDC">
+			<Item class="WeldConstraint" referent="RBX20211C4F2B00430CA68FCF6FBD78BBA5">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<CoordinateFrame name="CFrame0">
@@ -156,14 +156,14 @@
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
 					<string name="Name">WeldConstraint</string>
-					<Ref name="Part0Internal">RBXD61F4C7B550247D5B1BBC03845A88EE0</Ref>
-					<Ref name="Part1Internal">RBXC289D5379B4E4D76BED23EF0FE7FA9CF</Ref>
+					<Ref name="Part0Internal">RBXF218C4960FBB4A83BC9D84A6344EA713</Ref>
+					<Ref name="Part1Internal">RBX794A5CFB3201419897715815FDF620AA</Ref>
 					<int64 name="SourceAssetId">-1</int64>
 					<int name="State">3</int>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="WeldConstraint" referent="RBX3CF4A211B8984947A1D622D9F3AF9F6E">
+			<Item class="WeldConstraint" referent="RBX6391821A86E942CD891B5510EDA81AF3">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<CoordinateFrame name="CFrame0">
@@ -183,15 +183,15 @@
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
 					<string name="Name">WeldConstraint</string>
-					<Ref name="Part0Internal">RBXD61F4C7B550247D5B1BBC03845A88EE0</Ref>
-					<Ref name="Part1Internal">RBX5CF51379C4B64FE481C5EBDB522722F5</Ref>
+					<Ref name="Part0Internal">RBXF218C4960FBB4A83BC9D84A6344EA713</Ref>
+					<Ref name="Part1Internal">RBXF2F6B0C491794A79A13604D8B5612D58</Ref>
 					<int64 name="SourceAssetId">-1</int64>
 					<int name="State">3</int>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
 		</Item>
-		<Item class="Part" referent="RBX1BD773376D494CDEB257FBCD625CC3AC">
+		<Item class="Part" referent="RBX439FD7889AFF4019B06874D242A8A658">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -205,18 +205,18 @@
 				<token name="BottomSurface">0</token>
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
-					<X>-22.8393784</X>
-					<Y>7.18104935</Y>
-					<Z>234.586365</Z>
-					<R00>0.998274565</R00>
-					<R01>0.0106215952</R01>
-					<R02>0.05775363</R02>
-					<R10>-0.00985067617</R10>
-					<R11>0.999858975</R11>
-					<R12>-0.0136167696</R12>
-					<R20>-0.0578901172</R20>
+					<X>-21.7328739</X>
+					<Y>6.92016315</Y>
+					<Z>253.711792</Z>
+					<R00>0.998274684</R00>
+					<R01>0.0106215971</R01>
+					<R02>0.0577536374</R02>
+					<R10>-0.0098506771</R10>
+					<R11>0.999859095</R11>
+					<R12>-0.0136167714</R12>
+					<R20>-0.0578901283</R20>
 					<R21>0.0130243609</R21>
-					<R22>0.998238087</R22>
+					<R22>0.998238206</R22>
 				</CoordinateFrame>
 				<bool name="CanCollide">true</bool>
 				<bool name="CanQuery">true</bool>
@@ -290,7 +290,7 @@
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBXC289D5379B4E4D76BED23EF0FE7FA9CF">
+		<Item class="Part" referent="RBX794A5CFB3201419897715815FDF620AA">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -304,9 +304,9 @@
 				<token name="BottomSurface">0</token>
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
-					<X>-22.7105942</X>
-					<Y>7.15065956</Y>
-					<Z>236.812286</Z>
+					<X>-21.6040878</X>
+					<Y>6.88977289</Y>
+					<Z>255.937729</Z>
 					<R00>-0.998274684</R00>
 					<R01>0.0106215999</R01>
 					<R02>-0.0577536374</R02>
@@ -389,7 +389,7 @@
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBX5CF51379C4B64FE481C5EBDB522722F5">
+		<Item class="Part" referent="RBXF2F6B0C491794A79A13604D8B5612D58">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -403,9 +403,9 @@
 				<token name="BottomSurface">0</token>
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
-					<X>-22.775032</X>
-					<Y>7.16025591</Y>
-					<Z>235.699249</Z>
+					<X>-21.6685257</X>
+					<Y>6.89936924</Y>
+					<Z>254.824692</Z>
 					<R00>0.0577534325</R00>
 					<R01>0.0106215533</R01>
 					<R02>-0.998274565</R02>

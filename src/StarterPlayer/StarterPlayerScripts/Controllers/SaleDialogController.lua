@@ -20,7 +20,7 @@ function M.init()
 
     local dialogObject = Dialog.new("Shop", npc, prompt)
     dialogObject:addDialog(
-        "Got anything to sell?",
+        "¿Tienes algo para vender?",
         {
             "1) Vender todo: rocas y minerales",
             "2) Vender rocas",
