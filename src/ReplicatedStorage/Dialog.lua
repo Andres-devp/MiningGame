@@ -12,11 +12,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Sounds = ReplicatedStorage:WaitForChild("Sounds")
 local TICK_SOUND = Sounds:WaitForChild("tick")
 local END_TICK_SOUND = Sounds:WaitForChild("tick2")
+local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+local saleDialog = playerGui:WaitForChild("SaleDialog")
+local DIALOG_RESPONSES_UI = saleDialog:WaitForChild("dialogResponses")
 
-local DIALOG_RESPONSES_UI = game.Players.LocalPlayer
-    :WaitForChild("PlayerGui")
-    :WaitForChild("dialog")
-    :WaitForChild("dialogResponses")
 
 -- Constructor
 function Dialog.new(npcName, npc, prompt, animation)
