@@ -17,6 +17,11 @@ Un juego de minería para Roblox. Este repositorio contiene el proyecto Rojo par
 - `src/` contiene todos los scripts y assets del juego organizados por servicios de Roblox.
 - `default.project.json` describe cómo se mapea el proyecto al DataModel de Roblox.
 
+## Economía
+
+- La conversión de piedras a gemas ahora otorga 2 gemas por cada piedra.
+- Los costos base y el crecimiento de las mejoras se redujeron para facilitar el progreso.
+
 ## Licencia
 
 Este proyecto se distribuye bajo la licencia MIT. Consulta el archivo LICENSE si está disponible para más detalles.

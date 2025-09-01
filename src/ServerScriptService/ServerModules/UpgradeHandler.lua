@@ -5,20 +5,25 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UpgradeHandler = {}
 
 function UpgradeHandler:init()
-	local upgradeEvent = ReplicatedStorage:FindFirstChild("UpgradePlotEvent")
-	if not upgradeEvent then
-		upgradeEvent = Instance.new("RemoteEvent")
-		upgradeEvent.Name = "UpgradePlotEvent"
-		upgradeEvent.Parent = ReplicatedStorage
-	end
+        -- RemoteEvent compartido con el cliente en ReplicatedStorage/Remotes
+        local remotes = ReplicatedStorage:FindFirstChild("Remotes") or Instance.new("Folder")
+        remotes.Name = "Remotes"
+        remotes.Parent = ReplicatedStorage
+
+        local upgradeEvent = remotes:FindFirstChild("UpgradePlotEvent")
+        if not upgradeEvent then
+                upgradeEvent = Instance.new("RemoteEvent")
+                upgradeEvent.Name = "UpgradePlotEvent"
+                upgradeEvent.Parent = remotes
+        end
 
 	-- >>> Alinea estos "start" con LeaderstatsScript <<<
-	local UPGRADE = {
-		RockAmount = { base = 50,  mult = 1.5, start = 5 },    -- +1
-		SpawnRate  = { base = 100, mult = 2.0, start = 4.0, step = 0.25, min = 0.5 }, -- seg ↓
-		CrystalAmount    = { base = 150, mult = 1.6, start = 0 },    -- +1
-		CrystalSpawnRate = { base = 200, mult = 1.9, start = 8.0, step = 0.5,  min = 2.0 }, -- seg ↓
-	}
+        local UPGRADE = {
+                RockAmount = { base = 25,  mult = 1.3, start = 5 },    -- +1
+                SpawnRate  = { base = 50,  mult = 1.5, start = 4.0, step = 0.25, min = 0.5 }, -- seg ↓
+                CrystalAmount    = { base = 75,  mult = 1.4, start = 0 },    -- +1
+                CrystalSpawnRate = { base = 100, mult = 1.6, start = 8.0, step = 0.5,  min = 2.0 }, -- seg ↓
+        }
 
 	local function ensureUps(plr)
 		local ups = plr:FindFirstChild("Upgrades")
