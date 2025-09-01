@@ -8,7 +8,13 @@ local Players           = game:GetService("Players")
 local RunService        = game:GetService("RunService")
 
 local NodeSpawner = {}
+
 local nodeTemplates = ServerStorage:WaitForChild("NodeTemplates")
+
+function NodeSpawner:init()
+        local plotManager = require(script.Parent:WaitForChild("PlotManager"))
+        self:start(plotManager)
+end
 
 -- ===== DEBUG =====
 local DEBUG = true

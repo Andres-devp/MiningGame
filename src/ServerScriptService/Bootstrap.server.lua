@@ -11,6 +11,7 @@ local modules = {
     "PlayerDataLegacy",
     "LeaderboardHandler",
     "ShopService",
+    "SellService",
     "UpgradeHandler",
     "LeaderstatsScript",
     "SpawnPlotAssociation",

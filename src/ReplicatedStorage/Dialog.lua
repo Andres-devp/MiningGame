@@ -126,8 +126,13 @@ function Dialog:triggerDialog(player, questionNumber)
         local playerReponseOptions = DIALOG_RESPONSES_UI
         for i, option in playerReponseOptions:GetChildren() do
             if not option:IsA("GuiButton") then continue end
-            option.Text = dialog.responses[i] or ""
-            option.Visible = option.Text ~= ""
+            local textLabel = option:FindFirstChild("text")
+            if textLabel and textLabel:IsA("TextLabel") then
+                textLabel.Text = dialog.responses[i] or ""
+                option.Visible = textLabel.Text ~= ""
+            else
+                option.Visible = false
+            end
             option.Activated:Connect(function()
                 self.fireResponded:Fire(i, dialogNum)
             end)
