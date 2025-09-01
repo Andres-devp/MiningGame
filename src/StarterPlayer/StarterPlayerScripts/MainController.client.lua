@@ -43,6 +43,7 @@ local InputController      = loadModule(controllers, "InputController")      or 
 local ShopController       = loadModule(controllers, "ShopController")       or {}
 local TPButtons            = loadModule(controllers, "TPButtons")            or {}
 local ShopPromptController = loadModule(controllers, "ShopPromptController") or {}
+local CloseButtonController= loadModule(controllers, "CloseButtonController") or {}
 
 -- Módulos
 local SoundManager         = loadModule(modulesPath, "SoundManager")         or {}
@@ -62,5 +63,6 @@ end
 call(ShopController,       "init")
 call(TPButtons,            "init")
 call(ShopPromptController, "init")
+call(CloseButtonController,"init")
 
-print("--- MainController: controllers initialized (UI, Mining, Input, ShopUI, TP, ShopPrompt). ---")
+print("--- MainController: controllers initialized (UI, Mining, Input, ShopUI, TP, ShopPrompt, CloseButtons). ---")
