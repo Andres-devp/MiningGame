@@ -6,12 +6,14 @@ local controllers = root:WaitForChild("Controllers")
 -- Esperar a que el personaje del jugador esté listo antes de iniciar
 local Players = game:GetService("Players")
 local player  = Players.LocalPlayer
+
 print("[MainController] Esperando a que el personaje esté disponible...")
 local character = player.Character or player.CharacterAdded:Wait()
 print(("[MainController] Personaje disponible: %s"):format(character:GetFullName()))
 print("[MainController] Esperando HumanoidRootPart...")
 character:WaitForChild("HumanoidRootPart")
 print("[MainController] HumanoidRootPart encontrado, iniciando controladores.")
+
 
 local function loadModule(container, name)
 	local inst = container:WaitForChild(name)
