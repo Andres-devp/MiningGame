@@ -76,10 +76,11 @@ function M.refreshForPlot(plot, spawnsFolder)
 	end
 end
 
-function M.init(opts)
-	opts = opts or {}
-	local plotsFolder  = waitForFolder(Workspace, "Plots",  opts.timeout or 15)
-	local spawnsFolder = waitForFolder(Workspace, "Spawns", opts.timeout or 15)
+function M:init(opts)
+        opts = opts or {}
+        local timeout = opts.timeout or 0
+        local plotsFolder  = waitForFolder(Workspace, "Plots",  timeout)
+        local spawnsFolder = waitForFolder(Workspace, "Spawns", timeout)
 	if not plotsFolder then
 		warn("[SpawnPlotAssociation] 'Workspace/Plots' no existe (timeout). Abort init.")
 		return false
