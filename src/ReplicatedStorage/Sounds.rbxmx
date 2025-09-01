@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Folder" referent="RBX659EC5E8919043039C83FF55752129D2">
+	<Item class="Folder" referent="RBX73EEFF1B09884E93BA911963C74EA31C">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -11,7 +11,7 @@
 			<int64 name="SourceAssetId">-1</int64>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="Sound" referent="RBX7BF43E200EBC4704B1F1194D6CC22146">
+		<Item class="Sound" referent="RBX4F6EFCE5272B4A43A02D0B0B215D939F">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -36,7 +36,7 @@
 				<float name="Volume">3.5</float>
 			</Properties>
 		</Item>
-		<Item class="Sound" referent="RBX8F277555B130497D92BC516818788DE2">
+		<Item class="Sound" referent="RBXCA4214D1D24248CA8AF62A5DEB9F7B61">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -61,7 +61,7 @@
 				<float name="Volume">0.5</float>
 			</Properties>
 		</Item>
-		<Item class="Sound" referent="RBX075AA170C4C546A1813EBAF9F3A93280">
+		<Item class="Sound" referent="RBXA839086E107542C5980A759F8381E2F7">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -81,6 +81,56 @@
 				<Ref name="SoundGroup">null</Ref>
 				<Content name="SoundId"><url>rbxassetid://7158347304</url></Content>
 				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<double name="TimePosition">0</double>
+				<float name="Volume">0.5</float>
+			</Properties>
+		</Item>
+		<Item class="Sound" referent="RBXCEF7E7B2748447958740C0CC5B7B372E">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="IsMutedForCapture">false</bool>
+				<NumberRange name="LoopRegion">0 60000 </NumberRange>
+				<bool name="Looped">false</bool>
+				<string name="Name">tick</string>
+				<bool name="PlayOnRemove">false</bool>
+				<NumberRange name="PlaybackRegion">0 60000 </NumberRange>
+				<bool name="PlaybackRegionsEnabled">false</bool>
+				<float name="PlaybackSpeed">1</float>
+				<bool name="Playing">false</bool>
+				<float name="RollOffMaxDistance">10000</float>
+				<float name="RollOffMinDistance">10</float>
+				<token name="RollOffMode">0</token>
+				<Ref name="SoundGroup">null</Ref>
+				<Content name="SoundId"><url>rbxassetid://10066936758</url></Content>
+				<int64 name="SourceAssetId">10066936758</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<double name="TimePosition">0</double>
+				<float name="Volume">0.5</float>
+			</Properties>
+		</Item>
+		<Item class="Sound" referent="RBXC0599257DFC944D4A43D5FF5B75F46A2">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<bool name="IsMutedForCapture">false</bool>
+				<NumberRange name="LoopRegion">0 60000 </NumberRange>
+				<bool name="Looped">false</bool>
+				<string name="Name">tick2</string>
+				<bool name="PlayOnRemove">false</bool>
+				<NumberRange name="PlaybackRegion">0 60000 </NumberRange>
+				<bool name="PlaybackRegionsEnabled">false</bool>
+				<float name="PlaybackSpeed">1</float>
+				<bool name="Playing">false</bool>
+				<float name="RollOffMaxDistance">10000</float>
+				<float name="RollOffMinDistance">10</float>
+				<token name="RollOffMode">0</token>
+				<Ref name="SoundGroup">null</Ref>
+				<Content name="SoundId"><url>rbxassetid://10066931761</url></Content>
+				<int64 name="SourceAssetId">10066931761</int64>
 				<BinaryString name="Tags"></BinaryString>
 				<double name="TimePosition">0</double>
 				<float name="Volume">0.5</float>
