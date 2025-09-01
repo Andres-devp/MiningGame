@@ -78,10 +78,10 @@ do
 	local hub = workspace:FindFirstChild("Hub")
 	local plots = workspace:FindFirstChild("Plots")
 	print("[Workspace] Hub:", hub and "OK" or "FALTA", " | Plots:", plots and "OK" or "FALTA")
-	if hub and hub:FindFirstChild("POIs") then
-		local poiNames = {}
-		for _,p in ipairs(hub.POIs:GetChildren()) do table.insert(poiNames, p.Name) end
-		table.sort(poiNames); print("[POIs] -> "..table.concat(poiNames, ", "))
+       if hub and hub:FindFirstChild("Shops") then
+               local shopNames = {}
+               for _,p in ipairs(hub.Shops:GetChildren()) do table.insert(shopNames, p.Name) end
+               table.sort(shopNames); print("[Shops] -> "..table.concat(shopNames, ", "))
 	end
 	if plots then
 		local plotNames = {}
