@@ -3,8 +3,9 @@ local RS = game:GetService("ReplicatedStorage")
 local Remotes = RS:WaitForChild("Remotes")
 local plotsFolder = workspace:WaitForChild("Plots")
 
-local hub = workspace:WaitForChild("Hub")
-local pois = hub:WaitForChild("POIs")
+-- carpeta de puntos de interés puede estar en 'Hub/POIs' o directamente en 'POIs'
+local poisParent = workspace:FindFirstChild("Hub") or workspace
+local pois = poisParent:WaitForChild("POIs")
 
 local toPlot = Remotes:WaitForChild("TeleportToPlot")
 local toPOI  = Remotes:WaitForChild("TeleportToPOI")
