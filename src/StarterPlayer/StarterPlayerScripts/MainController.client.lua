@@ -10,8 +10,8 @@ local player  = Players.LocalPlayer
 
 -- Evitar doble inicialización si existe otra copia del script
 if player:GetAttribute("MainControllerReady") then
-       print("[MainController] Controladores ya inicializados, omitiendo.")
-       return
+    print("[MainController] Controladores ya inicializados, omitiendo.")
+    return
 end
 
 print("[MainController] Esperando a que el personaje esté disponible...")
