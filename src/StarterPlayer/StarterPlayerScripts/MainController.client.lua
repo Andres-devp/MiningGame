@@ -3,6 +3,12 @@ local root        = script.Parent
 local modulesPath = root:WaitForChild("Modules")
 local controllers = root:WaitForChild("Controllers")
 
+-- Esperar a que el personaje del jugador esté listo antes de iniciar
+local Players = game:GetService("Players")
+local player  = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("HumanoidRootPart")
+
 local function loadModule(container, name)
 	local inst = container:WaitForChild(name)
 	if not inst:IsA("ModuleScript") then
