@@ -7,6 +7,13 @@ local controllers = root:WaitForChild("Controllers")
 local Players = game:GetService("Players")
 local player  = Players.LocalPlayer
 
+
+-- Evitar doble inicialización si existe otra copia del script
+if player:GetAttribute("MainControllerReady") then
+       print("[MainController] Controladores ya inicializados, omitiendo.")
+       return
+end
+
 print("[MainController] Esperando a que el personaje esté disponible...")
 local character = player.Character or player.CharacterAdded:Wait()
 print(("[MainController] Personaje disponible: %s"):format(character:GetFullName()))
@@ -14,6 +21,7 @@ print("[MainController] Esperando HumanoidRootPart...")
 character:WaitForChild("HumanoidRootPart")
 print("[MainController] HumanoidRootPart encontrado, iniciando controladores.")
 
+player:SetAttribute("MainControllerReady", true)
 
 local function loadModule(container, name)
 	local inst = container:WaitForChild(name)
