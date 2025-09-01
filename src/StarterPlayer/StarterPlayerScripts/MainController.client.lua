@@ -6,8 +6,14 @@ local controllers = root:WaitForChild("Controllers")
 -- Esperar a que el personaje del jugador esté listo antes de iniciar
 local Players = game:GetService("Players")
 local player  = Players.LocalPlayer
+
+print("[MainController] Esperando a que el personaje esté disponible...")
 local character = player.Character or player.CharacterAdded:Wait()
+print(("[MainController] Personaje disponible: %s"):format(character:GetFullName()))
+print("[MainController] Esperando HumanoidRootPart...")
 character:WaitForChild("HumanoidRootPart")
+print("[MainController] HumanoidRootPart encontrado, iniciando controladores.")
+
 
 local function loadModule(container, name)
 	local inst = container:WaitForChild(name)
@@ -56,21 +62,29 @@ local SaleDialogController = loadModule(controllers, "SaleDialogController") or 
 local SoundManager         = loadModule(modulesPath, "SoundManager")         or {}
 
 -- Orden: UI -> Mining -> (Input side-effect) -> ShopUI -> TP -> ShopPrompt
+print("[MainController] Inicializando UIController.init")
 call(UIController,     "init")
+print("[MainController] Inicializando MiningController.start")
 call(MiningController, "start", nil, SoundManager)
 
 if type(InputController.init) == "function" then
-	local ok, err = pcall(function() InputController.init() end)
-	print(ok and "[MainController] InputController.init OK"
-	      or   ("[MainController] InputController.init ERROR: "..tostring(err)))
+print("[MainController] Inicializando InputController.init")
+local ok, err = pcall(function() InputController.init() end)
+print(ok and "[MainController] InputController.init OK"
+      or   ("[MainController] InputController.init ERROR: "..tostring(err)))
 else
-	print("[MainController] InputController loaded (side-effect).")
+print("[MainController] InputController loaded (side-effect).")
 end
 
+print("[MainController] Inicializando ShopController.init")
 call(ShopController,       "init")
+print("[MainController] Inicializando TPButtons.init")
 call(TPButtons,            "init")
+print("[MainController] Inicializando ShopPromptController.init")
 call(ShopPromptController, "init")
+print("[MainController] Inicializando CloseButtonController.init")
 call(CloseButtonController,"init")
+print("[MainController] Inicializando SaleDialogController.init")
 call(SaleDialogController, "init")
 
 print("--- MainController: controllers initialized (UI, Mining, Input, ShopUI, TP, ShopPrompt, CloseButtons). ---")
