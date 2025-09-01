@@ -8,6 +8,7 @@ local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
 
 local Sounds = ReplicatedStorage:WaitForChild("Sounds")
 local TICK_SOUND = Sounds:WaitForChild("tick")
@@ -30,6 +31,7 @@ function Dialog.new(npcName, npc, prompt, animation)
     self.active = false
     self.talking = false
     self.prompt = prompt
+    self.player = nil
 
     local template = DIALOG_RESPONSES_UI:FindFirstChild("template")
     if template then
@@ -70,6 +72,19 @@ function Dialog.new(npcName, npc, prompt, animation)
         else
             self.npcGui.StudsOffset = Vector3.new(0, math.sin(frameCount / 25) / 6 + 1.55, 0)
         end
+
+        if self.active then
+            local player = self.player or Players.LocalPlayer
+            local character = player.Character
+            local root = character and character:FindFirstChild("HumanoidRootPart")
+            local npcRoot = self.npc.PrimaryPart or self.npc:FindFirstChild("HumanoidRootPart")
+            if root and npcRoot then
+                local maxDistance = (self.prompt.MaxActivationDistance or 12) + 5
+                if (root.Position - npcRoot.Position).Magnitude > maxDistance then
+                    self:hideGui()
+                end
+            end
+        end
     end)
     self.connections = {heartbeatConnection}
 
@@ -90,6 +105,8 @@ end
 
 -- Display the dialog when proximity prompt is triggered
 function Dialog:triggerDialog(player, questionNumber)
+    self.player = player or Players.LocalPlayer
+    self.active = true
     self:showGui()
 
     if #self.dialogs == 0 then

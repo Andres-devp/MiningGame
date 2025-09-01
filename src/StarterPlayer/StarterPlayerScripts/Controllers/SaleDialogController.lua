@@ -22,10 +22,11 @@ function M.init()
     dialogObject:addDialog(
         "Got anything to sell?",
         {
-            "I want to sell my inventory",
-            "I want to sell this",
-            "How much is this worth?",
-            "Nevermind",
+            "1) Vender todo: rocas y minerales",
+            "2) Vender rocas",
+            "3) Vender solo lo que tengo seleccionado",
+            "4) Cuanto me dan por lo que tengo en rocas",
+            "5) Nada",
         }
     )
 
@@ -37,13 +38,18 @@ function M.init()
         if dialogNum ~= 1 then return end
         if responseNum == 1 then
             sellRequest:FireServer("All")
-            dialogObject:hideGui("All sold!")
+            dialogObject:hideGui("¡Todo vendido!")
         elseif responseNum == 2 then
             sellRequest:FireServer("Rocks")
-            dialogObject:hideGui("Sold your rocks")
+            dialogObject:hideGui("Vendiste tus rocas")
         elseif responseNum == 3 then
             sellRequest:FireServer("Selected")
-            dialogObject:hideGui("Check your inventory")
+            dialogObject:hideGui("Revisa tu inventario")
+        elseif responseNum == 4 then
+            local player = Players.LocalPlayer
+            local stones = player:FindFirstChild("Stones")
+            local amount = stones and stones.Value or 0
+            dialogObject:hideGui("Te darían " .. amount .. " gemas")
         else
             dialogObject:hideGui()
         end
