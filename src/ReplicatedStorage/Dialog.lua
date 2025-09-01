@@ -9,6 +9,7 @@ local RunService = game:GetService("RunService")
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
 
 local Sounds = ReplicatedStorage:WaitForChild("Sounds")
 local TICK_SOUND = Sounds:WaitForChild("tick")
@@ -139,20 +140,83 @@ function Dialog:triggerDialog(player, questionNumber)
         end
         dialogObject.Text = dialog.text
 
-        -- set up responses
-        local playerReponseOptions = DIALOG_RESPONSES_UI
-        for i, option in playerReponseOptions:GetChildren() do
-            if not option:IsA("GuiButton") then continue end
-            local textLabel = option:FindFirstChild("text")
-            if textLabel and textLabel:IsA("TextLabel") then
-                textLabel.Text = dialog.responses[i] or ""
-                option.Visible = textLabel.Text ~= ""
-            else
-                option.Visible = false
-            end
-            option.Activated:Connect(function()
-                self.fireResponded:Fire(i, dialogNum)
+        local keyboardInputs = {
+            Enum.KeyCode.One,
+            Enum.KeyCode.Two,
+            Enum.KeyCode.Three,
+            Enum.KeyCode.Four,
+            Enum.KeyCode.Five,
+            Enum.KeyCode.Six,
+            Enum.KeyCode.Seven,
+            Enum.KeyCode.Eight,
+            Enum.KeyCode.Nine,
+        }
+
+        local uiResponses = DIALOG_RESPONSES_UI
+        local responseNum
+        for i, response in ipairs(dialog.responses) do
+            local option = uiResponses[i]
+            option.text.Text = "<font color='rgb(255,220,127)'>" .. i .. ".)</font> [''" .. response .. "'']"
+
+            option.Size = UDim2.fromScale(option.Size.X.Scale, 0.4)
+            option.text.Position = UDim2.new(0.02, 0, 0.5, 0)
+            option.Visible = true
+            TweenService:Create(option, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                { Size = UDim2.new(option.Size.X.Scale, 0, 0.35, 0) }):Play()
+
+            local enterCon = option.MouseEnter:Connect(function()
+                TweenService:Create(option, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    { Size = UDim2.new(option.Size.X.Scale + (option.Size.X.Scale * .05), 0, 0.4, 0) }):Play()
+                TweenService:Create(option.text, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    { Position = UDim2.new(0.06, 0, 0.5, 0) }):Play()
+                END_TICK_SOUND:Play()
             end)
+
+            local leaveCon = option.MouseLeave:Connect(function()
+                TweenService:Create(option, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    { Size = UDim2.new(option.Size.X.Scale, 0, 0.35, 0) }):Play()
+                TweenService:Create(option.text, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                    { Position = UDim2.new(0.02, 0, 0.5, 0) }):Play()
+            end)
+
+            local chooseCon = option.MouseButton1Down:Connect(function()
+                if not self.active then return end
+                self.active = false
+                responseNum = i
+                self.fireResponded:Fire(i, dialogNum)
+                TICK_SOUND:Play()
+            end)
+
+            local numberpressCon = UserInputService.InputBegan:Connect(function(input, gp)
+                if gp then return end
+                if input.UserInputType == Enum.UserInputType.Keyboard then
+                    local numIndex = table.find(keyboardInputs, input.KeyCode)
+                    if numIndex and numIndex == i then
+                        if not self.active then return end
+                        self.active = false
+                        responseNum = i
+                        self.fireResponded:Fire(i, dialogNum)
+                        TICK_SOUND:Play()
+                    end
+                end
+            end)
+
+            coroutine.wrap(function()
+                repeat task.wait() until responseNum ~= nil
+                enterCon:Disconnect()
+                leaveCon:Disconnect()
+                chooseCon:Disconnect()
+                numberpressCon:Disconnect()
+                option.Visible = false
+            end)()
+
+            END_TICK_SOUND:Play()
+            task.wait(0.2)
+        end
+
+        self.active = true
+        while self.active do
+            task.wait()
         end
     end)
 end
