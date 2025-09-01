@@ -125,6 +125,7 @@ function M.init()
        local poiParent = workspace:FindFirstChild("Hub") or workspace
        local poiFolder = poiParent:WaitForChild("POIs")
        local upShop = poiFolder:FindFirstChild("UpgradesShop") or poiFolder:FindFirstChild("UpgradeShop")
+
         local prompt = upShop and upShop:FindFirstChild("ProximityPrompt", true)
         if prompt then
                 prompt.Triggered:Connect(function()

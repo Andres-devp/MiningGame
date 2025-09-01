@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Part" referent="RBX847A7D8644604F67B33EF31529B0BC0E">
+	<Item class="Part" referent="RBX3A9560343829411CB8790DDAF8476463">
 		<Properties>
 			<bool name="Anchored">false</bool>
 			<BinaryString name="AttributesSerialize"></BinaryString>
@@ -16,9 +16,9 @@
 			<token name="BottomSurface">0</token>
 			<token name="BottomSurfaceInput">0</token>
 			<CoordinateFrame name="CFrame">
-				<X>-1.59447944</X>
-				<Y>9.03764534</Y>
-				<Z>188.68721</Z>
+				<X>-3.10212564</X>
+				<Y>9.05093098</Y>
+				<Z>296.192474</Z>
 				<R00>0</R00>
 				<R01>0</R01>
 				<R02>1</R02>
@@ -100,7 +100,7 @@
 				<Z>18.5024986</Z>
 			</Vector3>
 		</Properties>
-		<Item class="SurfaceGui" referent="RBX429519A3E522438887DA8FDC16108B12">
+		<Item class="SurfaceGui" referent="RBX7378CD75CBF6416FAF4396D66C094381">
 			<Properties>
 				<bool name="Active">true</bool>
 				<Ref name="Adornee">null</Ref>
@@ -135,7 +135,7 @@
 				<token name="ZIndexBehavior">1</token>
 				<float name="ZOffset">0</float>
 			</Properties>
-			<Item class="TextLabel" referent="RBX31F3D38E1A004635B41ADD8AEF5F42AC">
+			<Item class="TextLabel" referent="RBXB09EDCCEEED84D699BA6DE9A9F4AF8DA">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -205,7 +205,7 @@
 					<token name="SizeConstraint">0</token>
 					<int64 name="SourceAssetId">-1</int64>
 					<BinaryString name="Tags"></BinaryString>
-					<string name="Text">&#240;&#159;&#143;&#134; TOP JUGADORES (GEMAS) &#240;&#159;&#143;&#134;</string>
+					<string name="Text">&#195;&#176;&#194;&#159;&#194;&#143;&#194;&#134; TOP JUGADORES (GEMAS) &#195;&#176;&#194;&#159;&#194;&#143;&#194;&#134;</string>
 					<Color3 name="TextColor3">
 						<R>1</R>
 						<G>1</G>
@@ -229,7 +229,7 @@
 					<int name="ZIndex">1</int>
 				</Properties>
 			</Item>
-			<Item class="Frame" referent="RBX406A7A48CE7C447986FA9398618158F8">
+			<Item class="Frame" referent="RBX5726C429AAB44F4CB071848A35749E49">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -292,7 +292,7 @@
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="UIListLayout" referent="RBX9B254F4C56F44589B779BE22EA16D90D">
+				<Item class="UIListLayout" referent="RBX7235A397246A4A3CA006F621743A9AA8">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -314,7 +314,7 @@
 						<bool name="Wraps">false</bool>
 					</Properties>
 				</Item>
-				<Item class="Frame" referent="RBXBBA09944F9EE422C8092BB0380BDF271">
+				<Item class="Frame" referent="RBX32940A47CBB640ABA52699B4267742B2">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -377,7 +377,7 @@
 						<bool name="Visible">false</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="TextLabel" referent="RBX7B074504663443ABB2E2D31DA352D3DA">
+					<Item class="TextLabel" referent="RBX56B5323DEEA749998AA20B4097365AB4">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -471,7 +471,7 @@
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextLabel" referent="RBXF5F305C1171042B5BB786C2DBE2F0B65">
+					<Item class="TextLabel" referent="RBX25BF1DE2F8084810B053E8BD5F1301CE">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -565,7 +565,7 @@
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextLabel" referent="RBX4A70F9A7D2924201B3C0BD0664E9ABAB">
+					<Item class="TextLabel" referent="RBXE992D4930A1844BC98379CBEFAF7F9BD">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
