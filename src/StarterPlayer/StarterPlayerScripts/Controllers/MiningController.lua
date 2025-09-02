@@ -238,6 +238,9 @@ function M:start(_, SoundManager)
                                 crystalStart   = time()
                                 miningActive   = true
                                 setCrystalProgress(model, 0)
+                                if ClientSoundManager and focus then
+                                        ClientSoundManager:playSound("ProgressCrystal", focus.Position, 1)
+                                end
                         end
 
                         if miningActive and currentCrystal == model then
