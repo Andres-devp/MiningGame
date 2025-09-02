@@ -160,6 +160,7 @@ local function mineStone(player, model: Model)
 
                         for _, emitter in ipairs(clone:GetChildren()) do
                                 if emitter:IsA("ParticleEmitter") then
+
                                         local prevRate = emitter.Rate
                                         emitter.Enabled = true
                                         if emitter.Rate <= 0 then
@@ -170,6 +171,7 @@ local function mineStone(player, model: Model)
                                                 emitter.Enabled = false
                                                 emitter.Rate = prevRate
                                         end)
+
                                 end
                         end
 
