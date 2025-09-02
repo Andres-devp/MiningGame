@@ -6,6 +6,7 @@ local CollectionService  = game:GetService("CollectionService")
 local ReplicatedStorage  = game:GetService("ReplicatedStorage")
 local RunService         = game:GetService("RunService")
 local Workspace          = game:GetService("Workspace")
+local Debris             = game:GetService("Debris")
 
 -- Services
 local NodeService  = require(script.Parent:WaitForChild("NodeService"))
@@ -136,12 +137,38 @@ local function mineStone(player, model: Model)
 	local add = hasPickaxeServer(player) and 2 or 1
 	DataService.addResource(player, "stones", add)
 
-	EventBus.sendToClient(player, Topics.MiningFeedback, {
-		kind = "stone",
-		position = focus.Position,
-	})
+        EventBus.sendToClient(player, Topics.MiningFeedback, {
+                kind = "stone",
+                position = focus.Position,
+        })
+        -- efectos de partículas al romper la roca
+        local fx = model:FindFirstChild("FxStone", true)
+        if fx and fx:IsA("Attachment") then
+                local parent = fx.Parent
+                if parent and parent:IsA("BasePart") then
+                        local anchor = Instance.new("Part")
+                        anchor.Name = "FxStoneAnchor"
+                        anchor.Anchored = true
+                        anchor.CanCollide = false
+                        anchor.Transparency = 1
+                        anchor.Size = Vector3.new(0.1,0.1,0.1)
+                        anchor.CFrame = fx.WorldCFrame
 
-	if model.Parent then model:Destroy() end
+                        local clone = fx:Clone()
+                        clone.Parent = anchor
+                        anchor.Parent = Workspace
+
+                        for _, emitter in ipairs(clone:GetChildren()) do
+                                if emitter:IsA("ParticleEmitter") then
+                                        emitter:Emit(15)
+                                end
+                        end
+
+                        Debris:AddItem(anchor, 2)
+                end
+        end
+
+        if model.Parent then model:Destroy() end
 end
 
 -- ========= Cristales =========
