@@ -3242,38 +3242,6 @@ updateButton()
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="LocalScript" referent="RBX493F406D0E7D415C80BC3B752F2A4630">
-					<Properties>
-						<BinaryString name="AttributesSerialize"></BinaryString>
-						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-						<bool name="DefinesCapabilities">false</bool>
-						<bool name="Disabled">false</bool>
-						<Content name="LinkedSource"><null></null></Content>
-						<string name="Name">LocalScript</string>
-						<token name="RunContext">0</token>
-						<string name="ScriptGuid">{51960B22-BAE3-4BD9-B650-FAFF84214C6C}</string>
-						<ProtectedString name="Source"><![CDATA[local TweenService = game:GetService("TweenService")
-
-function AnimateButton(rotation, scale)
-	TweenService:Create(script.Parent,TweenInfo.new(0.25,Enum.EasingStyle.Back),{Rotation = rotation}):Play()
-	TweenService:Create(script.Parent.UIScale,TweenInfo.new(0.25,Enum.EasingStyle.Back),{Scale = scale}):Play()
-end
-
-script.Parent.MouseEnter:Connect(function()
-	AnimateButton(-15,1.1)
-end)
-
-script.Parent.MouseLeave:Connect(function()
-	AnimateButton(0,1)
-end)
-
-script.Parent.MouseButton1Click:Connect(function()
-	script.Parent.Parent.Visible = false
-end)]]></ProtectedString>
-						<int64 name="SourceAssetId">-1</int64>
-						<BinaryString name="Tags"></BinaryString>
-					</Properties>
-				</Item>
 			</Item>
 			<Item class="TextLabel" referent="RBXA63E11BAF4B641F793600C1E74F6055B">
 				<Properties>
@@ -4008,7 +3976,7 @@ end)]]></ProtectedString>
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#238;&#128;&#130; FREE</string>
+								<string name="Text">&#195;&#174;&#194;&#128;&#194;&#130; FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -4270,7 +4238,7 @@ end)]]></ProtectedString>
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#238;&#128;&#130;FREE</string>
+								<string name="Text">&#195;&#174;&#194;&#128;&#194;&#130;FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -5091,7 +5059,7 @@ end)]]></ProtectedString>
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#238;&#128;&#130; FREE</string>
+								<string name="Text">&#195;&#174;&#194;&#128;&#194;&#130; FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -5353,7 +5321,7 @@ end)]]></ProtectedString>
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#238;&#128;&#130;FREE</string>
+								<string name="Text">&#195;&#174;&#194;&#128;&#194;&#130;FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
