@@ -189,17 +189,13 @@ EventBus.registerClient(Topics.MiningFeedback, function(payload)
 end)
 
 EventBus.registerClient(Topics.MiningCrystalAck, function(payload)
-	local ok = payload and payload.ok
-	if not pendingModel then return end
-	if ok then
-		currentCrystal = pendingModel
-		crystalStart   = time()
-		miningActive   = true
-	else
-		clearCrystalProgress(pendingModel)
-		currentCrystal, miningActive = nil, false
-	end
-	pendingModel = nil
+        local ok = payload and payload.ok
+        if not pendingModel then return end
+        if not ok then
+                if currentCrystal then clearCrystalProgress(currentCrystal) end
+                currentCrystal, miningActive = nil, false
+        end
+        pendingModel = nil
 end)
 
 function M:start(_, SoundManager)
@@ -232,18 +228,22 @@ function M:start(_, SoundManager)
 			local hoverAllowed  = ownsAutoMinePass() and autoMineEnabled()
 			local shouldContinue = canMine and (hoverAllowed or isMouseDown)
 
-			if shouldContinue and not pendingModel and not miningActive then
-				pendingModel = model
-				local id = nodeIdOf(model)
-				if id then
-					EventBus.sendToServer(Topics.MiningCrystalStart, { node = model, nodeId = id })
-				end
-			end
+                        if shouldContinue and not pendingModel and not miningActive then
+                                pendingModel = model
+                                local id = nodeIdOf(model)
+                                if id then
+                                        EventBus.sendToServer(Topics.MiningCrystalStart, { node = model, nodeId = id })
+                                end
+                                currentCrystal = model
+                                crystalStart   = time()
+                                miningActive   = true
+                                setCrystalProgress(model, 0)
+                        end
 
-			if miningActive and currentCrystal == model then
-				local ratio = (time() - crystalStart) / CRYSTAL_TIME
-				setCrystalProgress(model, ratio)
-			end
+                        if miningActive and currentCrystal == model then
+                                local ratio = (time() - crystalStart) / CRYSTAL_TIME
+                                setCrystalProgress(model, ratio)
+                        end
 
 			if (not shouldContinue) and (pendingModel or miningActive) then
 				EventBus.sendToServer(Topics.MiningCrystalStop, {})
