@@ -164,7 +164,7 @@ local function mineStone(player, model: Model)
                                         local prevRate = emitter.Rate
                                         emitter.Enabled = true
                                         if emitter.Rate <= 0 then
-                                                emitter.Rate = 100
+                                                emitter.Rate = 20
                                         end
                                         emitter:Emit(15)
                                         task.delay(0.5, function()

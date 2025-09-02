@@ -258,10 +258,10 @@
 					<Ref name="SelectionImageObject">null</Ref>
 					<int name="SelectionOrder">0</int>
 					<UDim2 name="Size">
-						<XS>0</XS>
-						<XO>62</XO>
-						<YS>0</YS>
-						<YO>62</YO>
+						<XS>0.990635097</XS>
+						<XO>0</XO>
+						<YS>1.03505981</YS>
+						<YO>0</YO>
 					</UDim2>
 					<token name="SizeConstraint">0</token>
 					<Rect2D name="SliceCenter">
@@ -3976,7 +3976,7 @@ updateButton()
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#195;&#174;&#194;&#128;&#194;&#130; FREE</string>
+								<string name="Text">&#195;&#131;&#194;&#174;&#195;&#130;&#194;&#128;&#195;&#130;&#194;&#130; FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -4238,7 +4238,7 @@ updateButton()
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#195;&#174;&#194;&#128;&#194;&#130;FREE</string>
+								<string name="Text">&#195;&#131;&#194;&#174;&#195;&#130;&#194;&#128;&#195;&#130;&#194;&#130;FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -5059,7 +5059,7 @@ updateButton()
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#195;&#174;&#194;&#128;&#194;&#130; FREE</string>
+								<string name="Text">&#195;&#131;&#194;&#174;&#195;&#130;&#194;&#128;&#195;&#130;&#194;&#130; FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -5321,7 +5321,7 @@ updateButton()
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#195;&#174;&#194;&#128;&#194;&#130;FREE</string>
+								<string name="Text">&#195;&#131;&#194;&#174;&#195;&#130;&#194;&#128;&#195;&#130;&#194;&#130;FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
