@@ -18,6 +18,7 @@ end
 SoundManager.soundTemplates = {
         BreakSound      = findSoundTemplate("BreakSound"),
         CrystalSound    = findSoundTemplate("CrystalSound"),
+        ProgressCrystal = findSoundTemplate("ProgressCrystal"),
         ConversionSound = findSoundTemplate("ConversionSound"),
         Upgrade         = findSoundTemplate("Upgrade"),
 }

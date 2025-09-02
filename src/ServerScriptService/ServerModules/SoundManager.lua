@@ -15,9 +15,10 @@ local function findSoundTemplate(name: string): Sound?
 end
 
 SoundManager.soundTemplates = {
-	BreakSound      = findSoundTemplate("BreakSound"),
-	CrystalSound    = findSoundTemplate("CrystalSound"),
-	ConversionSound = findSoundTemplate("ConversionSound"),
+        BreakSound      = findSoundTemplate("BreakSound"),
+        CrystalSound    = findSoundTemplate("CrystalSound"),
+        ProgressCrystal = findSoundTemplate("ProgressCrystal"),
+        ConversionSound = findSoundTemplate("ConversionSound"),
 }
 
 function SoundManager:playSound(soundName: string, position: Vector3, pitch: number?)
