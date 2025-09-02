@@ -1,0 +1,39 @@
+<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
+	<Meta name="ExplicitAutoJoints">true</Meta>
+	<External>null</External>
+	<External>nil</External>
+	<Item class="Folder" referent="RBXD9B1F41D57514D59821D1D1C74B18801">
+		<Properties>
+			<BinaryString name="AttributesSerialize"></BinaryString>
+			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+			<bool name="DefinesCapabilities">false</bool>
+			<string name="Name">TagList</string>
+			<int64 name="SourceAssetId">-1</int64>
+			<BinaryString name="Tags">VGFnRWRpdG9yVGFnQ29udGFpbmVy</BinaryString>
+		</Properties>
+		<Item class="Configuration" referent="RBX41835583BD1B469BBF26AC41DD243904">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BgAAAAsAAABBbHdheXNPblRvcAMABQAAAENvbG9yDwQABT8W4y8/FY3wOwgAAABEcmF3VHlw
+ZQIDAAAAQm94BQAAAEdyb3VwAgAAAAAEAAAASWNvbgIlAAAAcmJ4YXNzZXQ6Ly90ZXh0dXJl
+cy9UYWdFZGl0b3IvVGFnLnBuZwcAAABWaXNpYmxlAwE=]]></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<string name="Name">Stone</string>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+		<Item class="Configuration" referent="RBXA315F3CA23AC47DD8A27284FB3BB570E">
+			<Properties>
+				<BinaryString name="AttributesSerialize"><![CDATA[BgAAAAsAAABBbHdheXNPblRvcAMABQAAAENvbG9yD6M+Wj6+8CM/yHW+PAgAAABEcmF3VHlw
+ZQIDAAAAQm94BQAAAEdyb3VwAgAAAAAEAAAASWNvbgIlAAAAcmJ4YXNzZXQ6Ly90ZXh0dXJl
+cy9UYWdFZGl0b3IvVGFnLnBuZwcAAABWaXNpYmxlAwE=]]></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<string name="Name">Crystal</string>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+			</Properties>
+		</Item>
+	</Item>
+</roblox>
