@@ -27,7 +27,8 @@ function M.init()
 	local leaderstats = player:WaitForChild("leaderstats")
 	local gems        = leaderstats:WaitForChild("Gems")
 
-        local gui = player:WaitForChild("PlayerGui"):WaitForChild("MainGui")
+        local playerGui = player:WaitForChild("PlayerGui")
+        local gui       = playerGui:WaitForChild("MainGui")
 
         -- Widgets del GUI (busca recursivo por si cambió la jerarquía)
         local upgradeFrame = gui:FindFirstChild("UpgradeShopFrame") or findDesc(gui, "UpgradeShopFrame")
@@ -136,12 +137,33 @@ function M.init()
                 warn("[ShopController] No encontré ProximityPrompt en UpgradesShop")
         end
 
-        -- Botón para tienda de Robux (si existe)
-        if robuxBtn and robuxFrame then
+        -- Botón para tienda de Robux y accesos directos desde counters
+        if robuxFrame then
                 robuxFrame.Visible = false
-                robuxBtn.Activated:Connect(function()
-                        robuxFrame.Visible = not robuxFrame.Visible
-                end)
+
+                if robuxBtn then
+                        robuxBtn.Activated:Connect(function()
+                                robuxFrame.Visible = not robuxFrame.Visible
+                        end)
+                end
+
+                -- ImageButtons de Gems y Stones abren la tienda de Robux
+                local statsGui      = playerGui:FindFirstChild("PlayerStatsGui") or findDesc(playerGui, "PlayerStatsGui")
+                local statsContainer = statsGui and (statsGui:FindFirstChild("Container") or findDesc(statsGui, "Container"))
+                local gemsCounter   = statsContainer and (statsContainer:FindFirstChild("GemsCounter") or findDesc(statsContainer, "GemsCounter"))
+                local stonesCounter = statsContainer and (statsContainer:FindFirstChild("StonesCounter") or findDesc(statsContainer, "StonesCounter"))
+                local gemsBtn       = gemsCounter and (gemsCounter:FindFirstChild("ImageButton") or findDesc(gemsCounter, "ImageButton"))
+                local stonesBtn     = stonesCounter and (stonesCounter:FindFirstChild("ImageButton") or findDesc(stonesCounter, "ImageButton"))
+
+                local function openShop()
+                        robuxFrame.Visible = true
+                end
+                if gemsBtn then
+                        gemsBtn.Activated:Connect(openShop)
+                end
+                if stonesBtn then
+                        stonesBtn.Activated:Connect(openShop)
+                end
         end
 
 	-- Botones de compra
