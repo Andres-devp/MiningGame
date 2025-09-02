@@ -3,9 +3,11 @@
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
 
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local upgradeEvent = Remotes:WaitForChild("UpgradePlotEvent")
+local SoundManager = require(script.Parent.Parent:WaitForChild("Modules"):WaitForChild("SoundManager"))
 
 local M = {}
 
@@ -22,10 +24,10 @@ local function findDesc(parent, name, timeout)
 end
 
 function M.init()
-	local player      = Players.LocalPlayer
-	local upgrades    = player:WaitForChild("Upgrades")
-	local leaderstats = player:WaitForChild("leaderstats")
-	local gems        = leaderstats:WaitForChild("Gems")
+        local player      = Players.LocalPlayer
+        local upgrades    = player:WaitForChild("Upgrades")
+        local leaderstats = player:WaitForChild("leaderstats")
+        local gems        = leaderstats:WaitForChild("Gems")
 
         local playerGui = player:WaitForChild("PlayerGui")
         local gui       = playerGui:WaitForChild("MainGui")
@@ -65,8 +67,32 @@ function M.init()
                 CrystalSpawnRate  = { base = 100, mult = 1.6, start = 8.0, step = 0.5,  min = 2.0 },
         }
 
-	local GREEN = Color3.fromRGB(40,167,69)
-	local RED   = Color3.fromRGB(220,53,69)
+        local GREEN = Color3.fromRGB(40,167,69)
+        local RED   = Color3.fromRGB(220,53,69)
+
+        local function playUpgradeSfx()
+                local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+                local pos = root and root.Position or Vector3.new()
+                SoundManager:playSound("Upgrade", pos)
+        end
+
+        local function animateButton(btn)
+                local uiScale = btn:FindFirstChildOfClass("UIScale") or Instance.new("UIScale", btn)
+                local tweenInfo = TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+                TweenService:Create(uiScale, tweenInfo, { Scale = 1.1 }):Play()
+                task.delay(0.15, function()
+                        TweenService:Create(uiScale, tweenInfo, { Scale = 1 }):Play()
+                end)
+        end
+
+        local function connectUpgrade(btn, upgradeName)
+                btn.Activated:Connect(function()
+                        if not btn.Active then return end
+                        animateButton(btn)
+                        playUpgradeSfx()
+                        upgradeEvent:FireServer(upgradeName)
+                end)
+        end
 
 	local function costAmount(cur, cfg)
 		local steps = math.max(0, cur - cfg.start)
@@ -166,11 +192,11 @@ function M.init()
                 end
         end
 
-	-- Botones de compra
-	amountBtn.Activated:Connect(function() if amountBtn.Active then upgradeEvent:FireServer("RockAmount") end end)
-	rateBtn.Activated:Connect(function()   if rateBtn.Active   then upgradeEvent:FireServer("SpawnRate") end end)
-	cAmountBtn.Activated:Connect(function() if cAmountBtn.Active then upgradeEvent:FireServer("CrystalAmount") end end)
-	cRateBtn.Activated:Connect(function()   if cRateBtn.Active   then upgradeEvent:FireServer("CrystalSpawnRate") end end)
+        -- Botones de compra
+        connectUpgrade(amountBtn, "RockAmount")
+        connectUpgrade(rateBtn, "SpawnRate")
+        connectUpgrade(cAmountBtn, "CrystalAmount")
+        connectUpgrade(cRateBtn, "CrystalSpawnRate")
 
 	-- Recalcula cuando cambian valores
 	gems.Changed:Connect(update)

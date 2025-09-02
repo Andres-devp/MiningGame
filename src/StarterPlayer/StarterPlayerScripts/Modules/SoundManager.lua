@@ -16,9 +16,10 @@ end
 
 -- Plantillas de sonido (soporta ambas jerarquías)
 SoundManager.soundTemplates = {
-	BreakSound      = findSoundTemplate("BreakSound"),
-	CrystalSound    = findSoundTemplate("CrystalSound"),
-	ConversionSound = findSoundTemplate("ConversionSound"),
+        BreakSound      = findSoundTemplate("BreakSound"),
+        CrystalSound    = findSoundTemplate("CrystalSound"),
+        ConversionSound = findSoundTemplate("ConversionSound"),
+        Upgrade         = findSoundTemplate("Upgrade"),
 }
 
 -- === LÓGICA DE COMBO CENTRALIZADA ===
