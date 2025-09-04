@@ -12,6 +12,7 @@ local LOCAL_COOLDOWN = 0.12
 
 local M = {}
 
+
 function M.start()
     local player = Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
@@ -19,7 +20,8 @@ function M.start()
 
     -- gui references
     local playerGui = player:WaitForChild("PlayerGui")
-    local GUI = playerGui:WaitForChild("MiningGUI")
+    local GUIFolder = playerGui:WaitForChild("PickFall")
+    local GUI = GUIFolder:WaitForChild("MiningGUI")
     local holderFrame = GUI:WaitForChild("HolderFrame")
     GUI.Enabled = false
 
@@ -35,7 +37,11 @@ function M.start()
     rayParams.FilterDescendantsInstances = { character }
 
     local function getPickaxe()
-        return character:FindFirstChild("PickaxeModel") or player.Backpack:FindFirstChild("PickaxeModel")
+        local tool = character:FindFirstChildOfClass("Tool")
+        if tool then
+            return tool
+        end
+        return player.Backpack:FindFirstChildOfClass("Tool")
     end
 
     local tool = getPickaxe()
@@ -46,6 +52,7 @@ function M.start()
         humanoidRootPart = character:WaitForChild("HumanoidRootPart")
         rayParams.FilterDescendantsInstances = { character }
     end)
+
 
     character.ChildAdded:Connect(function(child)
         if child:IsA("Tool") and child.Name:find("Pick") then
