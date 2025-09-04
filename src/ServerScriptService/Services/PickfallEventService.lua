@@ -6,11 +6,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService        = game:GetService("RunService")
 local Workspace         = game:GetService("Workspace")
 
+
 local Remotes        = ReplicatedStorage:WaitForChild("Remotes")
 local PickfallFolder = Remotes:WaitForChild("PickFall")
 local JoinEvent      = PickfallFolder:WaitForChild("PickfallJoin")
 local StateEvent     = PickfallFolder:WaitForChild("PickfallState")
 local WinnerEvent    = PickfallFolder:WaitForChild("PickfallWinner")
+
 
 local MiningService = require(script.Parent:WaitForChild("MiningService"))
 
