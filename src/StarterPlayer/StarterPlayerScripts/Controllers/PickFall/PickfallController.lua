@@ -35,15 +35,20 @@ local function updateCountdown()
 end
 
 function PickfallController.init()
+       print("[PickfallController] init")
        if joinButton then
                joinButton.MouseButton1Click:Connect(function()
+                       print("[PickfallController] Join button clicked")
                        JoinEvent:FireServer()
                        joined = true
                        joinButton.Visible = false
                end)
+       else
+               print("[PickfallController] Join button not found")
        end
 
        StateEvent.OnClientEvent:Connect(function(state, data)
+               print("[PickfallController] StateEvent", state, data)
                if state == "idle" then
                        if countdownConn then
                                countdownConn:Disconnect()
@@ -80,6 +85,7 @@ function PickfallController.init()
        end)
 
        WinnerEvent.OnClientEvent:Connect(function(name)
+               print("[PickfallController] WinnerEvent", name)
                if countdownConn then
                        countdownConn:Disconnect()
                        countdownConn = nil
