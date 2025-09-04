@@ -25,12 +25,12 @@ local function findDesc(parent, name, timeout)
 end
 
 function M.init()
-        if initialized then
-                warn("[ShopController] init ya fue ejecutado")
+        local player = Players.LocalPlayer
+        if initialized or player:GetAttribute("ShopControllerReady") then
                 return
         end
         initialized = true
-        local player      = Players.LocalPlayer
+        player:SetAttribute("ShopControllerReady", true)
         local upgrades    = player:WaitForChild("Upgrades")
         local leaderstats = player:WaitForChild("leaderstats")
         local gems        = leaderstats:WaitForChild("Gems")
