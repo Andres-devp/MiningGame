@@ -6,10 +6,12 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local player = Players.LocalPlayer
 
-local Remotes     = ReplicatedStorage:WaitForChild("Remotes")
-local JoinEvent   = Remotes:WaitForChild("PickfallJoin")
-local StateEvent  = Remotes:WaitForChild("PickfallState")
-local WinnerEvent = Remotes:WaitForChild("PickfallWinner")
+local Remotes        = ReplicatedStorage:WaitForChild("Remotes")
+local PickfallFolder = Remotes:WaitForChild("PickFall")
+local JoinEvent      = PickfallFolder:WaitForChild("PickfallJoin")
+local StateEvent     = PickfallFolder:WaitForChild("PickfallState")
+local WinnerEvent    = PickfallFolder:WaitForChild("PickfallWinner")
+
 
 local PickfallController = {}
 

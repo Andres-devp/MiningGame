@@ -10,11 +10,20 @@ if not remotesFolder then
     remotesFolder.Parent = ReplicatedStorage
 end
 
+
+local pickfallFolder = remotesFolder:FindFirstChild("PickFall")
+if not pickfallFolder then
+    pickfallFolder = Instance.new("Folder")
+    pickfallFolder.Name = "PickFall"
+    pickfallFolder.Parent = remotesFolder
+end
+
 local function ensureRemote(name)
-    if remotesFolder:FindFirstChild(name) then return end
+    if pickfallFolder:FindFirstChild(name) then return end
     local ev = Instance.new("RemoteEvent")
     ev.Name = name
-    ev.Parent = remotesFolder
+    ev.Parent = pickfallFolder
+
 end
 
 ensureRemote("PickfallJoin")
