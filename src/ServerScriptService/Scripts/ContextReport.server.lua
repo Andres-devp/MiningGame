@@ -33,44 +33,49 @@ do
 end
 
 -- PlotManager (tu versión)
-do
-	local PMpath = game.ServerScriptService:FindFirstChild("ServerModules") and game.ServerScriptService.ServerModules:FindFirstChild("PlotManager")
-		or game.ServerScriptService:FindFirstChild("PlotManager")
-	if PMpath then
-		local pm, err = safeRequire(PMpath)
-		if pm then
-			local keys = (type(pm)=="table") and listKeys(pm) or "(módulo no devuelve tabla)"
-			print("[PlotManager] Keys:", keys)
-		else
-			warn("[PlotManager] "..err)
-		end
-	else
-		warn("[PlotManager] no encontrado")
-	end
-end
+    do
+        local sm = game.ServerScriptService:FindFirstChild("ServerModules")
+        local PMpath = sm and sm:FindFirstChild("Plot") and sm.Plot:FindFirstChild("PlotManager")
+        if PMpath then
+                local pm, err = safeRequire(PMpath)
+                if pm then
+                        local keys = (type(pm)=="table") and listKeys(pm) or "(módulo no devuelve tabla)"
+                        print("[PlotManager] Keys:", keys)
+                else
+                        warn("[PlotManager] "..err)
+                end
+        else
+                warn("[PlotManager] no encontrado")
+        end
+    end
 
 -- ServerScriptService módulos
 do
-	local function scanFolder(folder, label)
-		local items = {}
-		for _,obj in ipairs(folder:GetChildren()) do
-			if obj:IsA("ModuleScript") then
-				local t, e = safeRequire(obj)
-				if type(t)=="table" then
-					table.insert(items, ("%s: {%s}"):format(obj.Name, listKeys(t)))
-				else
-					table.insert(items, ("%s: (%s)"):format(obj.Name, e or "no devuelve tabla"))
-				end
-			end
-		end
-		if #items>0 then
-			print(label.." -> "..table.concat(items, " || "))
-		end
-	end
+        local function scanFolder(folder, label)
+                local items = {}
+                local function gather(f, prefix)
+                        for _,obj in ipairs(f:GetChildren()) do
+                                if obj:IsA("ModuleScript") then
+                                        local t, e = safeRequire(obj)
+                                        if type(t)=="table" then
+                                                table.insert(items, ("%s%s: {%s}"):format(prefix, obj.Name, listKeys(t)))
+                                        else
+                                                table.insert(items, ("%s%s: (%s)"):format(prefix, obj.Name, e or "no devuelve tabla"))
+                                        end
+                                elseif obj:IsA("Folder") then
+                                        gather(obj, prefix .. obj.Name .. "/")
+                                end
+                        end
+                end
+                gather(folder, "")
+                if #items>0 then
+                        print(label.." -> "..table.concat(items, " || "))
+                end
+        end
 
 	scanFolder(game.ServerScriptService, "[SSS]")
-	local sm = game.ServerScriptService:FindFirstChild("ServerModules")
-	if sm then scanFolder(sm, "[ServerModules]") end
+        local sm = game.ServerScriptService:FindFirstChild("ServerModules")
+        if sm then scanFolder(sm, "[ServerModules]") end
 end
 
 -- Workspace estructura base

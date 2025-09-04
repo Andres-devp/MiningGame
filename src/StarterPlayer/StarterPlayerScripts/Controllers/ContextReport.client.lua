@@ -29,38 +29,35 @@ task.wait()
 local controllers = ps:FindFirstChild("Controllers") or ps:WaitForChild("Controllers", 10)
 local clientModules = ps:FindFirstChild("ClientModules") or ps:WaitForChild("ClientModules", 10)
 
-if controllers then
-	local items = {}
-	for _,m in ipairs(controllers:GetChildren()) do
-		if m:IsA("ModuleScript") then
-			local t, e = safeRequire(m)
-			if type(t)=="table" then
-				table.insert(items, ("%s: {%s}"):format(m.Name, listKeys(t)))
-			else
-				table.insert(items, ("%s: (%s)"):format(m.Name, e or "no devuelve tabla"))
-			end
-		end
-	end
-	if #items>0 then print("[Controllers] -> "..table.concat(items, " || ")) end
-else
-	warn("[Controllers] FALTA carpeta Controllers en PlayerScripts")
-end
+    local function gather(folder, prefix, items)
+            for _,m in ipairs(folder:GetChildren()) do
+                    if m:IsA("ModuleScript") then
+                            local t, e = safeRequire(m)
+                            if type(t)=="table" then
+                                    table.insert(items, ("%s%s: {%s}"):format(prefix, m.Name, listKeys(t)))
+                            else
+                                    table.insert(items, ("%s%s: (%s)"):format(prefix, m.Name, e or "no devuelve tabla"))
+                            end
+                    elseif m:IsA("Folder") then
+                            gather(m, prefix .. m.Name .. "/", items)
+                    end
+            end
+    end
 
-if clientModules then
-        local items = {}
-        for _,m in ipairs(clientModules:GetChildren()) do
-		if m:IsA("ModuleScript") then
-			local t, e = safeRequire(m)
-			if type(t)=="table" then
-				table.insert(items, ("%s: {%s}"):format(m.Name, listKeys(t)))
-			else
-				table.insert(items, ("%s: (%s)"):format(m.Name, e or "no devuelve tabla"))
-			end
-		end
-	end
-        if #items>0 then print("[ClientModules] -> "..table.concat(items, " || ")) end
-else
-        warn("[ClientModules] FALTA carpeta ClientModules en PlayerScripts")
-end
+    if controllers then
+            local items = {}
+            gather(controllers, "", items)
+            if #items>0 then print("[Controllers] -> "..table.concat(items, " || ")) end
+    else
+            warn("[Controllers] FALTA carpeta Controllers en PlayerScripts")
+    end
+
+    if clientModules then
+            local items = {}
+            gather(clientModules, "", items)
+            if #items>0 then print("[ClientModules] -> "..table.concat(items, " || ")) end
+    else
+            warn("[ClientModules] FALTA carpeta ClientModules en PlayerScripts")
+    end
 
 print("=== [ContextReport.client] FIN ===")
