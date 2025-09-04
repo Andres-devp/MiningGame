@@ -36,7 +36,10 @@ local participants = {}
 local registrationOpen = false
 local active = false
 
+local currentState, currentData = "idle", nil
+
 local function broadcast(state, data)
+        currentState, currentData = state, data
         StateEvent:FireAllClients(state, data)
 end
 
@@ -52,7 +55,6 @@ local function resetAll()
         end
         participants = {}
         active = false
-        registrationOpen = false
 end
 
 
@@ -88,6 +90,7 @@ local function checkWin()
                 end
                 task.delay(5, function()
                         resetAll()
+                        registrationOpen = true
                         broadcast("idle")
                 end)
         end
@@ -150,12 +153,12 @@ local function runRound()
                 registrationOpen = true
                 return
         end
-        broadcast("countdown", COUNTDOWN)
-        registrationOpen = false
+        registrationOpen = true
         for t = COUNTDOWN, 1, -1 do
                 broadcast("countdown", t)
                 task.wait(1)
         end
+        registrationOpen = false
         teleport()
         active = true
         broadcast("running")
@@ -163,15 +166,21 @@ end
 
 local function cycle()
         while true do
-                registrationOpen = true
-                broadcast("idle")
                 task.wait(ROUND_INTERVAL)
                 runRound()
                 while active do task.wait(1) end
+                registrationOpen = true
+                broadcast("idle")
         end
 end
 
+registrationOpen = true
+broadcast("idle")
 task.spawn(cycle)
+
+Players.PlayerAdded:Connect(function(plr)
+        StateEvent:FireClient(plr, currentState, currentData)
+end)
 
 Players.PlayerRemoving:Connect(function(plr)
         participants[plr] = nil
