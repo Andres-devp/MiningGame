@@ -28,6 +28,11 @@ local oreFolder = arena:WaitForChild("OrePlatforms")
 local spawns    = arena:WaitForChild("Spawners")
 
 
+-- Las plantillas de minerales ahora se toman de la carpeta "Ores" ya
+-- existente en la arena, de modo que agregar un nuevo mineral sólo requiere
+-- colocar su modelo dentro de dicha carpeta.
+
+
 
 local ROUND_INTERVAL = 300 -- segundos entre eventos
 local COUNTDOWN      = 10
@@ -44,6 +49,7 @@ local registrationOpen = false
 local active = false
 
 local currentState, currentData = "idle", nil
+
 
 local function resetOreBlocks()
         for _, inst in ipairs(oreFolder:GetDescendants()) do
@@ -73,6 +79,7 @@ local function resetOreBlocks()
                 end
 
         end
+
 end
 
 local function broadcast(state, data)
