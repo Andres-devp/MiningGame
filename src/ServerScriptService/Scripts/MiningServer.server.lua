@@ -76,47 +76,20 @@ end
 
 DebounceRF.OnServerInvoke = function(player, object)
 
-    print("[DebounceRF] invoked", player, object)
-    if not player or not object then
-        print("[DebounceRF] missing player/object")
-        return false
-    end
-    if Debounce[player] then
-        print("[DebounceRF] player on cooldown", player)
-        return false
-    end
-    if not isMinable(object) then
-        print("[DebounceRF] object not minable", object)
-        return false
-    end
-    if not inRange(player, object) then
-        print("[DebounceRF] out of range", object)
-        return false
-    end
-    print("[DebounceRF] ok")
+    if not player or not object then return false end
+    if Debounce[player] then return false end
+    if not isMinable(object) then return false end
+    if not inRange(player, object) then return false end
 
     return true
 end
 
 SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtraction)
 
-    print("[SubtractHealth] event", player, object, healthSubtraction)
-    if not player or typeof(object) ~= "Instance" or not object.Parent then
-        print("[SubtractHealth] invalid params")
-        return
-    end
-    if Debounce[player] then
-        print("[SubtractHealth] player on cooldown", player)
-        return
-    end
-    if not isMinable(object) then
-        print("[SubtractHealth] object not minable", object)
-        return
-    end
-    if not inRange(player, object) then
-        print("[SubtractHealth] out of range", object)
-        return
-    end
+    if not player or typeof(object) ~= "Instance" or not object.Parent then return end
+    if Debounce[player] then return end
+    if not isMinable(object) then return end
+    if not inRange(player, object) then return end
 
 
     Debounce[player] = true
@@ -125,7 +98,6 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
     local maxH = object:GetAttribute("MaxHealth")
 
     if maxH == nil then
-        print("[SubtractHealth] missing MaxHealth", object)
         Debounce[player] = false
         return
     end
@@ -140,7 +112,6 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
     local newHealth = math.max(0, current - amount)
     object:SetAttribute("Health", newHealth)
 
-    print("[SubtractHealth] new health", newHealth)
 
     UpdateGuiRE:FireClient(player)
 
@@ -152,8 +123,6 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 
     if newHealth <= 0 then
         local reward = tonumber(object:GetAttribute("Reward")) or 0
-
-        print("[SubtractHealth] object broken", object, "reward", reward)
 
         if reward > 0 then
             if lowerName:find("crystal") then
@@ -173,8 +142,6 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 
     task.delay(SWING_COOLDOWN, function()
         Debounce[player] = false
-
-        print("[SubtractHealth] cooldown reset for", player)
 
     end)
 end)
