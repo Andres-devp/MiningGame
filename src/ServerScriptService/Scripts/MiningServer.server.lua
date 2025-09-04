@@ -3,12 +3,11 @@
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local DataStoreService = game:GetService("DataStoreService")
+
 
 local SWING_COOLDOWN = 0.15
 local MAX_RANGE = 16
 
-local Database = DataStoreService:GetDataStore("Database")
 
 local Remotes = ReplicatedStorage:FindFirstChild("Remotes")
 if not Remotes then
@@ -38,6 +37,8 @@ if not DebounceRF then
     DebounceRF.Parent = Remotes
 end
 
+
+
 local Debounce = setmetatable({}, { __mode = "k" })
 
 local function objPos(object)
@@ -54,11 +55,11 @@ end
 
 local function isMinable(obj)
     if typeof(obj) ~= "Instance" or not obj.Parent then return false end
-    if not obj:FindFirstAncestor("Ores") then return false end
+
     local mh = obj:GetAttribute("MaxHealth")
     if mh == nil then return false end
-    local isMinableAttr = obj:GetAttribute("IsMinable")
-    if isMinableAttr == false then return false end
+    if obj:GetAttribute("IsMinable") == false then return false end
+
     local h = obj:GetAttribute("Health")
     if h ~= nil and tonumber(h) <= 0 then return false end
     return true
@@ -102,11 +103,25 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 
     UpdateGuiRE:FireClient(player)
 
+
+    local pos = objPos(object) or Vector3.new()
+    local lowerName = string.lower(object.Name)
+    local soundName = lowerName:find("crystal") and "CrystalSound" or "BreakSound"
+    SoundManager:playSound(soundName, pos)
+
     if newHealth <= 0 then
         local reward = tonumber(object:GetAttribute("Reward")) or 0
-        local leaderstats = player:FindFirstChild("leaderstats")
-        local money = leaderstats and leaderstats:FindFirstChild("Money")
-        if money then money.Value = money.Value + reward end
+        if reward > 0 then
+            if lowerName:find("crystal") then
+                local leaderstats = player:FindFirstChild("leaderstats")
+                local gems = leaderstats and leaderstats:FindFirstChild("Gems")
+                if gems then gems.Value = gems.Value + reward end
+            else
+                local stones = player:FindFirstChild("Stones")
+                if stones then stones.Value = stones.Value + reward end
+            end
+        end
+
         if object and object.Parent then
             object:Destroy()
         end
@@ -118,40 +133,12 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 end)
 
 Players.PlayerAdded:Connect(function(player)
-    local leaderstats = player:FindFirstChild("leaderstats") or Instance.new("Folder")
-    leaderstats.Name = "leaderstats"
-    leaderstats.Parent = player
-
-    local Money = leaderstats:FindFirstChild("Money") or Instance.new("NumberValue")
-    Money.Name = "Money"
-    Money.Parent = leaderstats
-    Money.Value = 0
-
-    local data
-    pcall(function()
-        data = Database:GetAsync(player.UserId)
-    end)
-    if data then
-        Money.Value = tonumber(data[1]) or 0
-    end
 
     Debounce[player] = false
 end)
 
-local function savePlayer(player)
-    local leaderstats = player:FindFirstChild("leaderstats")
-    local money = leaderstats and leaderstats:FindFirstChild("Money")
-    local v = money and money.Value or 0
-    pcall(function()
-        Database:SetAsync(player.UserId, { v })
-    end)
-end
+Players.PlayerRemoving:Connect(function(player)
+    Debounce[player] = nil
 
-Players.PlayerRemoving:Connect(savePlayer)
-game:BindToClose(function()
-    for _, plr in ipairs(Players:GetPlayers()) do
-        savePlayer(plr)
-    end
-    task.wait(1.5)
 end)
 
