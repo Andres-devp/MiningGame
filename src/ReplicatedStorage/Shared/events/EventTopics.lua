@@ -1,4 +1,4 @@
--- ReplicatedStorage/Shared/EventTopics.lua
+-- ReplicatedStorage/Shared/events/EventTopics.lua
 -- Enum de tópicos para EventBus (cliente/servidor)
 
 return {

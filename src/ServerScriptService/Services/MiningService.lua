@@ -15,8 +15,8 @@ local RateLimiter  = require(script.Parent:WaitForChild("RateLimiter"))
 
 -- EventBus / Topics
 local Shared     = ReplicatedStorage:WaitForChild("Shared")
-local EventBus   = require(Shared:WaitForChild("EventBus"))
-local Topics     = require(Shared:WaitForChild("EventTopics"))
+local EventBus   = require(Shared:WaitForChild("events"):WaitForChild("EventBus"))
+local Topics     = require(Shared:WaitForChild("events"):WaitForChild("EventTopics"))
 
 -- Parámetros gameplay
 local MAX_DISTANCE   = 18

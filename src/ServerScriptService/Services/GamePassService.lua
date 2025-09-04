@@ -9,8 +9,8 @@ local MarketplaceService = game:GetService("MarketplaceService")
 local ReplicatedStorage  = game:GetService("ReplicatedStorage")
 
 local Shared   = ReplicatedStorage:WaitForChild("Shared")
-local EventBus = require(Shared:WaitForChild("EventBus"))
-local Topics   = require(Shared:WaitForChild("EventTopics"))
+local EventBus = require(Shared:WaitForChild("events"):WaitForChild("EventBus"))
+local Topics   = require(Shared:WaitForChild("events"):WaitForChild("EventTopics"))
 
 -- ⚠️ CAMBIA este ID por tu Game Pass real
 local AUTOMINE_PASS_ID = 1406821381

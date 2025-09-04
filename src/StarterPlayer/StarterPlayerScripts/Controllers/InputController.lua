@@ -10,8 +10,8 @@ local Workspace          = game:GetService("Workspace")
 local player = Players.LocalPlayer
 local mouse  = player:GetMouse()
 
-local EventBus = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("EventBus"))
-local Topics   = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("EventTopics"))
+local EventBus = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventBus"))
+local Topics   = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventTopics"))
 
 local MAX_DISTANCE = 18
 

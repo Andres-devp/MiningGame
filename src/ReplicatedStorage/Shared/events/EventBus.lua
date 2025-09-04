@@ -1,4 +1,4 @@
--- ReplicatedStorage/Shared/EventBus.lua
+-- ReplicatedStorage/Shared/events/EventBus.lua
 -- Seguro para cliente y servidor. REQUIERE: ReplicatedStorage/Remotes/Net (RemoteEvent)
 
 local RS         = game:GetService("ReplicatedStorage")

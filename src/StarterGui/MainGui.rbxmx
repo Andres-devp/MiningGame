@@ -409,8 +409,8 @@ local player = Players.LocalPlayer
 local button = script.Parent  -- TextButton recomendado
 
 -- EventBus
-local EventBus = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("EventBus"))
-local Topics   = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("EventTopics"))
+local EventBus = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventBus"))
+local Topics   = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventTopics"))
 
 -- ⚠️ Mismo ID que en GamePassService
 local AUTO_MINE_PASS_ID = 1406821381
