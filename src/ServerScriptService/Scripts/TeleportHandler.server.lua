@@ -10,6 +10,9 @@ if not shops then
        return
 end
 
+print("[TeleportHandler] shops", shops:GetFullName())
+
+
 local toPlot = Remotes:WaitForChild("TeleportToPlot")
 local toShop = Remotes:WaitForChild("TeleportToShop")
 
@@ -54,8 +57,12 @@ end)
 
 toShop.OnServerEvent:Connect(function(plr, shopName)
        shopName = tostring(shopName or "")
-       local shop = shops:FindFirstChild(shopName)
-       if not shop then return end
+       local shop = shops:FindFirstChild(shopName, true)
+       if not shop then
+               warn("[TeleportHandler] No encontré tienda", shopName)
+               return
+       end
+       print("[TeleportHandler] TeleportToShop", plr.Name, "->", shop:GetFullName())
        local char = plr.Character or plr.CharacterAdded:Wait()
        pivotCharacter(char, shop.CFrame)
 end)
