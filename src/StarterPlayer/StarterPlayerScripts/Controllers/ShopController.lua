@@ -149,8 +149,11 @@ function M.init()
         -- Mostrar/ocultar (ProximityPrompt en UpgradesShop/UpgradeShop)
         upgradeFrame.Visible = false
        -- carpeta de tiendas puede estar en 'Hub/Shops' o directamente en 'Shops'
-       local shopParent = workspace:FindFirstChild("Hub") or workspace
-       local shopFolder = shopParent:WaitForChild("Shops")
+       local shopFolder = workspace:FindFirstChild("Shops", true)
+       if not shopFolder then
+               warn("[ShopController] No encontré carpeta 'Shops' en Workspace")
+               return
+       end
        local upShop = shopFolder:FindFirstChild("UpgradesShop") or shopFolder:FindFirstChild("UpgradeShop")
 
         local prompt = upShop and upShop:FindFirstChild("ProximityPrompt", true)
