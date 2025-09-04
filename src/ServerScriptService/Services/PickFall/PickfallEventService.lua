@@ -14,7 +14,10 @@ local StateEvent     = PickfallFolder:WaitForChild("PickfallState")
 local WinnerEvent    = PickfallFolder:WaitForChild("PickfallWinner")
 
 
-local MiningService = require(script.Parent:WaitForChild("MiningService"))
+-- MiningService no está ubicado dentro de la carpeta `PickFall`, por lo que debemos
+-- buscarlo en el directorio padre. Anteriormente se esperaba que fuese un hijo
+-- directo, provocando un `infinite yield` al no encontrarlo.
+local MiningService = require(script.Parent.Parent:WaitForChild("MiningService"))
 
 local arena  = Workspace:WaitForChild("PickfallArena")
 local base   = arena:WaitForChild("Base")
