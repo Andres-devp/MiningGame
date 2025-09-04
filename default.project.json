@@ -25,7 +25,8 @@
       "Bootstrap":     { "$path": "src/ServerScriptService/Bootstrap.server.lua" },
       "ServerModules": { "$path": "src/ServerScriptService/ServerModules" },
       "Services":      { "$path": "src/ServerScriptService/Services" },
-      "Systems":       { "$path": "src/ServerScriptService/Systems" }
+      "Systems":       { "$path": "src/ServerScriptService/Systems" },
+      "Scripts":       { "$path": "src/ServerScriptService/Scripts" }
     },
 
     "ServerStorage": {
