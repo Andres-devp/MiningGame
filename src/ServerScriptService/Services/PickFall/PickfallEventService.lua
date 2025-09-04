@@ -5,6 +5,7 @@ local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService        = game:GetService("RunService")
 local Workspace         = game:GetService("Workspace")
+local CollectionService = game:GetService("CollectionService")
 
 
 local Remotes        = ReplicatedStorage:WaitForChild("Remotes")
@@ -18,11 +19,12 @@ local WinnerEvent    = PickfallFolder:WaitForChild("PickfallWinner")
 -- buscarlo en el directorio padre. Anteriormente se esperaba que fuese un hijo
 -- directo, provocando un `infinite yield` al no encontrarlo.
 local MiningService = require(script.Parent.Parent:WaitForChild("MiningService"))
+local NodeService   = require(script.Parent.Parent:WaitForChild("NodeService"))
 
-local arena  = Workspace:WaitForChild("PickfallArena")
-local base   = arena:WaitForChild("Base")
-
-local spawns = arena:WaitForChild("Spawners")
+local arena     = Workspace:WaitForChild("PickfallArena")
+local base      = arena:WaitForChild("Base")
+local oreFolder = arena:WaitForChild("OrePlatforms")
+local spawns    = arena:WaitForChild("Spawners")
 
 
 local ROUND_INTERVAL = 300 -- segundos entre eventos
@@ -41,6 +43,35 @@ local active = false
 
 local currentState, currentData = "idle", nil
 
+local function resetOreBlocks()
+        for _, inst in ipairs(oreFolder:GetDescendants()) do
+                local model = inst:IsA("Model") and inst or inst:FindFirstAncestorOfClass("Model")
+                if model and (CollectionService:HasTag(model, "Stone") or CollectionService:HasTag(model, "Crystal") or model:GetAttribute("IsMinable")) then
+                        local nodeType = model:GetAttribute("NodeType") or model.Name
+                        if not CollectionService:HasTag(model, "Stone") and not CollectionService:HasTag(model, "Crystal") then
+                                if nodeType and nodeType:lower():find("crystal") then
+                                        CollectionService:AddTag(model, "Crystal")
+                                else
+                                        CollectionService:AddTag(model, "Stone")
+                                end
+                        end
+                        local max = tonumber(model:GetAttribute("MaxHealth"))
+                        if not max or max <= 0 then
+                                max = CollectionService:HasTag(model, "Crystal") and 20 or 1
+                        end
+                        model:SetAttribute("MaxHealth", max)
+                        model:SetAttribute("Health", max)
+                        model:SetAttribute("IsMinable", true)
+                        for _, part in ipairs(model:GetDescendants()) do
+                                if part:IsA("BasePart") then
+                                        part.Anchored = true
+                                end
+                        end
+                        NodeService.register(model)
+                end
+        end
+end
+
 local function broadcast(state, data)
         currentState, currentData = state, data
         StateEvent:FireAllClients(state, data)
@@ -58,6 +89,7 @@ local function resetAll()
         end
         participants = {}
         active = false
+        resetOreBlocks()
 end
 
 
@@ -178,6 +210,7 @@ local function cycle()
 end
 
 registrationOpen = true
+resetOreBlocks()
 broadcast("idle")
 task.spawn(cycle)
 

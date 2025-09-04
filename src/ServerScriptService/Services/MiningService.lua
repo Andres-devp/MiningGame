@@ -70,11 +70,15 @@ local function focusPart(model: Model?): BasePart?
 end
 
 local function ownsPlotForModel(player, model)
-	local plotName = player:GetAttribute("PlotName") or (player:FindFirstChild("PlotName") and player.PlotName.Value)
-	if not plotName or plotName == "" then return true end
-	local plots = Workspace:FindFirstChild("Plots")
-	local myPlot = plots and plots:FindFirstChild(plotName)
-	return (myPlot and model:IsDescendantOf(myPlot)) or false
+        local pickfall = Workspace:FindFirstChild("PickfallArena")
+        if pickfall and model:IsDescendantOf(pickfall) then
+                return true
+        end
+        local plotName = player:GetAttribute("PlotName") or (player:FindFirstChild("PlotName") and player.PlotName.Value)
+        if not plotName or plotName == "" then return true end
+        local plots = Workspace:FindFirstChild("Plots")
+        local myPlot = plots and plots:FindFirstChild(plotName)
+        return (myPlot and model:IsDescendantOf(myPlot)) or false
 end
 
 local function hasPickaxeServer(player)
