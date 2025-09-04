@@ -22,7 +22,9 @@ local joinButton = gui:FindFirstChild("JoinButton") or gui:FindFirstChild("Inscr
 local stateLabel = gui:FindFirstChild("StateText") or gui:FindFirstChild("StatusLabel") or gui:FindFirstChildWhichIsA("TextLabel")
 local container = joinButton and joinButton.Parent or gui:FindFirstChildWhichIsA("Frame")
 
+
 local joined = false
+
 
 function PickfallController.init()
         if joinButton then
@@ -30,6 +32,7 @@ function PickfallController.init()
                         JoinEvent:FireServer()
                         joined = true
                         joinButton.Visible = false
+                        if container then container.Visible = false end
                 end)
         end
 
@@ -51,7 +54,9 @@ function PickfallController.init()
                         end
                 end
                 if container then
+
                         container.Visible = state ~= "running"
+
                 end
         end)
 
