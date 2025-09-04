@@ -38,6 +38,7 @@ local MiningService = {}
 -- Estado por jugador
 local activeCrystal: {[Player]: {model: Model, t0: number, lastValid: number, focus: BasePart?}} = {}
 local limits: {[Player]: {stone: any, crystal: any}} = {}
+local buffs: {[Player]: {multiplier: number, expires: number}} = {}
 
 -- ========= Helpers =========
 local function getHRP(player)
@@ -100,6 +101,15 @@ local function ensureLimiters(player: Player)
 	return l
 end
 
+local function buffMultiplier(player: Player)
+        local data = buffs[player]
+        if data and data.expires > time() then
+                return data.multiplier
+        end
+        if data then buffs[player] = nil end
+        return 1
+end
+
 -- coerce payload → Model con NodeService
 local function coerceNode(payload): Model?
 	if typeof(payload) ~= "table" then return nil end
@@ -134,8 +144,9 @@ local function mineStone(player, model: Model)
 	local focus = focusPart(model)
 	if not (focus and distOK(player, focus)) then return end
 
-	local add = hasPickaxeServer(player) and 2 or 1
-	DataService.addResource(player, "stones", add)
+        local add = hasPickaxeServer(player) and 2 or 1
+        add = add * buffMultiplier(player)
+        DataService.addResource(player, "stones", add)
 
         EventBus.sendToClient(player, Topics.MiningFeedback, {
                 kind = "stone",
@@ -217,8 +228,13 @@ local function stopCrystal(player)
 end
 
 RunService.Heartbeat:Connect(function()
-	local now = time()
-	for plr, state in pairs(activeCrystal) do
+        local now = time()
+        for plr, buff in pairs(buffs) do
+                if buff.expires <= now then
+                        buffs[plr] = nil
+                end
+        end
+        for plr, state in pairs(activeCrystal) do
 		local m = state.model
 		if not (plr and m and m.Parent) then
 			activeCrystal[plr] = nil
@@ -229,7 +245,7 @@ RunService.Heartbeat:Connect(function()
 
 			if ok then
 				if (now - state.t0) >= CRYSTAL_TIME then
-					DataService.addResource(plr, "gems", CRYSTAL_REWARD)
+                                        DataService.addResource(plr, "gems", CRYSTAL_REWARD * buffMultiplier(plr))
 
 					EventBus.sendToClient(plr, Topics.MiningFeedback, {
 						kind = "crystal",
@@ -251,8 +267,9 @@ RunService.Heartbeat:Connect(function()
 end)
 
 local function onPlayerRemoving(player: Player)
-	activeCrystal[player] = nil
-	limits[player] = nil
+        activeCrystal[player] = nil
+        limits[player] = nil
+        buffs[player] = nil
 end
 Players.PlayerRemoving:Connect(onPlayerRemoving)
 
@@ -272,6 +289,14 @@ function MiningService.init()
 	end)
 
 	print("[MiningService] Initialized (clean EventBus only).")
+end
+
+function MiningService.ApplyMiningBuff(player: Player, duration: number, multiplier: number)
+        if typeof(player) ~= "Instance" or not player:IsA("Player") then return end
+        duration = tonumber(duration) or 0
+        multiplier = tonumber(multiplier) or 1
+        if duration <= 0 or multiplier <= 1 then return end
+        buffs[player] = { multiplier = multiplier, expires = time() + duration }
 end
 
 return MiningService
