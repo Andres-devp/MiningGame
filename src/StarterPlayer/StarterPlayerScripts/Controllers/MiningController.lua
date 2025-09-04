@@ -1,268 +1,276 @@
 -- StarterPlayerScripts/Controllers/MiningController.lua
--- v9.1: EventBus + barra cristal + SFX + VisualFX (sin RemoteEvents)
+-- Highlight-based mining controller with crystal hold mechanic
 
-local Players            = game:GetService("Players")
-local RunService         = game:GetService("RunService")
-local UserInputService   = game:GetService("UserInputService")
-local CollectionService  = game:GetService("CollectionService")
-local ReplicatedStorage  = game:GetService("ReplicatedStorage")
-local Workspace          = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local Camera = workspace.CurrentCamera
 
-local player = Players.LocalPlayer
-local mouse  = player:GetMouse()
+local REACH_STUDS = 13
+local LOCAL_COOLDOWN = 0.12
+local CRYSTAL_TIME = 1.4
 
--- EventBus / Topics
-local EventBus  = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventBus"))
-local Topics    = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventTopics"))
-
--- Visual FX + SFX
-local VisualFX  = require(script.Parent.Parent:WaitForChild("ClientModules"):WaitForChild("VisualFX"))
-local M = {}
-local ClientSoundManager
-
-local MAX_DISTANCE   = 18
-local CRYSTAL_TIME   = 1.4
-local STONE_COOLDOWN = 0.45
-
-local COLOR_CAN  = Color3.fromRGB( 86, 220, 130)
+local COLOR_CAN = Color3.fromRGB(86, 220, 130)
 local COLOR_CANT = Color3.fromRGB(240, 120, 120)
 
--- helpers
-local function hrp()
-	local c = player.Character
-	return c and c:FindFirstChild("HumanoidRootPart")
-end
+local M = {}
 
-local function distOK(part)
-	local root = hrp()
-	return (root and part) and ((root.Position - part.Position).Magnitude <= MAX_DISTANCE) or false
-end
+function M.start()
+    local player = Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
-local function focusPart(model)
-        if not model then return nil end
-        local hit = model:FindFirstChild("Hitbox")
-        if hit and hit:IsA("BasePart") then return hit end
-        return model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart", true)
-end
+    local playerGui = player:WaitForChild("PlayerGui")
+    local GUIFolder = playerGui:WaitForChild("PickFall")
+    local GUI = GUIFolder:WaitForChild("MiningGUI")
+    local holderFrame = GUI:WaitForChild("HolderFrame")
+    GUI.Enabled = false
 
-local function nodeInfoFrom(inst)
-        local obj = inst
-        while obj and obj ~= Workspace do
-                if CollectionService:HasTag(obj, "Stone") then
-                        local m = obj:IsA("Model") and obj or obj:FindFirstAncestorOfClass("Model")
-                        return "Stone", focusPart(m or obj), m or obj
-                elseif CollectionService:HasTag(obj, "Crystal") then
-                        local m = obj:IsA("Model") and obj or obj:FindFirstAncestorOfClass("Model")
-                        return "Crystal", focusPart(m or obj), m or obj
-                end
-                obj = obj.Parent
+    local hl = Instance.new("Highlight")
+    hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    hl.FillTransparency = 0.6
+    hl.Parent = playerGui
+
+    local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+    local RF_Debounce = Remotes:WaitForChild("Debounce")
+    local RE_Subtract = Remotes:WaitForChild("SubtractHealth")
+    local RE_Update = Remotes:WaitForChild("UpdateGui")
+
+    local rayParams = RaycastParams.new()
+    rayParams.FilterType = Enum.RaycastFilterType.Exclude
+    rayParams.FilterDescendantsInstances = { character }
+
+    local function getPickaxe()
+        return character:FindFirstChildOfClass("Tool") or player.Backpack:FindFirstChildOfClass("Tool")
+    end
+
+    local tool = getPickaxe()
+
+    local function getAdornee(obj)
+        if not obj then return nil end
+        if obj:IsA("Model") then
+            return obj.PrimaryPart or obj:FindFirstChildWhichIsA("BasePart", true)
+        elseif obj:IsA("BasePart") then
+            return obj
+        else
+            return obj:FindFirstChildWhichIsA("BasePart", true)
         end
-        return nil
-end
+    end
 
-local function ownsAutoMinePass()
-	local v = player:FindFirstChild("OwnsAutoMinePass")
-	return v and v.Value or false
-end
-
-local function autoMineEnabled()
-	local v = player:FindFirstChild("AutoMineEnabled") or player:FindFirstChild("IsAutoMineActive")
-	return v and v.Value or false
-end
-
-local function hasEquippedPickaxeClient()
-	local ch = player.Character
-	if not ch then return false end
-	if ch:FindFirstChild("PickaxeModel") then return true end
-	for _, inst in ipairs(ch:GetChildren()) do
-		if inst:IsA("Tool") and (inst.Name:lower():find("pick") or CollectionService:HasTag(inst, "Pickaxe")) then
-			return true
-		end
-	end
-	local flag = player:FindFirstChild("PickaxeEquipped")
-	return (flag and flag.Value) or false
-end
-
-local function nodeIdOf(model)
-	return (model and model:GetAttribute("NodeId")) or (model and model.Name) or nil
-end
-
--- highlight
-local hl = Instance.new("Highlight")
-hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-hl.FillTransparency = 0.6
-hl.Enabled = true
-hl.Parent = player:WaitForChild("PlayerGui")
-
-local function setHighlight(adorn, canMine)
-	if adorn then
-		hl.Adornee = adorn
-		hl.FillColor = canMine and COLOR_CAN or COLOR_CANT
-		hl.OutlineColor = canMine and COLOR_CAN or COLOR_CANT
-	else
-		hl.Adornee = nil
-	end
-end
-
--- Progreso cristal
-local function setCrystalProgress(model, ratio)
-	local gui = model and model:FindFirstChild("ProgresoGui", true)
-	if not (gui and gui:IsA("BillboardGui")) then return end
-	if not gui.Adornee then gui.Adornee = model end
-	gui.Enabled = true
-
-	local fondo = gui:FindFirstChild("BarraFondo")
-	if not (fondo and fondo:IsA("Frame")) then return end
-	fondo.ClipsDescendants = true
-
-	local barra = fondo:FindFirstChild("Barra") or fondo:FindFirstChildWhichIsA("Frame")
-	if not barra or barra == fondo then
-		barra = Instance.new("Frame")
-		barra.Name = "Barra"
-		barra.BorderSizePixel = 0
-		barra.BackgroundColor3 = Color3.fromRGB(120, 200, 255)
-		barra.AnchorPoint = Vector2.new(0, 0.5)
-		barra.Position = UDim2.fromScale(0, 0.5)
-		barra.Size = UDim2.fromScale(0, 1)
-		barra.Parent = fondo
-	end
-	barra.Size = UDim2.fromScale(math.clamp(ratio, 0, 1), 1)
-end
-
-local function clearCrystalProgress(model)
-	local gui = model and model:FindFirstChild("ProgresoGui", true)
-	if not (gui and gui:IsA("BillboardGui")) then return end
-	local fondo = gui:FindFirstChild("BarraFondo")
-	if not (fondo and fondo:IsA("Frame")) then return end
-	local barra = fondo:FindFirstChild("Barra")
-	if barra then barra.Size = UDim2.fromScale(0, 1) end
-	gui.Enabled = false
-end
-
--- input sostenido para cristal
-local isMouseDown = false
-UserInputService.InputBegan:Connect(function(input, gpe)
-	if gpe then return end
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-		isMouseDown = true
-	end
-end)
-UserInputService.InputEnded:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-		isMouseDown = false
-	end
-end)
-
--- estado
-local pendingModel   = nil
-local currentCrystal = nil
-local miningActive   = false
-local crystalStart   = 0
-local lastStoneAuto  = 0
-
--- === EventBus: feedback server → cliente ===
-EventBus.registerClient(Topics.MiningFeedback, function(payload)
-	if not payload then return end
-	local kind = payload.kind
-	local pos  = payload.position
-
-	if kind == "crystal" then
-		if currentCrystal then clearCrystalProgress(currentCrystal) end
-		currentCrystal, miningActive, pendingModel = nil, false, nil
-
-		-- FX + SFX
-		if ClientSoundManager and pos then
-			ClientSoundManager:playSound("CrystalSound", pos, 1)
-		end
-		if pos then
-			VisualFX.crystalBurst(pos)
-		end
-	else
-		-- roca
-		if ClientSoundManager and pos then
-			ClientSoundManager:playComboSound("BreakSound", pos)
-		end
-		if pos then
-			VisualFX.impactDust(pos)
-		end
-	end
-end)
-
-EventBus.registerClient(Topics.MiningCrystalAck, function(payload)
-        local ok = payload and payload.ok
-        if not pendingModel then return end
-        if not ok then
-                if currentCrystal then clearCrystalProgress(currentCrystal) end
-                currentCrystal, miningActive = nil, false
+    local function setHighlight(target, canMine)
+        if target then
+            hl.Adornee = target
+            local c = canMine and COLOR_CAN or COLOR_CANT
+            hl.FillColor = c
+            hl.OutlineColor = c
+        else
+            hl.Adornee = nil
         end
-        pendingModel = nil
-end)
+    end
 
-function M:start(_, SoundManager)
-	ClientSoundManager = SoundManager
+    local currentObject
+    local lastSwing = 0
 
-        RunService.RenderStepped:Connect(function()
-                local target = mouse.Target
-                local nodeType, focus, model = nodeInfoFrom(target)
+    local function safePos(obj)
+        if not obj then return nil end
+        if obj:IsA("Model") then
+            return obj:GetPivot().Position
+        elseif obj:IsA("BasePart") then
+            return obj.Position
+        else
+            local part = obj:FindFirstAncestorOfClass("BasePart")
+            return part and part.Position or nil
+        end
+    end
 
-		if nodeType == "Stone" then
-			local canMine = focus and distOK(focus)
-			setHighlight(model, canMine)
+    local function inRange(obj)
+        local pos = safePos(obj)
+        return pos and (pos - humanoidRootPart.Position).Magnitude <= REACH_STUDS or false
+    end
 
-			-- Hover auto-minado si AutoMine ON
-			if canMine and autoMineEnabled() and (time() - lastStoneAuto) > STONE_COOLDOWN then
-				lastStoneAuto = time()
-				local id = nodeIdOf(model)
-				if id then
-					EventBus.sendToServer(Topics.MiningRequest, { node = model, nodeId = id, toolTier = 1 })
-				end
-			end
+    local function isNode(obj)
+        return obj and obj:GetAttribute("NodeType") ~= nil
+    end
 
-		elseif nodeType == "Crystal" then
-			local hasPick = hasEquippedPickaxeClient()
-			local inDist  = focus and distOK(focus)
-			local canMine = hasPick and inDist
-			setHighlight(model, canMine)
+    local function canMineLocal(target)
+        if not target then return false end
+        if not target:FindFirstAncestor("Nodes") then return false end
+        local equipped = character:FindFirstChildOfClass("Tool")
+        if not (equipped and equipped:FindFirstChild("HealthSubtraction")) then return false end
+        local mh = target:GetAttribute("MaxHealth")
+        if mh == nil then return false end
+        if target:GetAttribute("IsMinable") == false then return false end
+        local h = target:GetAttribute("Health")
+        if h ~= nil and tonumber(h) <= 0 then return false end
+        if not inRange(target) then return false end
+        return true
+    end
 
-			-- Hover solo si pase + AutoMine ON; si no, click/tap sostenido
-			local hoverAllowed  = ownsAutoMinePass() and autoMineEnabled()
-			local shouldContinue = canMine and (hoverAllowed or isMouseDown)
+    local function updateGUI()
+        if not currentObject then return end
+        GUI.Enabled = true
+        holderFrame.NameLabel.Text = currentObject.Name
+        local h = tonumber(currentObject:GetAttribute("Health")) or 0
+        local mh = tonumber(currentObject:GetAttribute("MaxHealth")) or math.max(1, h)
+        if h < 0 then h = 0 end
+        holderFrame.HealthLabel.Text = tostring(h) .. " / " .. tostring(mh)
+        holderFrame.BarFrame.Size = UDim2.fromScale(h / mh, 1)
+    end
 
-                        if shouldContinue and not pendingModel and not miningActive then
-                                pendingModel = model
-                                local id = nodeIdOf(model)
-                                if id then
-                                        EventBus.sendToServer(Topics.MiningCrystalStart, { node = model, nodeId = id })
-                                end
-                                currentCrystal = model
-                                crystalStart   = time()
-                                miningActive   = true
-                                setCrystalProgress(model, 0)
-                                if ClientSoundManager and focus then
-                                        ClientSoundManager:playSound("ProgressCrystal", focus.Position, 1)
-                                end
-                        end
+    local function setCrystalProgress(model, ratio)
+        local gui = model and model:FindFirstChild("ProgresoGui", true)
+        if not (gui and gui:IsA("BillboardGui")) then return end
+        gui.Enabled = true
+        local fondo = gui:FindFirstChild("BarraFondo")
+        local barra = fondo and fondo:FindFirstChild("Barra")
+        if barra then
+            barra.Size = UDim2.fromScale(math.clamp(ratio, 0, 1), 1)
+        end
+    end
 
-                        if miningActive and currentCrystal == model then
-                                local ratio = (time() - crystalStart) / CRYSTAL_TIME
-                                setCrystalProgress(model, ratio)
-                        end
+    local function clearCrystalProgress(model)
+        local gui = model and model:FindFirstChild("ProgresoGui", true)
+        if not (gui and gui:IsA("BillboardGui")) then return end
+        local fondo = gui:FindFirstChild("BarraFondo")
+        local barra = fondo and fondo:FindFirstChild("Barra")
+        if barra then barra.Size = UDim2.fromScale(0, 1) end
+        gui.Enabled = false
+    end
 
-			if (not shouldContinue) and (pendingModel or miningActive) then
-				EventBus.sendToServer(Topics.MiningCrystalStop, {})
-				if currentCrystal then clearCrystalProgress(currentCrystal) end
-				currentCrystal, miningActive, pendingModel = nil, false, nil
-			end
+    local miningCrystal = false
+    local crystalConn
+    local function stopCrystal()
+        if crystalConn then
+            crystalConn:Disconnect()
+            crystalConn = nil
+        end
+        if currentObject then
+            clearCrystalProgress(currentObject)
+        end
+        miningCrystal = false
+    end
 
-		else
-			setHighlight(nil, false)
-			if pendingModel or miningActive then
-				EventBus.sendToServer(Topics.MiningCrystalStop, {})
-				if currentCrystal then clearCrystalProgress(currentCrystal) end
-				currentCrystal, miningActive, pendingModel = nil, false, nil
-			end
-		end
-	end)
+    local function startCrystal()
+        if miningCrystal or not currentObject then return end
+        local ok = RF_Debounce:InvokeServer(currentObject)
+        if not ok then return end
+        miningCrystal = true
+        local startTime = time()
+        setCrystalProgress(currentObject, 0)
+        crystalConn = RunService.Heartbeat:Connect(function()
+            if not miningCrystal or not currentObject then return end
+            if not canMineLocal(currentObject) then
+                stopCrystal()
+                return
+            end
+            local ratio = (time() - startTime) / CRYSTAL_TIME
+            setCrystalProgress(currentObject, ratio)
+            if ratio >= 1 then
+                local maxH = tonumber(currentObject:GetAttribute("MaxHealth")) or 0
+                RE_Subtract:FireServer(currentObject, maxH)
+                stopCrystal()
+            end
+        end)
+    end
+
+    local function doRaycast()
+        local mp = UserInputService:GetMouseLocation()
+        local ray = Camera:ViewportPointToRay(mp.X, mp.Y)
+        local result = workspace:Raycast(ray.Origin, ray.Direction * 60, rayParams)
+        if not result or not result.Instance then
+            currentObject = nil
+            setHighlight(nil, false)
+            GUI.Enabled = false
+            return
+        end
+        local modelAncestor = result.Instance:FindFirstAncestorOfClass("Model")
+        local target = modelAncestor or result.Instance
+        if isNode(target) then
+            currentObject = target
+            local adorn = getAdornee(target)
+            local canMine = canMineLocal(target)
+            setHighlight(adorn, canMine)
+            if canMine then
+                updateGUI()
+            else
+                GUI.Enabled = false
+            end
+        else
+            currentObject = nil
+            setHighlight(nil, false)
+            GUI.Enabled = false
+        end
+    end
+
+    RE_Update.OnClientEvent:Connect(function()
+        if currentObject and canMineLocal(currentObject) then
+            updateGUI()
+        else
+            GUI.Enabled = false
+            setHighlight(getAdornee(currentObject), false)
+        end
+    end)
+
+    UserInputService.InputChanged:Connect(function(input, gpe)
+        if gpe then return end
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            doRaycast()
+        end
+    end)
+
+    local function onActivated()
+        if not currentObject or not canMineLocal(currentObject) then return end
+        local nodeType = currentObject:GetAttribute("NodeType")
+        if nodeType == "Crystal" then
+            startCrystal()
+            return
+        end
+        local ok = RF_Debounce:InvokeServer(currentObject)
+        if not ok then return end
+        local t = tick()
+        if t - lastSwing < LOCAL_COOLDOWN then return end
+        lastSwing = t
+        local hsVal = 0
+        local equipped = character:FindFirstChildOfClass("Tool")
+        if equipped then
+            local hs = equipped:FindFirstChild("HealthSubtraction")
+            if hs then hsVal = tonumber(hs.Value) or 0 end
+        end
+        RE_Subtract:FireServer(currentObject, hsVal)
+    end
+
+    local function hookToolEvents(t)
+        if t and t:IsA("Tool") then
+            t.Activated:Connect(onActivated)
+            t.Deactivated:Connect(function()
+                stopCrystal()
+            end)
+            t.Unequipped:Connect(function()
+                GUI.Enabled = false
+                setHighlight(nil, false)
+                stopCrystal()
+            end)
+        end
+    end
+
+    hookToolEvents(tool)
+
+    player.CharacterAdded:Connect(function(newChar)
+        character = newChar
+        humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+        rayParams.FilterDescendantsInstances = { character }
+        tool = getPickaxe()
+        hookToolEvents(tool)
+    end)
+
+    character.ChildAdded:Connect(function(child)
+        if child:IsA("Tool") then
+            tool = child
+            hookToolEvents(tool)
+        end
+    end)
 end
 
 return M
+

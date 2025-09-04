@@ -72,22 +72,33 @@
 				</CFrame>
 			</OptionalCoordinateFrame>
 		</Properties>
-		<Item class="IntValue" referent="RBXC495EEA6BB974D86802C2D2C37F6BDB0">
-			<Properties>
-				<BinaryString name="AttributesSerialize"></BinaryString>
-				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-				<bool name="DefinesCapabilities">false</bool>
-				<string name="Name">Recompensa</string>
-				<int64 name="SourceAssetId">-1</int64>
-				<BinaryString name="Tags"></BinaryString>
-				<int64 name="Value">5</int64>
-			</Properties>
-		</Item>
-		<Item class="Part" referent="RBXA96FB0D556CB41589CAF4B33AA5528E0">
-			<Properties>
-				<bool name="Anchored">false</bool>
-				<BinaryString name="AttributesSerialize"></BinaryString>
-				<bool name="AudioCanCollide">true</bool>
+                <Item class="IntValue" referent="RBXC495EEA6BB974D86802C2D2C37F6BDB0">
+                        <Properties>
+                                <BinaryString name="AttributesSerialize"></BinaryString>
+                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                <bool name="DefinesCapabilities">false</bool>
+                                <string name="Name">Recompensa</string>
+                                <int64 name="SourceAssetId">-1</int64>
+                                <BinaryString name="Tags"></BinaryString>
+                                <int64 name="Value">5</int64>
+                        </Properties>
+                </Item>
+               <Item class="IntValue" referent="RBX0D53AF3528FB4B2E90977DC981200003">
+                       <Properties>
+                               <BinaryString name="AttributesSerialize"></BinaryString>
+                               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                               <bool name="DefinesCapabilities">false</bool>
+                               <string name="Name">HealthSubtraction</string>
+                               <int64 name="SourceAssetId">-1</int64>
+                               <BinaryString name="Tags"></BinaryString>
+                               <int64 name="Value">1</int64>
+                       </Properties>
+               </Item>
+                <Item class="Part" referent="RBXA96FB0D556CB41589CAF4B33AA5528E0">
+                        <Properties>
+                                <bool name="Anchored">false</bool>
+                                <BinaryString name="AttributesSerialize"></BinaryString>
+                                <bool name="AudioCanCollide">true</bool>
 				<float name="BackParamA">-0.5</float>
 				<float name="BackParamB">0.5</float>
 				<token name="BackSurface">0</token>
