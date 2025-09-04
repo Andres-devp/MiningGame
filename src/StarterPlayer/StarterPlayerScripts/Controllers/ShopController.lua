@@ -10,6 +10,7 @@ local upgradeEvent = Remotes:WaitForChild("UpgradePlotEvent")
 local SoundManager = require(script.Parent.Parent:WaitForChild("ClientModules"):WaitForChild("SoundManager"))
 
 local M = {}
+local initialized = false
 
 -- Busca descendientes por nombre (por si no son hijos directos)
 local function findDesc(parent, name, timeout)
@@ -24,6 +25,11 @@ local function findDesc(parent, name, timeout)
 end
 
 function M.init()
+        if initialized then
+                warn("[ShopController] init ya fue ejecutado")
+                return
+        end
+        initialized = true
         local player      = Players.LocalPlayer
         local upgrades    = player:WaitForChild("Upgrades")
         local leaderstats = player:WaitForChild("leaderstats")
