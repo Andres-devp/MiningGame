@@ -19,9 +19,9 @@ local function getPlayerPlotModel(plr)
 		if mdl then return mdl end
 	end
 	-- 2) fallback por plotsData del módulo (opcional)
-	local ok, PM = pcall(function()
-		return require(game.ServerScriptService.ServerModules:WaitForChild("PlotManager"))
-	end)
+        local ok, PM = pcall(function()
+                return require(game.ServerScriptService.Modules:WaitForChild("PlotManager"))
+        end)
 	if ok and PM and PM.plotsData then
 		for _, data in pairs(PM.plotsData) do
 			if data.owner == plr.UserId then

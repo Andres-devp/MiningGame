@@ -34,8 +34,8 @@ end
 
 -- PlotManager (tu versión)
 do
-	local PMpath = game.ServerScriptService:FindFirstChild("ServerModules") and game.ServerScriptService.ServerModules:FindFirstChild("PlotManager")
-		or game.ServerScriptService:FindFirstChild("PlotManager")
+        local PMpath = game.ServerScriptService:FindFirstChild("Modules") and game.ServerScriptService.Modules:FindFirstChild("PlotManager")
+                or game.ServerScriptService:FindFirstChild("PlotManager")
 	if PMpath then
 		local pm, err = safeRequire(PMpath)
 		if pm then
@@ -68,9 +68,9 @@ do
 		end
 	end
 
-	scanFolder(game.ServerScriptService, "[SSS]")
-	local sm = game.ServerScriptService:FindFirstChild("ServerModules")
-	if sm then scanFolder(sm, "[ServerModules]") end
+        scanFolder(game.ServerScriptService, "[SSS]")
+        local sm = game.ServerScriptService:FindFirstChild("Modules")
+        if sm then scanFolder(sm, "[Modules]") end
 end
 
 -- Workspace estructura base

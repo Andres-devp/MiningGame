@@ -1,4 +1,4 @@
--- ServerModules/SellService.lua
+-- ServerScriptService/Services/SellService.lua
 -- Maneja la conversión de piedras a gemas cuando el jugador vende en la tienda
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")

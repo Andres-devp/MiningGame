@@ -1,4 +1,4 @@
--- ServerModules/NodeSpawner.lua
+-- ServerScriptService/Modules/NodeSpawner.lua
 -- v4.6 - Seed hasta CAPACIDAD, top-up al subir capacidad y coloca nodos
 --        usando la altura real. Timers por plot y GUI de cristal garantizada.
 

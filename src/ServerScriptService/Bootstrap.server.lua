@@ -1,8 +1,8 @@
 -- Bootstrap.server.lua
--- Carga módulos de ServerModules y ejecuta init si existe, evitando ConversionHandler eliminado
+-- Carga módulos de Modules y ejecuta init si existe, evitando ConversionHandler eliminado
 
 local ServerScriptService = game:GetService("ServerScriptService")
-local modulesFolder = ServerScriptService:WaitForChild("ServerModules")
+local modulesFolder = ServerScriptService:WaitForChild("Modules")
 local servicesFolder = ServerScriptService:WaitForChild("Services")
 
 local modules = {
@@ -11,8 +11,6 @@ local modules = {
     "NodeSpawner",
     "PlayerDataLegacy",
     "LeaderboardHandler",
-    "ShopService",
-    "SellService",
     "UpgradeHandler",
     "LeaderstatsScript",
     "SpawnPlotAssociation",
@@ -44,11 +42,11 @@ for _, name in ipairs(modules) do
 end
 
 
--- Servicios que no se encuentran dentro de ServerModules y
+-- Servicios que no se cargan automáticamente desde Modules y
 -- necesitan cargarse manualmente para que expongan su API/Events.
 -- GamePassService maneja el estado del AutoMine (game pass + toggle),
 -- por lo que debe inicializarse junto con MiningService.
-local services = { "MiningService", "GamePassService" }
+local services = { "NodeService", "ShopService", "SellService", "MiningService", "GamePassService" }
 
 
 for _, name in ipairs(services) do

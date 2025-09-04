@@ -1,4 +1,4 @@
--- ServerModules/LeaderstatsScript.lua
+-- ServerScriptService/Modules/LeaderstatsScript.lua
 -- v2.8 (clean) - DataStore (gems, stones, upgrades, tools) + AutoMine + MÍNIMOS EN CARGA (sin RemoteEvents legacy)
 
 local START_ROCK_AMOUNT        = 5

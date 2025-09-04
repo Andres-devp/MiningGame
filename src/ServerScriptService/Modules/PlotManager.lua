@@ -1,4 +1,4 @@
--- Ubicación: ServerScriptService > ServerModules > PlotManager
+-- ServerScriptService/Modules/PlotManager.lua
 -- v2.8.1 - Inicializa parcelas y resetea flags para el spawner (sin '}' perdido)
 
 local Players = game:GetService("Players")

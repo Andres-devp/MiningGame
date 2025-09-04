@@ -1,4 +1,4 @@
--- ServerModules/ManejadorTienda.lua
+-- ServerScriptService/Services/ShopService.lua
 -- v1.4 - Compra de pico por Gemas o DevProduct + persistencia (OwnedTools.HasPickaxe)
 
 local MarketplaceService = game:GetService("MarketplaceService")

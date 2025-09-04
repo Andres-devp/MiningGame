@@ -22,10 +22,10 @@
       "$className": "ServerScriptService",
       "$ignoreUnknownInstances": false,
 
-      "Bootstrap":     { "$path": "src/ServerScriptService/Bootstrap.server.lua" },
-      "ServerModules": { "$path": "src/ServerScriptService/ServerModules" },
-      "Services":      { "$path": "src/ServerScriptService/Services" },
-      "Systems":       { "$path": "src/ServerScriptService/Systems" }
+      "Bootstrap": { "$path": "src/ServerScriptService/Bootstrap.server.lua" },
+      "Modules":   { "$path": "src/ServerScriptService/Modules" },
+      "Services":  { "$path": "src/ServerScriptService/Services" },
+      "Systems":   { "$path": "src/ServerScriptService/Systems" }
     },
 
     "ServerStorage": {

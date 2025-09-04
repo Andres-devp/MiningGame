@@ -1,4 +1,4 @@
--- ServerModules/SoundManager.lua (Servidor)
+-- ServerScriptService/Modules/SoundManager.lua (Servidor)
 -- Busca plantillas en ReplicatedStorage/Sounds o raíz
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
