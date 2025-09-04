@@ -3,11 +3,11 @@
   "servePlaceIds": [ 116227459207208 ],
   "tree": {
     "$className": "DataModel",
-    "$ignoreUnknownInstances": false,
+    "$ignoreUnknownInstances":  true,
 
     "Workspace": {
       "$className": "Workspace",
-      "$ignoreUnknownInstances": false,
+      "$ignoreUnknownInstances": true,
 
       "Plots":             { "$path": "src/Workspace/Plots.rbxmx" },
       "SpawnLocation":     { "$path": "src/Workspace/SpawnLocation.rbxmx" },
