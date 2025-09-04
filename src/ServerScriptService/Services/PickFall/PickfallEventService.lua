@@ -25,7 +25,10 @@ local base        = arena:WaitForChild("Base")
 local oreFolder   = arena:WaitForChild("OrePlatforms")
 local spawns      = arena:WaitForChild("Spawners")
 
-local nodeTemplates = ServerStorage:WaitForChild("NodeTemplates")
+-- Las plantillas de minerales ahora se toman de la carpeta "Ores" ya
+-- existente en la arena, de modo que agregar un nuevo mineral sólo requiere
+-- colocar su modelo dentro de dicha carpeta.
+local oreTemplates = arena:WaitForChild("Ores")
 
 
 local ROUND_INTERVAL = 300 -- segundos entre eventos
@@ -45,37 +48,33 @@ local active = false
 local currentState, currentData = "idle", nil
 
 local function setupOreBlocks()
-        oreFolder:ClearAllChildren()
-        local templates = nodeTemplates:GetChildren()
-        local startPos = base.Position + Vector3.new(0, base.Size.Y/2 + 4, 0)
-        local spacing = 8
-        for i, tpl in ipairs(templates) do
-                local clone = tpl:Clone()
-                clone:SetAttribute("NodeType", tpl.Name)
-                if tpl.Name == "CommonStone" then
-                        clone:SetAttribute("MaxHealth", 1)
-                else
-                        clone:SetAttribute("MaxHealth", 20)
-                end
-                clone:SetAttribute("Health", clone:GetAttribute("MaxHealth"))
-                clone:SetAttribute("IsMinable", true)
-                for _, part in ipairs(clone:GetDescendants()) do
-                        if part:IsA("BasePart") then
-                                part.Anchored = true
-                        end
-                end
-                local pos = startPos + Vector3.new((i-1)*spacing, 0, 0)
-                if clone.PrimaryPart then
-                        clone:PivotTo(CFrame.new(pos))
-                else
-                        local any = clone:FindFirstChildWhichIsA("BasePart", true)
-                        if any then
-                                clone.PrimaryPart = any
-                                clone:PivotTo(CFrame.new(pos))
-                        end
-                end
-                clone.Parent = oreFolder
-        end
+  oreFolder:ClearAllChildren()
+  local templates = oreTemplates:GetChildren()
+  local startPos = base.Position + Vector3.new(0, base.Size.Y/2 + 4, 0)
+  local spacing = 8
+  for i, tpl in ipairs(templates) do
+    local clone = tpl:Clone()
+    clone:SetAttribute("NodeType", tpl:GetAttribute("NodeType") or tpl.Name)
+    local mh = tpl:GetAttribute("MaxHealth")
+    if not mh then
+      mh = (tpl.Name == "CommonStone") and 1 or 20
+    end
+    clone:SetAttribute("MaxHealth", mh)
+    clone:SetAttribute("Health", mh)
+    clone:SetAttribute("IsMinable", true)
+    for _, part in ipairs(clone:GetDescendants()) do
+      if part:IsA("BasePart") then
+        part.Anchored = true
+      end
+    end
+    local pos = startPos + Vector3.new((i-1)*spacing, 0, 0)
+    local primary = clone.PrimaryPart or clone:FindFirstChildWhichIsA("BasePart", true)
+    if primary then
+      clone.PrimaryPart = primary
+      clone:PivotTo(CFrame.new(pos))
+    end
+    clone.Parent = oreFolder
+  end
 end
 
 local function broadcast(state, data)

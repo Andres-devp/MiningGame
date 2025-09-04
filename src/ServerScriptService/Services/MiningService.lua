@@ -141,9 +141,9 @@ local function mineStone(player, model: Model)
 	local l = ensureLimiters(player)
 	if not l.stone:allow(1) then return end
 
-	if typeof(model) ~= "Instance" or not model:IsA("Model") then return end
-	if not hasTagDeep(model, "Stone") then return end
-	if not ownsPlotForModel(player, model) then return end
+        if typeof(model) ~= "Instance" or not model:IsA("Model") then return end
+        if not hasTagDeep(model, "Stone") and not model:GetAttribute("IsMinable") then return end
+        if not ownsPlotForModel(player, model) then return end
 
 	local focus = focusPart(model)
 	if not (focus and distOK(player, focus)) then return end
