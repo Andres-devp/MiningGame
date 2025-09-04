@@ -153,12 +153,12 @@ local function runRound()
                 registrationOpen = true
                 return
         end
-        broadcast("countdown", COUNTDOWN)
-        registrationOpen = false
+        registrationOpen = true
         for t = COUNTDOWN, 1, -1 do
                 broadcast("countdown", t)
                 task.wait(1)
         end
+        registrationOpen = false
         teleport()
         active = true
         broadcast("running")
