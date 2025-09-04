@@ -20,12 +20,14 @@ local guiFolder = player:WaitForChild("PlayerGui"):WaitForChild("PickFall")
 local gui       = guiFolder:WaitForChild("PickfallGui")
 local joinButton = gui:FindFirstChild("JoinButton") or gui:FindFirstChild("Inscribirse") or gui:FindFirstChildWhichIsA("TextButton")
 local stateLabel = gui:FindFirstChild("StateText") or gui:FindFirstChild("StatusLabel") or gui:FindFirstChildWhichIsA("TextLabel")
+local container = joinButton and joinButton.Parent or gui:FindFirstChildWhichIsA("Frame")
 
 function PickfallController.init()
         if joinButton then
                 joinButton.MouseButton1Click:Connect(function()
                         JoinEvent:FireServer()
                         joinButton.Visible = false
+                        if container then container.Visible = false end
                 end)
         end
 
@@ -42,6 +44,9 @@ function PickfallController.init()
                                 if joinButton then joinButton.Visible = false end
                         end
                 end
+                if container then
+                        container.Visible = state == "idle"
+                end
         end)
 
         WinnerEvent.OnClientEvent:Connect(function(name)
@@ -54,6 +59,9 @@ function PickfallController.init()
                 end
                 if joinButton then
                         joinButton.Visible = true
+                end
+                if container then
+                        container.Visible = true
                 end
         end)
 end
