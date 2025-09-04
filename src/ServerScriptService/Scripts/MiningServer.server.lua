@@ -57,7 +57,6 @@ end
 
 local function isMinable(obj)
     if typeof(obj) ~= "Instance" or not obj.Parent then return false end
-
     local mh = obj:GetAttribute("MaxHealth")
     if mh == nil then return false end
     if obj:GetAttribute("IsMinable") == false then return false end
@@ -85,8 +84,7 @@ DebounceRF.OnServerInvoke = function(player, object)
 end
 
 SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtraction)
-
-    if not player or typeof(object) ~= "Instance" or not object.Parent then return end
+ayer or typeof(object) ~= "Instance" or not object.Parent then return end
     if Debounce[player] then return end
     if not isMinable(object) then return end
     if not inRange(player, object) then return end
@@ -115,17 +113,16 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 
     UpdateGuiRE:FireClient(player)
 
-
-    local pos = objPos(object) or Vector3.new()
-    local lowerName = string.lower(object.Name)
-    local soundName = lowerName:find("crystal") and "CrystalSound" or "BreakSound"
-    SoundManager:playSound(soundName, pos)
-
     if newHealth <= 0 then
-        local reward = tonumber(object:GetAttribute("Reward")) or 0
+        local pos = objPos(object) or Vector3.new()
+        local nodeType = object:GetAttribute("NodeType") or "stone"
+        local soundName = nodeType == "Crystal" and "CrystalSound" or "BreakSound"
+        SoundManager:playSound(soundName, pos)
 
+        local reward = tonumber(object:GetAttribute("Reward")) or 0
         if reward > 0 then
-            if lowerName:find("crystal") then
+            if nodeType == "Crystal" then
+
                 local leaderstats = player:FindFirstChild("leaderstats")
                 local gems = leaderstats and leaderstats:FindFirstChild("Gems")
                 if gems then gems.Value = gems.Value + reward end
