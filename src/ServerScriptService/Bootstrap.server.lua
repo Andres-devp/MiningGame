@@ -6,34 +6,38 @@ local modulesFolder = ServerScriptService:WaitForChild("ServerModules")
 local servicesFolder = ServerScriptService:WaitForChild("Services")
 
 local modules = {
-    "PlotManager",
+    "Plot/PlotManager",
     "SoundManager",
-    "NodeSpawner",
+    "Plot/NodeSpawner",
     "PlayerDataLegacy",
     "LeaderboardHandler",
     "ShopService",
     "SellService",
-    "UpgradeHandler",
+    "Plot/UpgradeHandler",
     "LeaderstatsScript",
-    "SpawnPlotAssociation",
+    "Plot/SpawnPlotAssociation",
 }
 
-local function safeRequire(folder, name)
-    local inst = folder:FindFirstChild(name)
-    if not inst then
-        warn(string.format("[FALLO] require %s (NO encontrado: %s/%s)", name, folder:GetFullName(), name))
-        return nil
+local function safeRequire(folder, path)
+    local inst = folder
+    for name in string.gmatch(path, "[^/]+") do
+        inst = inst:FindFirstChild(name)
+        if not inst then
+            warn(string.format("[FALLO] require %s (NO encontrado: %s/%s)", path, folder:GetFullName(), name))
+            return nil
+        end
+        folder = inst
     end
     local ok, mod = pcall(require, inst)
     if not ok then
-        warn(string.format("[FALLO] require %s (%s)", name, mod))
+        warn(string.format("[FALLO] require %s (%s)", path, mod))
         return nil
     end
-    print("[OK] require " .. name)
+    print("[OK] require " .. path)
     if type(mod) == "table" and type(mod.init) == "function" then
         local okInit, err = pcall(mod.init, mod)
         if not okInit then
-            warn(string.format("[FALLO] init %s (%s)", name, err))
+            warn(string.format("[FALLO] init %s (%s)", path, err))
         end
     end
     return mod
@@ -48,7 +52,7 @@ end
 -- necesitan cargarse manualmente para que expongan su API/Events.
 -- GamePassService maneja el estado del AutoMine (game pass + toggle),
 -- por lo que debe inicializarse junto con MiningService.
-local services = { "MiningService", "GamePassService", "PickfallEventService" }
+local services = { "MiningService", "GamePassService", "PickFall/PickfallEventService" }
 
 
 for _, name in ipairs(services) do

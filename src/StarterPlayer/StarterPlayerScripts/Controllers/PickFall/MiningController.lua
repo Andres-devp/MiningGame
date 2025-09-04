@@ -18,7 +18,8 @@ local EventBus  = require(Shared:WaitForChild("events"):WaitForChild("EventBus")
 local Topics    = require(Shared:WaitForChild("events"):WaitForChild("EventTopics"))
 
 -- Visual FX + SFX
-local VisualFX  = require(script.Parent.Parent:WaitForChild("ClientModules"):WaitForChild("VisualFX"))
+local playerScripts = script:FindFirstAncestorOfClass("PlayerScripts") or script.Parent.Parent.Parent
+local VisualFX  = require(playerScripts:WaitForChild("ClientModules"):WaitForChild("VisualFX"))
 local M = {}
 local ClientSoundManager
 

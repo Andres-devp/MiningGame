@@ -23,22 +23,25 @@ print("[ClientMain] HumanoidRootPart encontrado, iniciando controladores.")
 
 player:SetAttribute("ClientMainReady", true)
 
-local function loadModule(container, name)
-	local inst = container:WaitForChild(name)
-	if not inst:IsA("ModuleScript") then
-                warn(("[ClientMain] %s no es ModuleScript (es %s)"):format(name, inst.ClassName))
-		return nil
-	end
-	local ok, res = pcall(require, inst)
-	if not ok then
-                warn(("[ClientMain] require %s ERROR: %s"):format(name, res))
-		return nil
-	end
-	if type(res) ~= "table" then
-                warn(("[ClientMain] %s no devolvió una tabla"):format(name))
-		return nil
-	end
-	return res
+local function loadModule(container, path)
+        local inst = container
+        for name in string.gmatch(path, "[^/]+") do
+                inst = inst:WaitForChild(name)
+        end
+        if not inst:IsA("ModuleScript") then
+                warn(("[ClientMain] %s no es ModuleScript (es %s)"):format(path, inst.ClassName))
+                return nil
+        end
+        local ok, res = pcall(require, inst)
+        if not ok then
+                warn(("[ClientMain] require %s ERROR: %s"):format(path, res))
+                return nil
+        end
+        if type(res) ~= "table" then
+                warn(("[ClientMain] %s no devolvió una tabla"):format(path))
+                return nil
+        end
+        return res
 end
 
 local function call(mod, method, ...)
@@ -58,13 +61,13 @@ end
 
 -- Controladores (todos como ModuleScript .lua)
 local UIController         = loadModule(controllers, "UIController")         or {}
-local MiningController     = loadModule(controllers, "MiningController")     or {}
+local MiningController     = loadModule(controllers, "PickFall/MiningController")     or {}
 local InputController      = loadModule(controllers, "InputController")      or {} -- side-effect
-local ShopController       = loadModule(controllers, "ShopController")       or {}
-local TPButtons            = loadModule(controllers, "TPButtons")            or {}
+local ShopController       = loadModule(controllers, "Plot/ShopController")       or {}
+local TPButtons            = loadModule(controllers, "Plot/TPButtons")            or {}
 local ShopPromptController = loadModule(controllers, "ShopPromptController") or {}
 local CloseButtonController= loadModule(controllers, "CloseButtonController") or {}
-local PickfallController   = loadModule(controllers, "PickfallController")   or {}
+local PickfallController   = loadModule(controllers, "PickFall/PickfallController")   or {}
 local SaleDialogController = loadModule(controllers, "SaleDialogController") or {}
 
 -- Módulos
