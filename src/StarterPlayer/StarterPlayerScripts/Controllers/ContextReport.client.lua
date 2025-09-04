@@ -27,7 +27,7 @@ task.wait()
 
 -- 3) Busca las carpetas hermanas correctas bajo PlayerScripts
 local controllers = ps:FindFirstChild("Controllers") or ps:WaitForChild("Controllers", 10)
-local modules     = ps:FindFirstChild("Modules")     or ps:WaitForChild("Modules", 10)
+local clientModules = ps:FindFirstChild("ClientModules") or ps:WaitForChild("ClientModules", 10)
 
 if controllers then
 	local items = {}
@@ -46,9 +46,9 @@ else
 	warn("[Controllers] FALTA carpeta Controllers en PlayerScripts")
 end
 
-if modules then
-	local items = {}
-	for _,m in ipairs(modules:GetChildren()) do
+if clientModules then
+        local items = {}
+        for _,m in ipairs(clientModules:GetChildren()) do
 		if m:IsA("ModuleScript") then
 			local t, e = safeRequire(m)
 			if type(t)=="table" then
@@ -58,9 +58,9 @@ if modules then
 			end
 		end
 	end
-	if #items>0 then print("[Modules] -> "..table.concat(items, " || ")) end
+        if #items>0 then print("[ClientModules] -> "..table.concat(items, " || ")) end
 else
-	warn("[Modules] FALTA carpeta Modules en PlayerScripts")
+        warn("[ClientModules] FALTA carpeta ClientModules en PlayerScripts")
 end
 
 print("=== [ContextReport.client] FIN ===")

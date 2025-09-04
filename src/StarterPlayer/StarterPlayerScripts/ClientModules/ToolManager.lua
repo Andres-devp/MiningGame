@@ -1,4 +1,4 @@
--- Ubicación: StarterPlayerScripts > Modules > ToolManager
+-- Ubicación: StarterPlayerScripts > ClientModules > ToolManager
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
