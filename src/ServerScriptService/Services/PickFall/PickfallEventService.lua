@@ -24,20 +24,13 @@ local NodeService   = require(script.Parent.Parent:WaitForChild("NodeService"))
 
 local arena     = Workspace:WaitForChild("PickfallArena")
 local base      = arena:WaitForChild("Base")
-local oreFolder = arena:WaitForChild("OrePlatforms")
+local oreFolder = arena:WaitForChild("Ores")
 local spawns    = arena:WaitForChild("Spawners")
 
 
--- Las plantillas de minerales ahora se toman de la carpeta "Ores" ya
--- existente en la arena, de modo que agregar un nuevo mineral sólo requiere
--- colocar su modelo dentro de dicha carpeta.
-
-local oreTemplates = arena:WaitForChild("Ores")
-
-
--- Las plantillas de minerales ahora se toman de la carpeta "Ores" ya
--- existente en la arena, de modo que agregar un nuevo mineral sólo requiere
--- colocar su modelo dentro de dicha carpeta.
+-- Los minerales se toman directamente de la carpeta "Ores" ya existente en la
+-- arena, de modo que agregar un nuevo mineral sólo requiere colocar su modelo
+-- dentro de dicha carpeta.
 
 
 
@@ -58,50 +51,30 @@ local active = false
 local currentState, currentData = "idle", nil
 
 local function setupOreBlocks()
-  print("[PickfallEventService] Generating ore blocks")
-  oreFolder:ClearAllChildren()
-  local templates = oreTemplates:GetChildren()
-  print("[PickfallEventService]\tTemplates found:", #templates)
-  local startPos = base.Position + Vector3.new(0, base.Size.Y/2 + 4, 0)
-  local spacing = 8
-  for i, tpl in ipairs(templates) do
-    local clone = tpl:Clone()
-    local nodeType = tpl:GetAttribute("NodeType") or tpl.Name
-    clone:SetAttribute("NodeType", nodeType)
-    local mh = tpl:GetAttribute("MaxHealth")
+  print("[PickfallEventService] Preparing ore blocks")
+  for _, ore in ipairs(oreFolder:GetChildren()) do
+    local nodeType = ore:GetAttribute("NodeType") or ore.Name
+    ore:SetAttribute("NodeType", nodeType)
+    local mh = ore:GetAttribute("MaxHealth")
     if not mh then
-      mh = (tpl.Name == "CommonStone") and 1 or 20
+      mh = (ore.Name == "CommonStone") and 1 or 20
     end
-    clone:SetAttribute("MaxHealth", mh)
-    clone:SetAttribute("Health", mh)
-    clone:SetAttribute("IsMinable", true)
-    print(string.format("\tClone %d -> %s (NodeType=%s, MaxHealth=%s)", i, tpl.Name, tostring(nodeType), tostring(mh)))
+    ore:SetAttribute("MaxHealth", mh)
+    ore:SetAttribute("Health", ore:GetAttribute("Health") or mh)
+    ore:SetAttribute("IsMinable", true)
 
-    local pos = startPos + Vector3.new((i-1)*spacing, 0, 0)
-
-    if clone:IsA("Model") then
-      for _, part in ipairs(clone:GetDescendants()) do
+    if ore:IsA("Model") then
+      for _, part in ipairs(ore:GetDescendants()) do
         if part:IsA("BasePart") then
           part.Anchored = true
         end
       end
-      local primary = clone.PrimaryPart or clone:FindFirstChildWhichIsA("BasePart", true)
-      if primary then
-        clone.PrimaryPart = primary
-        clone:PivotTo(CFrame.new(pos))
-      else
-        print("\t\tWarning: no PrimaryPart for", tpl.Name)
-      end
-    elseif clone:IsA("BasePart") then
-      clone.Anchored = true
-      clone.CFrame = CFrame.new(pos)
+    elseif ore:IsA("BasePart") then
+      ore.Anchored = true
     else
-      print("\t\tWarning: unsupported template type", tpl.ClassName)
+      print("\tWarning: unsupported ore type", ore.ClassName)
     end
-
-    clone.Parent = oreFolder
   end
-
 end
 
 -- Reset the Pickfall arena's ore blocks.
@@ -111,7 +84,7 @@ end
 -- function rebuilds the ore platforms and registers any new ore models with
 -- `NodeService` so that mining interactions work correctly.
 local function resetOreBlocks()
-  -- Generate a fresh set of ore blocks
+  -- Configure existing ore blocks
   setupOreBlocks()
 
   -- Register ore models with NodeService for mining behaviour
