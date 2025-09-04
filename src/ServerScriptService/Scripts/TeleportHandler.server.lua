@@ -4,8 +4,11 @@ local Remotes = RS:WaitForChild("Remotes")
 local plotsFolder = workspace:WaitForChild("Plots")
 
 -- carpeta de tiendas puede estar en 'Hub/Shops' o directamente en 'Shops'
-local shopsParent = workspace:FindFirstChild("Hub") or workspace
-local shops = shopsParent:WaitForChild("Shops")
+local shops = workspace:FindFirstChild("Shops", true)
+if not shops then
+       warn("[TeleportHandler] No encontré carpeta 'Shops' en Workspace")
+       return
+end
 
 local toPlot = Remotes:WaitForChild("TeleportToPlot")
 local toShop = Remotes:WaitForChild("TeleportToShop")
