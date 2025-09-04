@@ -5,6 +5,7 @@ local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService        = game:GetService("RunService")
 local Workspace         = game:GetService("Workspace")
+local ServerStorage     = game:GetService("ServerStorage")
 
 
 local Remotes        = ReplicatedStorage:WaitForChild("Remotes")
@@ -19,10 +20,12 @@ local WinnerEvent    = PickfallFolder:WaitForChild("PickfallWinner")
 -- directo, provocando un `infinite yield` al no encontrarlo.
 local MiningService = require(script.Parent.Parent:WaitForChild("MiningService"))
 
-local arena  = Workspace:WaitForChild("PickfallArena")
-local base   = arena:WaitForChild("Base")
+local arena       = Workspace:WaitForChild("PickfallArena")
+local base        = arena:WaitForChild("Base")
+local oreFolder   = arena:WaitForChild("OrePlatforms")
+local spawns      = arena:WaitForChild("Spawners")
 
-local spawns = arena:WaitForChild("Spawners")
+local nodeTemplates = ServerStorage:WaitForChild("NodeTemplates")
 
 
 local ROUND_INTERVAL = 300 -- segundos entre eventos
@@ -41,6 +44,40 @@ local active = false
 
 local currentState, currentData = "idle", nil
 
+local function setupOreBlocks()
+        oreFolder:ClearAllChildren()
+        local templates = nodeTemplates:GetChildren()
+        local startPos = base.Position + Vector3.new(0, base.Size.Y/2 + 4, 0)
+        local spacing = 8
+        for i, tpl in ipairs(templates) do
+                local clone = tpl:Clone()
+                clone:SetAttribute("NodeType", tpl.Name)
+                if tpl.Name == "CommonStone" then
+                        clone:SetAttribute("MaxHealth", 1)
+                else
+                        clone:SetAttribute("MaxHealth", 20)
+                end
+                clone:SetAttribute("Health", clone:GetAttribute("MaxHealth"))
+                clone:SetAttribute("IsMinable", true)
+                for _, part in ipairs(clone:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                                part.Anchored = true
+                        end
+                end
+                local pos = startPos + Vector3.new((i-1)*spacing, 0, 0)
+                if clone.PrimaryPart then
+                        clone:PivotTo(CFrame.new(pos))
+                else
+                        local any = clone:FindFirstChildWhichIsA("BasePart", true)
+                        if any then
+                                clone.PrimaryPart = any
+                                clone:PivotTo(CFrame.new(pos))
+                        end
+                end
+                clone.Parent = oreFolder
+        end
+end
+
 local function broadcast(state, data)
         currentState, currentData = state, data
         StateEvent:FireAllClients(state, data)
@@ -58,6 +95,7 @@ local function resetAll()
         end
         participants = {}
         active = false
+        setupOreBlocks()
 end
 
 
@@ -178,6 +216,7 @@ local function cycle()
 end
 
 registrationOpen = true
+setupOreBlocks()
 broadcast("idle")
 task.spawn(cycle)
 
