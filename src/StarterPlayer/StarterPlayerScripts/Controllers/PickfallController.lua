@@ -15,7 +15,8 @@ local WinnerEvent    = PickfallFolder:WaitForChild("PickfallWinner")
 
 local PickfallController = {}
 
-local guiFolder = player:WaitForChild("PlayerGui"):WaitForChild("Pickfall")
+local guiFolder = player:WaitForChild("PlayerGui"):WaitForChild("PickFall")
+
 local gui       = guiFolder:WaitForChild("PickfallGui")
 local joinButton = gui:FindFirstChild("JoinButton") or gui:FindFirstChild("Inscribirse") or gui:FindFirstChildWhichIsA("TextButton")
 local stateLabel = gui:FindFirstChild("StateText") or gui:FindFirstChild("StatusLabel") or gui:FindFirstChildWhichIsA("TextLabel")

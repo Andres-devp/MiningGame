@@ -18,7 +18,9 @@ local MiningService = require(script.Parent:WaitForChild("MiningService"))
 
 local arena  = Workspace:WaitForChild("PickfallArena")
 local base   = arena:WaitForChild("Base")
-local spawns = arena:WaitForChild("Spawns")
+
+local spawns = arena:WaitForChild("Spawners")
+
 
 local ROUND_INTERVAL = 300 -- segundos entre eventos
 local COUNTDOWN      = 10
@@ -28,7 +30,9 @@ local BUFF_MULT      = 2
 
 local PickfallEventService = {}
 
-local participants: {[Player]: {startCFrame: CFrame}} = {}
+
+local participants = {}
+
 local registrationOpen = false
 local active = false
 
@@ -51,13 +55,18 @@ local function resetAll()
         registrationOpen = false
 end
 
-local function reward(plr: Player?)
+
+local function reward(plr)
+
+
         if not plr then return end
         WinnerEvent:FireAllClients(plr.Name)
         local stats = plr:FindFirstChild("leaderstats")
         local money = stats and stats:FindFirstChild("Money")
         if money then
-                money.Value += MONEY_REWARD
+
+                money.Value = money.Value + MONEY_REWARD
+
         end
         MiningService.ApplyMiningBuff(plr, BUFF_DURATION, BUFF_MULT)
 end
@@ -65,7 +74,9 @@ end
 local function checkWin()
         local count, last = 0, nil
         for plr in pairs(participants) do
-                count += 1
+
+                count = count + 1
+
                 last = plr
         end
         if count <= 1 then
@@ -82,7 +93,9 @@ local function checkWin()
         end
 end
 
-local function eliminate(plr: Player)
+
+local function eliminate(plr)
+
         participants[plr] = nil
         checkWin()
 end
