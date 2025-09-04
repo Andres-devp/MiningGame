@@ -12,6 +12,7 @@ local LOCAL_COOLDOWN = 0.12
 
 local M = {}
 
+
 function M.start()
     local player = Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
@@ -58,6 +59,7 @@ function M.start()
         if child:IsA("Tool") then
             tool = child
             print("[MiningController] tool added", child.Name)
+
         end
     end)
 
@@ -84,6 +86,7 @@ function M.start()
 
     local function canMineLocal(target)
         if not target then return false end
+
         local equipped = character:FindFirstChildOfClass("Tool")
         if not (equipped and equipped:FindFirstChild("HealthSubtraction")) then
             print("[canMineLocal] no valid tool equipped")
@@ -95,6 +98,7 @@ function M.start()
         if target:GetAttribute("IsMinable") == false then print("[canMineLocal] IsMinable false", target); return false end
         if h ~= nil and tonumber(h) <= 0 then print("[canMineLocal] health <= 0", target); return false end
         if not inRange(target) then print("[canMineLocal] out of range", target); return false end
+
         return true
     end
 
@@ -141,6 +145,7 @@ function M.start()
         if not result or not result.Instance then
             removeSelectionBox()
             return
+
         end
         local modelAncestor = result.Instance:FindFirstAncestorOfClass("Model")
         local target = modelAncestor or result.Instance
@@ -209,6 +214,7 @@ function M.start()
             hookToolEvents(tool)
             print("[MiningController] hook events for", child.Name)
         end
+
     end)
 end
 
