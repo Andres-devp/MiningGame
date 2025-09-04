@@ -103,6 +103,7 @@ function M.start()
                 end
             end
         end
+
         currentObject = nil
         GUI.Enabled = false
     end
@@ -127,6 +128,7 @@ function M.start()
         if not result or not result.Instance then
             removeSelectionBox()
             return
+
         end
         local modelAncestor = result.Instance:FindFirstAncestorOfClass("Model")
         local target = modelAncestor or result.Instance
@@ -180,6 +182,7 @@ function M.start()
                 removeSelectionBox()
             end)
         end
+
     end
 
     hookToolEvents(tool)
@@ -187,7 +190,9 @@ function M.start()
         if child:IsA("Tool") then
             tool = child
             hookToolEvents(tool)
+
         end
+
     end)
 end
 
