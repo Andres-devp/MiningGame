@@ -164,6 +164,7 @@ function M.init()
                warn("[ShopController] No encontré carpeta 'Shops' en Workspace")
                return
        end
+
        print("[ShopController] shopFolder", shopFolder:GetFullName())
 
        local upShop = shopFolder:FindFirstChild("UpgradesShop", true) or shopFolder:FindFirstChild("UpgradeShop", true)
@@ -184,6 +185,7 @@ function M.init()
        else
                warn("[ShopController] No encontré ProximityPrompt en UpgradesShop")
        end
+
 
         -- Botón para tienda de Robux y accesos directos desde counters
         if robuxFrame then
