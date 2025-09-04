@@ -35,6 +35,11 @@ local spawns    = arena:WaitForChild("Spawners")
 local oreTemplates = arena:WaitForChild("Ores")
 
 
+-- Las plantillas de minerales ahora se toman de la carpeta "Ores" ya
+-- existente en la arena, de modo que agregar un nuevo mineral sólo requiere
+-- colocar su modelo dentro de dicha carpeta.
+
+
 
 local ROUND_INTERVAL = 300 -- segundos entre eventos
 local COUNTDOWN      = 10
@@ -71,19 +76,29 @@ local function setupOreBlocks()
     clone:SetAttribute("Health", mh)
     clone:SetAttribute("IsMinable", true)
     print(string.format("\tClone %d -> %s (NodeType=%s, MaxHealth=%s)", i, tpl.Name, tostring(nodeType), tostring(mh)))
-    for _, part in ipairs(clone:GetDescendants()) do
-      if part:IsA("BasePart") then
-        part.Anchored = true
-      end
-    end
+
     local pos = startPos + Vector3.new((i-1)*spacing, 0, 0)
-    local primary = clone.PrimaryPart or clone:FindFirstChildWhichIsA("BasePart", true)
-    if primary then
-      clone.PrimaryPart = primary
-      clone:PivotTo(CFrame.new(pos))
+
+    if clone:IsA("Model") then
+      for _, part in ipairs(clone:GetDescendants()) do
+        if part:IsA("BasePart") then
+          part.Anchored = true
+        end
+      end
+      local primary = clone.PrimaryPart or clone:FindFirstChildWhichIsA("BasePart", true)
+      if primary then
+        clone.PrimaryPart = primary
+        clone:PivotTo(CFrame.new(pos))
+      else
+        print("\t\tWarning: no PrimaryPart for", tpl.Name)
+      end
+    elseif clone:IsA("BasePart") then
+      clone.Anchored = true
+      clone.CFrame = CFrame.new(pos)
     else
-      print("\t\tWarning: no PrimaryPart for", tpl.Name)
+      print("\t\tWarning: unsupported template type", tpl.ClassName)
     end
+
     clone.Parent = oreFolder
   end
 
