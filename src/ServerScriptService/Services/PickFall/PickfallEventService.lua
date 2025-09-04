@@ -104,6 +104,24 @@ local function setupOreBlocks()
 
 end
 
+-- Reset the Pickfall arena's ore blocks.
+--
+-- The previous implementation referenced a `resetOreBlocks` function that
+-- did not exist, causing a runtime error when the service started.  This
+-- function rebuilds the ore platforms and registers any new ore models with
+-- `NodeService` so that mining interactions work correctly.
+local function resetOreBlocks()
+  -- Generate a fresh set of ore blocks
+  setupOreBlocks()
+
+  -- Register ore models with NodeService for mining behaviour
+  for _, ore in ipairs(oreFolder:GetChildren()) do
+    if ore:IsA("Model") then
+      NodeService.register(ore)
+    end
+  end
+end
+
 local function broadcast(state, data)
         print("[PickfallEventService] broadcast", state, data)
         currentState, currentData = state, data
