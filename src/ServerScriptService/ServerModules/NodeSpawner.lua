@@ -166,7 +166,7 @@ local function spawnNode(plotData, nodeType)
 
         -- Asegurar atributos de minado
         if nodeType == "CommonStone" then
-                node:SetAttribute("MaxHealth", 10)
+                node:SetAttribute("MaxHealth", 1)
                 node:SetAttribute("Reward", 1)
         else
                 node:SetAttribute("MaxHealth", 20)
