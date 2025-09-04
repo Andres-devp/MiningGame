@@ -12,6 +12,7 @@ local LOCAL_COOLDOWN = 0.12
 
 local M = {}
 
+
 function M.start()
     local player = Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
@@ -51,6 +52,7 @@ function M.start()
         humanoidRootPart = character:WaitForChild("HumanoidRootPart")
         rayParams.FilterDescendantsInstances = { character }
     end)
+
 
     character.ChildAdded:Connect(function(child)
         if child:IsA("Tool") and child.Name:find("Pick") then
