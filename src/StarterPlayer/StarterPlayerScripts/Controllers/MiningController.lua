@@ -39,6 +39,7 @@ function M.start()
     local function getPickaxe()
         local tool = character:FindFirstChildOfClass("Tool")
         if tool then
+            print("[MiningController] equipped tool", tool.Name)
             return tool
         end
         return player.Backpack:FindFirstChildOfClass("Tool")
@@ -51,12 +52,14 @@ function M.start()
         character = newChar
         humanoidRootPart = character:WaitForChild("HumanoidRootPart")
         rayParams.FilterDescendantsInstances = { character }
+        print("[MiningController] character respawned", character)
     end)
 
     character.ChildAdded:Connect(function(child)
         if child:IsA("Tool") then
-
             tool = child
+            print("[MiningController] tool added", child.Name)
+
         end
     end)
 
@@ -85,15 +88,17 @@ function M.start()
         if not target then return false end
 
         local equipped = character:FindFirstChildOfClass("Tool")
-        if not (equipped and equipped:FindFirstChild("HealthSubtraction")) then return false end
+        if not (equipped and equipped:FindFirstChild("HealthSubtraction")) then
+            print("[canMineLocal] no valid tool equipped")
+            return false
+        end
         local h = target:GetAttribute("Health")
         local mh = target:GetAttribute("MaxHealth")
+        if mh == nil then print("[canMineLocal] missing MaxHealth", target); return false end
+        if target:GetAttribute("IsMinable") == false then print("[canMineLocal] IsMinable false", target); return false end
+        if h ~= nil and tonumber(h) <= 0 then print("[canMineLocal] health <= 0", target); return false end
+        if not inRange(target) then print("[canMineLocal] out of range", target); return false end
 
-        if mh == nil then return false end
-        if target:GetAttribute("IsMinable") == false then return false end
-
-        if h ~= nil and tonumber(h) <= 0 then return false end
-        if not inRange(target) then return false end
         return true
     end
 
@@ -140,10 +145,12 @@ function M.start()
         if not result or not result.Instance then
             removeSelectionBox()
             return
+
         end
         local modelAncestor = result.Instance:FindFirstAncestorOfClass("Model")
         local target = modelAncestor or result.Instance
         if canMineLocal(target) then
+            print("[doRaycast] target", target)
             addSelectionBox(target)
         else
             removeSelectionBox()
@@ -166,12 +173,17 @@ function M.start()
     end)
 
     local function onActivated()
-        if not currentObject or not canMineLocal(currentObject) then return end
+        if not currentObject or not canMineLocal(currentObject) then
+            print("[onActivated] invalid target")
+            return
+        end
         local t = tick()
         if t - lastSwing < LOCAL_COOLDOWN then return end
         lastSwing = t
 
+        print("[onActivated] invoking server for", currentObject)
         local canMineServer = RF_Debounce:InvokeServer(currentObject)
+        print("[onActivated] server response", canMineServer)
         if not canMineServer then return end
 
         local hsVal = 0
@@ -181,6 +193,7 @@ function M.start()
             if hs then hsVal = tonumber(hs.Value) or 0 end
         end
 
+        print("[onActivated] fire SubtractHealth", currentObject, hsVal)
         RE_Subtract:FireServer(currentObject, hsVal)
     end
 
@@ -199,7 +212,9 @@ function M.start()
         if child:IsA("Tool") then
             tool = child
             hookToolEvents(tool)
+            print("[MiningController] hook events for", child.Name)
         end
+
     end)
 end
 
