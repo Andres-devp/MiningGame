@@ -10,6 +10,7 @@ local upgradeEvent = Remotes:WaitForChild("UpgradePlotEvent")
 local SoundManager = require(script.Parent.Parent:WaitForChild("ClientModules"):WaitForChild("SoundManager"))
 
 local M = {}
+local initialized = false
 
 -- Busca descendientes por nombre (por si no son hijos directos)
 local function findDesc(parent, name, timeout)
@@ -24,6 +25,11 @@ local function findDesc(parent, name, timeout)
 end
 
 function M.init()
+        if initialized then
+                warn("[ShopController] init ya fue ejecutado")
+                return
+        end
+        initialized = true
         local player      = Players.LocalPlayer
         local upgrades    = player:WaitForChild("Upgrades")
         local leaderstats = player:WaitForChild("leaderstats")
@@ -36,6 +42,10 @@ function M.init()
         local upgradeFrame = gui:FindFirstChild("UpgradeShopFrame") or findDesc(gui, "UpgradeShopFrame")
         local robuxBtn     = gui:FindFirstChild("OpenShopButton") or findDesc(gui, "OpenShopButton")
         local robuxFrame   = gui:FindFirstChild("RobuxShopFrame") or findDesc(gui, "RobuxShopFrame")
+
+        print("[ShopController] upgradeFrame", upgradeFrame)
+        print("[ShopController] robuxBtn", robuxBtn)
+        print("[ShopController] robuxFrame", robuxFrame)
 
         if not upgradeFrame then
                 warn("[ShopController] No encontré UpgradeShopFrame en MainGui")
@@ -149,28 +159,44 @@ function M.init()
         -- Mostrar/ocultar (ProximityPrompt en UpgradesShop/UpgradeShop)
         upgradeFrame.Visible = false
        -- carpeta de tiendas puede estar en 'Hub/Shops' o directamente en 'Shops'
-       local shopParent = workspace:FindFirstChild("Hub") or workspace
-       local shopFolder = shopParent:WaitForChild("Shops")
-       local upShop = shopFolder:FindFirstChild("UpgradesShop") or shopFolder:FindFirstChild("UpgradeShop")
+       local shopFolder = workspace:FindFirstChild("Shops", true)
+       if not shopFolder then
+               warn("[ShopController] No encontré carpeta 'Shops' en Workspace")
+               return
+       end
+       print("[ShopController] shopFolder", shopFolder:GetFullName())
 
-        local prompt = upShop and upShop:FindFirstChild("ProximityPrompt", true)
-        if prompt then
-                prompt.Triggered:Connect(function()
-                        upgradeFrame.Visible = not upgradeFrame.Visible
-                        if upgradeFrame.Visible then update() end
-                end)
-        else
-                warn("[ShopController] No encontré ProximityPrompt en UpgradesShop")
-        end
+       local upShop = shopFolder:FindFirstChild("UpgradesShop", true) or shopFolder:FindFirstChild("UpgradeShop", true)
+       if not upShop then
+               warn("[ShopController] No encontré UpgradesShop dentro de 'Shops'")
+       else
+               print("[ShopController] upShop", upShop:GetFullName())
+       end
+
+       local prompt = upShop and upShop:FindFirstChild("ProximityPrompt", true)
+       if prompt then
+               print("[ShopController] prompt", prompt:GetFullName())
+               prompt.Triggered:Connect(function()
+                       upgradeFrame.Visible = not upgradeFrame.Visible
+                       print("[ShopController] UpgradeShop toggled ->", upgradeFrame.Visible)
+                       if upgradeFrame.Visible then update() end
+               end)
+       else
+               warn("[ShopController] No encontré ProximityPrompt en UpgradesShop")
+       end
 
         -- Botón para tienda de Robux y accesos directos desde counters
         if robuxFrame then
                 robuxFrame.Visible = false
 
                 if robuxBtn then
+                        print("[ShopController] robuxBtn connected", robuxBtn:GetFullName())
                         robuxBtn.Activated:Connect(function()
                                 robuxFrame.Visible = not robuxFrame.Visible
+                                print("[ShopController] RobuxShop toggled ->", robuxFrame.Visible)
                         end)
+                else
+                        warn("[ShopController] No encontré OpenShopButton")
                 end
 
                 -- ImageButtons de Gems y Stones abren la tienda de Robux
@@ -181,14 +207,18 @@ function M.init()
                 local gemsBtn       = gemsCounter and (gemsCounter:FindFirstChild("ImageButton") or findDesc(gemsCounter, "ImageButton"))
                 local stonesBtn     = stonesCounter and (stonesCounter:FindFirstChild("ImageButton") or findDesc(stonesCounter, "ImageButton"))
 
-                local function openShop()
+                print("[ShopController] gemsBtn", gemsBtn)
+                print("[ShopController] stonesBtn", stonesBtn)
+
+                local function openShop(source)
                         robuxFrame.Visible = true
+                        print("[ShopController] RobuxShop open via", source)
                 end
                 if gemsBtn then
-                        gemsBtn.Activated:Connect(openShop)
+                        gemsBtn.Activated:Connect(function() openShop("gems") end)
                 end
                 if stonesBtn then
-                        stonesBtn.Activated:Connect(openShop)
+                        stonesBtn.Activated:Connect(function() openShop("stones") end)
                 end
         end
 
