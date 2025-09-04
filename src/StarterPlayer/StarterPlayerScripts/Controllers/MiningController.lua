@@ -12,6 +12,7 @@ local LOCAL_COOLDOWN = 0.12
 
 local M = {}
 
+
 function M.start()
     local player = Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
@@ -54,6 +55,7 @@ function M.start()
 
     character.ChildAdded:Connect(function(child)
         if child:IsA("Tool") then
+
             tool = child
         end
     end)
@@ -81,12 +83,15 @@ function M.start()
 
     local function canMineLocal(target)
         if not target then return false end
+
         local equipped = character:FindFirstChildOfClass("Tool")
         if not (equipped and equipped:FindFirstChild("HealthSubtraction")) then return false end
         local h = target:GetAttribute("Health")
         local mh = target:GetAttribute("MaxHealth")
+
         if mh == nil then return false end
         if target:GetAttribute("IsMinable") == false then return false end
+
         if h ~= nil and tonumber(h) <= 0 then return false end
         if not inRange(target) then return false end
         return true

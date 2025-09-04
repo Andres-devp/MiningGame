@@ -4,8 +4,10 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+
 local SWING_COOLDOWN = 0.15
 local MAX_RANGE = 16
+
 
 local Remotes = ReplicatedStorage:FindFirstChild("Remotes")
 if not Remotes then
@@ -35,7 +37,7 @@ if not DebounceRF then
     DebounceRF.Parent = Remotes
 end
 
-local SoundManager = require(script.Parent.Parent.ServerModules.SoundManager)
+
 
 local Debounce = setmetatable({}, { __mode = "k" })
 
@@ -53,9 +55,11 @@ end
 
 local function isMinable(obj)
     if typeof(obj) ~= "Instance" or not obj.Parent then return false end
+
     local mh = obj:GetAttribute("MaxHealth")
     if mh == nil then return false end
     if obj:GetAttribute("IsMinable") == false then return false end
+
     local h = obj:GetAttribute("Health")
     if h ~= nil and tonumber(h) <= 0 then return false end
     return true
@@ -99,6 +103,7 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 
     UpdateGuiRE:FireClient(player)
 
+
     local pos = objPos(object) or Vector3.new()
     local lowerName = string.lower(object.Name)
     local soundName = lowerName:find("crystal") and "CrystalSound" or "BreakSound"
@@ -116,6 +121,7 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
                 if stones then stones.Value = stones.Value + reward end
             end
         end
+
         if object and object.Parent then
             object:Destroy()
         end
@@ -127,10 +133,12 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 end)
 
 Players.PlayerAdded:Connect(function(player)
+
     Debounce[player] = false
 end)
 
 Players.PlayerRemoving:Connect(function(player)
     Debounce[player] = nil
+
 end)
 
