@@ -49,9 +49,9 @@ do
 	end
 end
 
--- ServerScriptService módulos
+-- ServerScriptService módulos y servicios
 do
-	local function scanFolder(folder, label)
+        local function scanFolder(folder, label)
 		local items = {}
 		for _,obj in ipairs(folder:GetChildren()) do
 			if obj:IsA("ModuleScript") then
@@ -71,6 +71,8 @@ do
         scanFolder(game.ServerScriptService, "[SSS]")
         local sm = game.ServerScriptService:FindFirstChild("Modules")
         if sm then scanFolder(sm, "[Modules]") end
+        local services = game.ServerScriptService:FindFirstChild("Services")
+        if services then scanFolder(services, "[Services]") end
 end
 
 -- Workspace estructura base
