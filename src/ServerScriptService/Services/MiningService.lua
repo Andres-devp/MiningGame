@@ -164,6 +164,7 @@ local function mineStone(player, model: Model)
                 return
         end
 
+
         local focus = focusPart(model)
         if not (focus and distOK(player, focus)) then
                 print("\tDistance check failed for", model.Name)

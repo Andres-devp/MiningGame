@@ -5,7 +5,8 @@ local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService        = game:GetService("RunService")
 local Workspace         = game:GetService("Workspace")
-local ServerStorage     = game:GetService("ServerStorage")
+local CollectionService = game:GetService("CollectionService")
+
 
 
 local Remotes        = ReplicatedStorage:WaitForChild("Remotes")
@@ -19,16 +20,25 @@ local WinnerEvent    = PickfallFolder:WaitForChild("PickfallWinner")
 -- buscarlo en el directorio padre. Anteriormente se esperaba que fuese un hijo
 -- directo, provocando un `infinite yield` al no encontrarlo.
 local MiningService = require(script.Parent.Parent:WaitForChild("MiningService"))
+local NodeService   = require(script.Parent.Parent:WaitForChild("NodeService"))
 
-local arena       = Workspace:WaitForChild("PickfallArena")
-local base        = arena:WaitForChild("Base")
-local oreFolder   = arena:WaitForChild("OrePlatforms")
-local spawns      = arena:WaitForChild("Spawners")
+local arena     = Workspace:WaitForChild("PickfallArena")
+local base      = arena:WaitForChild("Base")
+local oreFolder = arena:WaitForChild("OrePlatforms")
+local spawns    = arena:WaitForChild("Spawners")
+
 
 -- Las plantillas de minerales ahora se toman de la carpeta "Ores" ya
 -- existente en la arena, de modo que agregar un nuevo mineral sólo requiere
 -- colocar su modelo dentro de dicha carpeta.
+
 local oreTemplates = arena:WaitForChild("Ores")
+
+
+-- Las plantillas de minerales ahora se toman de la carpeta "Ores" ya
+-- existente en la arena, de modo que agregar un nuevo mineral sólo requiere
+-- colocar su modelo dentro de dicha carpeta.
+
 
 
 local ROUND_INTERVAL = 300 -- segundos entre eventos
@@ -91,6 +101,7 @@ local function setupOreBlocks()
 
     clone.Parent = oreFolder
   end
+
 end
 
 local function broadcast(state, data)
@@ -111,7 +122,8 @@ local function resetAll()
         end
         participants = {}
         active = false
-        setupOreBlocks()
+        resetOreBlocks()
+
 end
 
 
@@ -260,7 +272,8 @@ local function cycle()
 end
 
 registrationOpen = true
-setupOreBlocks()
+resetOreBlocks()
+
 broadcast("idle")
 task.spawn(cycle)
 
