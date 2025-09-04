@@ -62,13 +62,18 @@ end
 local function nodeInfoFrom(model)
     if not (model and model:IsA("Model")) then return nil end
     local attr = model:GetAttribute("NodeType")
-    if attr == "CommonStone" or attr == "Stone" then
-        return "Stone", focusPart(model)
-    elseif attr == "Crystal" then
-        return "Crystal", focusPart(model)
+    if attr then
+        if attr == "Crystal" then
+            return "Crystal", focusPart(model)
+        else
+            return "Stone", focusPart(model)
+        end
     end
-    if hasTagDeep(model, "Stone")   then return "Stone",   focusPart(model) end
+    if model:GetAttribute("IsMinable") then
+        return "Stone", focusPart(model)
+    end
     if hasTagDeep(model, "Crystal") then return "Crystal", focusPart(model) end
+    if hasTagDeep(model, "Stone") then return "Stone", focusPart(model) end
     return nil
 end
 
