@@ -7,7 +7,7 @@ local TweenService = game:GetService("TweenService")
 
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local upgradeEvent = Remotes:WaitForChild("UpgradePlotEvent")
-local SoundManager = require(script.Parent.Parent:WaitForChild("Modules"):WaitForChild("SoundManager"))
+local SoundManager = require(script.Parent.Parent:WaitForChild("ClientModules"):WaitForChild("SoundManager"))
 
 local M = {}
 

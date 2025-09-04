@@ -1,4 +1,4 @@
--- StarterPlayerScripts/Modules/VisualFX.lua
+-- StarterPlayerScripts/ClientModules/VisualFX.lua
 -- v1.1 - Efectos mejorados: polvo extra (roca) y destellos con luz (cristal)
 
 local Debris    = game:GetService("Debris")

@@ -16,7 +16,7 @@ local EventBus  = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild(
 local Topics    = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("EventTopics"))
 
 -- Visual FX + SFX
-local VisualFX  = require(script.Parent.Parent:WaitForChild("Modules"):WaitForChild("VisualFX"))
+local VisualFX  = require(script.Parent.Parent:WaitForChild("ClientModules"):WaitForChild("VisualFX"))
 local M = {}
 local ClientSoundManager
 
