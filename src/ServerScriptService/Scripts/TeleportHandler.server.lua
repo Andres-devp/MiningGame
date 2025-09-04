@@ -9,7 +9,9 @@ if not shops then
        warn("[TeleportHandler] No encontré carpeta 'Shops' en Workspace")
        return
 end
+
 print("[TeleportHandler] shops", shops:GetFullName())
+
 
 local toPlot = Remotes:WaitForChild("TeleportToPlot")
 local toShop = Remotes:WaitForChild("TeleportToShop")
