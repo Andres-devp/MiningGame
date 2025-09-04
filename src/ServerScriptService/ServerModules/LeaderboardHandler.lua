@@ -12,7 +12,9 @@ function LeaderboardHandler:init()
 	local surfaceGui = leaderboardDisplay:WaitForChild("SurfaceGui")
 	local container = surfaceGui:WaitForChild("Container")
 	local template = container:WaitForChild("Template")
-	local UPDATE_INTERVAL = 60
+        local UPDATE_INTERVAL = 60
+        local UPDATE_COOLDOWN = 30
+        local lastUpdate = {}
 
 	local function updateLeaderboard()
 		for _, child in ipairs(container:GetChildren()) do
@@ -43,25 +45,33 @@ function LeaderboardHandler:init()
 		end
 	end
 
-	local function updatePlayerScore(player)
-		if player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Gems") then
-			local gemsValue = player.leaderstats.Gems.Value
-			pcall(function()
-				gemsLeaderboardStore:SetAsync(player.UserId, gemsValue)
-			end)
-		end
-	end
+        local function updatePlayerScore(player, force)
+                if player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Gems") then
+                        local userId = player.UserId
+                        if not force then
+                                local now = os.clock()
+                                if lastUpdate[userId] and (now - lastUpdate[userId]) < UPDATE_COOLDOWN then
+                                        return
+                                end
+                                lastUpdate[userId] = now
+                        end
+                        local gemsValue = player.leaderstats.Gems.Value
+                        pcall(function()
+                                gemsLeaderboardStore:SetAsync(userId, gemsValue)
+                        end)
+                end
+        end
 
 	Players.PlayerAdded:Connect(function(player)
 		local leaderstats = player:WaitForChild("leaderstats")
 		local gems = leaderstats:WaitForChild("Gems")
-		gems.Changed:Connect(function()
-			updatePlayerScore(player)
-		end)
+                gems.Changed:Connect(function()
+                        updatePlayerScore(player, false)
+                end)
 	end)
 
 	Players.PlayerRemoving:Connect(function(player)
-		updatePlayerScore(player)
+                updatePlayerScore(player, true)
 	end)
 
 	-- Usamos coroutine.wrap para que el bucle no bloquee el resto del script
