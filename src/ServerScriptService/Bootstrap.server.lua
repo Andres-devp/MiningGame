@@ -48,7 +48,7 @@ end
 -- necesitan cargarse manualmente para que expongan su API/Events.
 -- GamePassService maneja el estado del AutoMine (game pass + toggle),
 -- por lo que debe inicializarse junto con MiningService.
-local services = { "MiningService", "GamePassService" }
+local services = { "MiningService", "GamePassService", "PickfallEventService" }
 
 
 for _, name in ipairs(services) do
