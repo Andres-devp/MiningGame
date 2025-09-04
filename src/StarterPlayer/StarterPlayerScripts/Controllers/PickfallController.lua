@@ -23,6 +23,7 @@ local joinButton = gui:FindFirstChild("JoinButton") or gui:FindFirstChild("Inscr
 local stateLabel = gui:FindFirstChild("StateText") or gui:FindFirstChild("StatusLabel") or gui:FindFirstChildWhichIsA("TextLabel")
 local container = joinButton and joinButton.Parent or gui:FindFirstChildWhichIsA("Frame")
 
+
 local joined = false
 local countdownConn, countdownTime
 
@@ -98,6 +99,7 @@ function PickfallController.init()
                        container.Visible = true
                end
        end)
+
 end
 
 return PickfallController
