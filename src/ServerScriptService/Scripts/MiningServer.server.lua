@@ -4,8 +4,10 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+
 local SWING_COOLDOWN = 0.15
 local MAX_RANGE = 16
+
 
 local Remotes = ReplicatedStorage:FindFirstChild("Remotes")
 if not Remotes then
@@ -35,7 +37,9 @@ if not DebounceRF then
     DebounceRF.Parent = Remotes
 end
 
+
 local SoundManager = require(script.Parent.Parent.ServerModules.SoundManager)
+
 
 local Debounce = setmetatable({}, { __mode = "k" })
 
@@ -56,6 +60,7 @@ local function isMinable(obj)
     local mh = obj:GetAttribute("MaxHealth")
     if mh == nil then return false end
     if obj:GetAttribute("IsMinable") == false then return false end
+
     local h = obj:GetAttribute("Health")
     if h ~= nil and tonumber(h) <= 0 then return false end
     return true
@@ -69,27 +74,32 @@ local function inRange(player, obj)
 end
 
 DebounceRF.OnServerInvoke = function(player, object)
+
     if not player or not object then return false end
     if Debounce[player] then return false end
     if not isMinable(object) then return false end
     if not inRange(player, object) then return false end
+
     return true
 end
 
 SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtraction)
-    if not player or typeof(object) ~= "Instance" or not object.Parent then return end
+ayer or typeof(object) ~= "Instance" or not object.Parent then return end
     if Debounce[player] then return end
     if not isMinable(object) then return end
     if not inRange(player, object) then return end
+
 
     Debounce[player] = true
 
     local current = object:GetAttribute("Health")
     local maxH = object:GetAttribute("MaxHealth")
+
     if maxH == nil then
         Debounce[player] = false
         return
     end
+
     if current == nil then
         current = tonumber(maxH) or 100
         object:SetAttribute("Health", current)
@@ -99,6 +109,7 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 
     local newHealth = math.max(0, current - amount)
     object:SetAttribute("Health", newHealth)
+
 
     UpdateGuiRE:FireClient(player)
 
@@ -111,6 +122,7 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
         local reward = tonumber(object:GetAttribute("Reward")) or 0
         if reward > 0 then
             if nodeType == "Crystal" then
+
                 local leaderstats = player:FindFirstChild("leaderstats")
                 local gems = leaderstats and leaderstats:FindFirstChild("Gems")
                 if gems then gems.Value = gems.Value + reward end
@@ -119,6 +131,7 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
                 if stones then stones.Value = stones.Value + reward end
             end
         end
+
         if object and object.Parent then
             object:Destroy()
         end
@@ -126,14 +139,17 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 
     task.delay(SWING_COOLDOWN, function()
         Debounce[player] = false
+
     end)
 end)
 
 Players.PlayerAdded:Connect(function(player)
+
     Debounce[player] = false
 end)
 
 Players.PlayerRemoving:Connect(function(player)
     Debounce[player] = nil
+
 end)
 

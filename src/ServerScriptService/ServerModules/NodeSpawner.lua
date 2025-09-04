@@ -174,7 +174,9 @@ local function spawnNode(plotData, nodeType)
         end
         node:SetAttribute("Health", node:GetAttribute("MaxHealth"))
         node:SetAttribute("IsMinable", true)
+
         node:SetAttribute("NodeType", nodeType)
+
 
         -- Asegurar PrimaryPart para PivotTo (si no hubiera)
         if not node.PrimaryPart then

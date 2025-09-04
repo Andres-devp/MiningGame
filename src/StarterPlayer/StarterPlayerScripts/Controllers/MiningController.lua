@@ -1,5 +1,7 @@
 -- StarterPlayerScripts/Controllers/MiningController.lua
+
 -- Highlight-based mining controller with crystal hold mechanic
+
 
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
@@ -269,6 +271,7 @@ function M.start()
             tool = child
             hookToolEvents(tool)
         end
+
     end)
 end
 
