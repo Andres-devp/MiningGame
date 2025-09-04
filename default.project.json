@@ -60,7 +60,8 @@
       "$ignoreUnknownInstances": true,
       "MainGui":        { "$path": "src/StarterGui/MainGui.rbxmx" },
       "PlayerStatsGui": { "$path": "src/StarterGui/PlayerStatsGui.rbxmx" },
-      "SaleDialog":    { "$path": "src/StarterGui/SaleDialog.rbxmx" }
+      "SaleDialog":    { "$path": "src/StarterGui/SaleDialog.rbxmx" },
+      "PickFall":      { "$path": "src/StarterGui/PickFall.rbxmx" }
     }
   }
 }
