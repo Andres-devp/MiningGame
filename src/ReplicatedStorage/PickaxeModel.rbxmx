@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Tool" referent="RBXC0C82237DF4C46D2B7494C3D87E14355">
+	<Item class="Tool" referent="RBX76E12A325E564D47818EB32BF45D624A">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<bool name="CanBeDropped">true</bool>
@@ -72,7 +72,7 @@
 				</CFrame>
 			</OptionalCoordinateFrame>
 		</Properties>
-		<Item class="IntValue" referent="RBXD80CC0688F7644DD8645D5B56677691A">
+		<Item class="IntValue" referent="RBXC495EEA6BB974D86802C2D2C37F6BDB0">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -83,7 +83,7 @@
 				<int64 name="Value">5</int64>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBXAF9CA96D932646D9BE481BE068C1186D">
+		<Item class="Part" referent="RBXA96FB0D556CB41589CAF4B33AA5528E0">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -182,7 +182,7 @@
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBXD2D5FEF80DD04AA386C7820409E43AAB">
+		<Item class="Part" referent="RBX9D6C56D1A0DB4D93B76569C8CD41D99F">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -281,7 +281,7 @@
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBX21A4C602DDA549EAA8AA88CCF034BE8C">
+		<Item class="Part" referent="RBXA426EFC97F294853A9BF9B0F8BFA0725">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -380,7 +380,7 @@
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBX296FC1D7DAB0408C9BF5F6E3968B49C4">
+		<Item class="Part" referent="RBX8E1F937805B44EDBAA293E0DC9333F48">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -478,7 +478,7 @@
 					<Z>0.24632588</Z>
 				</Vector3>
 			</Properties>
-			<Item class="WeldConstraint" referent="RBXC32C1CB8561E48BF8B5AB2C51B5B05F8">
+			<Item class="WeldConstraint" referent="RBX6268D3FD9472461BAD1CE641B6C98314">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<CoordinateFrame name="CFrame0">
@@ -498,14 +498,14 @@
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
 					<string name="Name">WeldConstraint</string>
-					<Ref name="Part0Internal">RBX296FC1D7DAB0408C9BF5F6E3968B49C4</Ref>
-					<Ref name="Part1Internal">RBXAF9CA96D932646D9BE481BE068C1186D</Ref>
+					<Ref name="Part0Internal">RBX8E1F937805B44EDBAA293E0DC9333F48</Ref>
+					<Ref name="Part1Internal">RBXA96FB0D556CB41589CAF4B33AA5528E0</Ref>
 					<int64 name="SourceAssetId">-1</int64>
 					<int name="State">3</int>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="WeldConstraint" referent="RBX59AD6FCAC99A4862847368EE2C37A311">
+			<Item class="WeldConstraint" referent="RBX7CB75118976D47CB87559F7FDBC4F0DA">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<CoordinateFrame name="CFrame0">
@@ -525,14 +525,14 @@
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
 					<string name="Name">WeldConstraint</string>
-					<Ref name="Part0Internal">RBX296FC1D7DAB0408C9BF5F6E3968B49C4</Ref>
-					<Ref name="Part1Internal">RBXD2D5FEF80DD04AA386C7820409E43AAB</Ref>
+					<Ref name="Part0Internal">RBX8E1F937805B44EDBAA293E0DC9333F48</Ref>
+					<Ref name="Part1Internal">RBX9D6C56D1A0DB4D93B76569C8CD41D99F</Ref>
 					<int64 name="SourceAssetId">-1</int64>
 					<int name="State">3</int>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="WeldConstraint" referent="RBX08E44C23A5E3469FBBD9190EA19D50B6">
+			<Item class="WeldConstraint" referent="RBX7C653531554A4B91A4D3FBCF293AE7D3">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<CoordinateFrame name="CFrame0">
@@ -552,8 +552,8 @@
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
 					<string name="Name">WeldConstraint</string>
-					<Ref name="Part0Internal">RBX296FC1D7DAB0408C9BF5F6E3968B49C4</Ref>
-					<Ref name="Part1Internal">RBX21A4C602DDA549EAA8AA88CCF034BE8C</Ref>
+					<Ref name="Part0Internal">RBX8E1F937805B44EDBAA293E0DC9333F48</Ref>
+					<Ref name="Part1Internal">RBXA426EFC97F294853A9BF9B0F8BFA0725</Ref>
 					<int64 name="SourceAssetId">-1</int64>
 					<int name="State">3</int>
 					<BinaryString name="Tags"></BinaryString>
