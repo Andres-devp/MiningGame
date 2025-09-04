@@ -12,8 +12,8 @@ local player = Players.LocalPlayer
 local mouse  = player:GetMouse()
 
 -- EventBus / Topics
-local EventBus  = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("EventBus"))
-local Topics    = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("EventTopics"))
+local EventBus  = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventBus"))
+local Topics    = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventTopics"))
 
 -- Visual FX + SFX
 local VisualFX  = require(script.Parent.Parent:WaitForChild("Modules"):WaitForChild("VisualFX"))
