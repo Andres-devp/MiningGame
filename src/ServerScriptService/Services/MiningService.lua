@@ -116,37 +116,60 @@ end
 
 -- coerce payload → Model con NodeService
 local function coerceNode(payload): Model?
-	if typeof(payload) ~= "table" then return nil end
+        if typeof(payload) ~= "table" then
+                print("[MiningService] coerceNode invalid payload", payload)
+                return nil
+        end
 
-	local inst = payload.node
-	local id   = payload.nodeId
+        local inst = payload.node
+        local id   = payload.nodeId
 
-	if typeof(inst) == "Instance" and inst:IsA("Model") then
-		return inst
-	end
+        if typeof(inst) == "Instance" and inst:IsA("Model") then
+                return inst
+        end
 
-	if typeof(id) == "string" and #id > 0 then
-		local byIdx = NodeService.getById(id)
-		if byIdx then return byIdx end
+        if typeof(id) == "string" and #id > 0 then
+                local byIdx = NodeService.getById(id)
+                if byIdx then return byIdx end
 
-		local byName = Workspace:FindFirstChild(id, true)
-		if byName and byName:IsA("Model") then return byName end
-	end
+                local byName = Workspace:FindFirstChild(id, true)
+                if byName and byName:IsA("Model") then return byName end
+        end
 
-	return nil
+        print("[MiningService] coerceNode could not resolve node", payload)
+        return nil
 end
 
 -- ========= Piedras =========
 local function mineStone(player, model: Model)
-	local l = ensureLimiters(player)
-	if not l.stone:allow(1) then return end
+        print("[MiningService] mineStone player=", player and player.Name, "model=", model and model.Name)
+        local l = ensureLimiters(player)
+        if not l.stone:allow(1) then
+                print("\tRate limited")
+                return
+        end
 
-        if typeof(model) ~= "Instance" or not model:IsA("Model") then return end
-        if not hasTagDeep(model, "Stone") and not model:GetAttribute("IsMinable") then return end
-        if not ownsPlotForModel(player, model) then return end
+        if typeof(model) ~= "Instance" or not model:IsA("Model") then
+                print("\tInvalid model", model)
+                return
+        end
+        local hasStoneTag = hasTagDeep(model, "Stone")
+        local isMinable = model:GetAttribute("IsMinable")
+        if not hasStoneTag and not isMinable then
+                print("\tNot minable", model.Name, "StoneTag=", hasStoneTag, "IsMinable=", isMinable)
+                return
+        end
+        if not ownsPlotForModel(player, model) then
+                print("\tPlayer does not own model", model.Name)
+                return
+        end
 
-	local focus = focusPart(model)
-	if not (focus and distOK(player, focus)) then return end
+
+        local focus = focusPart(model)
+        if not (focus and distOK(player, focus)) then
+                print("\tDistance check failed for", model.Name)
+                return
+        end
 
         local add = hasPickaxeServer(player) and 2 or 1
         add = add * buffMultiplier(player)

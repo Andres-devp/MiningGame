@@ -61,41 +61,49 @@ function NodeService.assignNodeId(model: Model): string
 end
 
 function NodeService.register(model: Model)
-	if not isNodeModel(model) then return end
-	if nodeToId[model] then return end
+        if not isNodeModel(model) then
+                print("[NodeService] Ignored non-node", model and model:GetFullName())
+                return
+        end
+        if nodeToId[model] then
+                print("[NodeService] Already registered", model:GetFullName())
+                return
+        end
 
-	local id = NodeService.assignNodeId(model)
+        local id = NodeService.assignNodeId(model)
+        print("[NodeService] Registered", model:GetFullName(), "id=", id)
 
-	-- Si ya existía otro nodo con el mismo id (poco probable), lo reemplazamos
-	local prev = idToNode[id]
-	if prev and prev ~= model then
-		-- Limpieza del anterior
-		if conns[prev] then conns[prev]:Disconnect() conns[prev] = nil end
-		nodeToId[prev] = nil
-	end
+        -- Si ya existía otro nodo con el mismo id (poco probable), lo reemplazamos
+        local prev = idToNode[id]
+        if prev and prev ~= model then
+                -- Limpieza del anterior
+                if conns[prev] then conns[prev]:Disconnect() conns[prev] = nil end
+                nodeToId[prev] = nil
+        end
 
-	idToNode[id] = model
-	nodeToId[model] = id
+        idToNode[id] = model
+        nodeToId[model] = id
 
-	-- Auto-unregister si el nodo se destruye/sale del árbol
-	conns[model] = model.AncestryChanged:Connect(function(_, newParent)
-		if newParent == nil then
-			NodeService.unregister(model)
-		end
-	end)
+        -- Auto-unregister si el nodo se destruye/sale del árbol
+        conns[model] = model.AncestryChanged:Connect(function(_, newParent)
+                if newParent == nil then
+                        NodeService.unregister(model)
+                end
+        end)
 end
 
 function NodeService.unregister(model: Model)
-	local id = nodeToId[model]
-	if not id then return end
-	nodeToId[model] = nil
-	if idToNode[id] == model then
-		idToNode[id] = nil
-	end
-	if conns[model] then
-		conns[model]:Disconnect()
-		conns[model] = nil
-	end
+        local id = nodeToId[model]
+        if not id then return end
+        print("[NodeService] Unregistered", model:GetFullName(), "id=", id)
+        nodeToId[model] = nil
+        if idToNode[id] == model then
+                idToNode[id] = nil
+        end
+        if conns[model] then
+                conns[model]:Disconnect()
+                conns[model] = nil
+        end
 end
 
 function NodeService.getById(id: string): Model?

@@ -32,6 +32,8 @@ local spawns    = arena:WaitForChild("Spawners")
 -- existente en la arena, de modo que agregar un nuevo mineral sólo requiere
 -- colocar su modelo dentro de dicha carpeta.
 
+local oreTemplates = arena:WaitForChild("Ores")
+
 
 
 local ROUND_INTERVAL = 300 -- segundos entre eventos
@@ -50,39 +52,45 @@ local active = false
 
 local currentState, currentData = "idle", nil
 
-
-local function resetOreBlocks()
-        for _, inst in ipairs(oreFolder:GetDescendants()) do
-                local model = inst:IsA("Model") and inst or inst:FindFirstAncestorOfClass("Model")
-                if model and (CollectionService:HasTag(model, "Stone") or CollectionService:HasTag(model, "Crystal") or model:GetAttribute("IsMinable")) then
-                        local nodeType = model:GetAttribute("NodeType") or model.Name
-                        if not CollectionService:HasTag(model, "Stone") and not CollectionService:HasTag(model, "Crystal") then
-                                if nodeType and nodeType:lower():find("crystal") then
-                                        CollectionService:AddTag(model, "Crystal")
-                                else
-                                        CollectionService:AddTag(model, "Stone")
-                                end
-                        end
-                        local max = tonumber(model:GetAttribute("MaxHealth"))
-                        if not max or max <= 0 then
-                                max = CollectionService:HasTag(model, "Crystal") and 20 or 1
-                        end
-                        model:SetAttribute("MaxHealth", max)
-                        model:SetAttribute("Health", max)
-                        model:SetAttribute("IsMinable", true)
-                        for _, part in ipairs(model:GetDescendants()) do
-                                if part:IsA("BasePart") then
-                                        part.Anchored = true
-                                end
-                        end
-                        NodeService.register(model)
-                end
-
-        end
+local function setupOreBlocks()
+  print("[PickfallEventService] Generating ore blocks")
+  oreFolder:ClearAllChildren()
+  local templates = oreTemplates:GetChildren()
+  print("[PickfallEventService]\tTemplates found:", #templates)
+  local startPos = base.Position + Vector3.new(0, base.Size.Y/2 + 4, 0)
+  local spacing = 8
+  for i, tpl in ipairs(templates) do
+    local clone = tpl:Clone()
+    local nodeType = tpl:GetAttribute("NodeType") or tpl.Name
+    clone:SetAttribute("NodeType", nodeType)
+    local mh = tpl:GetAttribute("MaxHealth")
+    if not mh then
+      mh = (tpl.Name == "CommonStone") and 1 or 20
+    end
+    clone:SetAttribute("MaxHealth", mh)
+    clone:SetAttribute("Health", mh)
+    clone:SetAttribute("IsMinable", true)
+    print(string.format("\tClone %d -> %s (NodeType=%s, MaxHealth=%s)", i, tpl.Name, tostring(nodeType), tostring(mh)))
+    for _, part in ipairs(clone:GetDescendants()) do
+      if part:IsA("BasePart") then
+        part.Anchored = true
+      end
+    end
+    local pos = startPos + Vector3.new((i-1)*spacing, 0, 0)
+    local primary = clone.PrimaryPart or clone:FindFirstChildWhichIsA("BasePart", true)
+    if primary then
+      clone.PrimaryPart = primary
+      clone:PivotTo(CFrame.new(pos))
+    else
+      print("\t\tWarning: no PrimaryPart for", tpl.Name)
+    end
+    clone.Parent = oreFolder
+  end
 
 end
 
 local function broadcast(state, data)
+        print("[PickfallEventService] broadcast", state, data)
         currentState, currentData = state, data
         StateEvent:FireAllClients(state, data)
 end
@@ -165,18 +173,35 @@ RunService.Heartbeat:Connect(function()
 end)
 
 JoinEvent.OnServerEvent:Connect(function(plr)
-        if not registrationOpen then return end
-        if participants[plr] then return end
+        print("[PickfallEventService] JoinEvent from", plr and plr.Name, "registrationOpen=", registrationOpen)
+        if not registrationOpen then
+                print("\tRegistration closed")
+                return
+        end
+        if participants[plr] then
+                print("\tAlready registered")
+                return
+        end
         local char = plr.Character
-        if not char then return end
+        if not char then
+                print("\tNo character")
+                return
+        end
         local hrp = char:FindFirstChild("HumanoidRootPart")
-        if not hrp then return end
+        if not hrp then
+                print("\tNo HumanoidRootPart")
+                return
+        end
         participants[plr] = { startCFrame = hrp.CFrame }
+        print("\tRegistered", plr.Name)
 end)
 
 local function teleport()
         local spawnPoints = spawns:GetChildren()
-        if #spawnPoints == 0 then return end
+        if #spawnPoints == 0 then
+                print("[PickfallEventService]\tNo spawn points available")
+                return
+        end
         local idx = 1
         for plr in pairs(participants) do
                 local char = plr.Character
@@ -185,28 +210,39 @@ local function teleport()
                         local sp = spawnPoints[idx]
                         idx = idx % #spawnPoints + 1
                         if sp:IsA("BasePart") then
+                                print("[PickfallEventService]\tTeleporting", plr.Name, "to", sp.Name)
                                 hrp.CFrame = sp.CFrame + Vector3.new(0, 5, 0)
                         elseif sp:IsA("Attachment") then
+                                print("[PickfallEventService]\tTeleporting", plr.Name, "to attachment", sp.Name)
                                 hrp.CFrame = sp.WorldCFrame + Vector3.new(0, 5, 0)
+                        else
+                                print("[PickfallEventService]\tUnknown spawn type for", sp.Name)
                         end
+                else
+                        print("[PickfallEventService]\tCannot teleport", plr.Name)
                 end
         end
 end
 
 local function runRound()
+        print("[PickfallEventService] runRound invoked")
         if not next(participants) then
+                print("\tNo participants")
                 broadcast("idle")
                 registrationOpen = true
                 return
         end
         registrationOpen = true
+        print("\tCountdown starting with", #participants, "participants")
         for t = COUNTDOWN, 1, -1 do
                 broadcast("countdown", t)
                 task.wait(1)
         end
         registrationOpen = false
+        print("\tTeleporting players")
         teleport()
         active = true
+        print("\tRound active")
         broadcast("running")
 end
 
