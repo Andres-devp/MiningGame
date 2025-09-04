@@ -16,7 +16,8 @@ local function sellStones(player)
         if not stones or stones.Value <= 0 then return end
         local amount = stones.Value
         stones.Value = 0
-        DataService.addResource(player, "gems", amount)
+        -- Cada piedra vendida se convierte en dos gemas
+        DataService.addResource(player, "gems", amount * 2)
 end
 
 function SellService:init()
