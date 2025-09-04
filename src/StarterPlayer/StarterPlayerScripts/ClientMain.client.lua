@@ -64,6 +64,7 @@ local ShopController       = loadModule(controllers, "ShopController")       or 
 local TPButtons            = loadModule(controllers, "TPButtons")            or {}
 local ShopPromptController = loadModule(controllers, "ShopPromptController") or {}
 local CloseButtonController= loadModule(controllers, "CloseButtonController") or {}
+local PickfallController   = loadModule(controllers, "PickfallController")   or {}
 local SaleDialogController = loadModule(controllers, "SaleDialogController") or {}
 
 -- Módulos
@@ -92,6 +93,8 @@ print("[ClientMain] Inicializando ShopPromptController.init")
 call(ShopPromptController, "init")
 print("[ClientMain] Inicializando CloseButtonController.init")
 call(CloseButtonController,"init")
+print("[ClientMain] Inicializando PickfallController.init")
+call(PickfallController, "init")
 print("[ClientMain] Inicializando SaleDialogController.init")
 call(SaleDialogController, "init")
 
