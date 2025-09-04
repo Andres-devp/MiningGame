@@ -161,31 +161,42 @@ local function spawnNode(plotData, nodeType)
 	local tpl = findTemplate(nodeType)
 	if not tpl then return false end
 
-	local node = tpl:Clone()
-	node.Parent = ensureNodesContainer(plotData.model)
+        local node = tpl:Clone()
+        node.Parent = ensureNodesContainer(plotData.model)
 
-	-- Asegurar PrimaryPart para PivotTo (si no hubiera)
-	if not node.PrimaryPart then
-		local any = anyBasePart(node)
-		if any then node.PrimaryPart = any end
-	end
+        -- Asegurar atributos de minado
+        if nodeType == "CommonStone" then
+                node:SetAttribute("MaxHealth", 10)
+                node:SetAttribute("Reward", 1)
+        else
+                node:SetAttribute("MaxHealth", 20)
+                node:SetAttribute("Reward", 5)
+        end
+        node:SetAttribute("Health", node:GetAttribute("MaxHealth"))
+        node:SetAttribute("IsMinable", true)
 
-	placeOnTop(node, zonePart)
+        -- Asegurar PrimaryPart para PivotTo (si no hubiera)
+        if not node.PrimaryPart then
+                local any = anyBasePart(node)
+                if any then node.PrimaryPart = any end
+        end
 
-	-- Si es cristal, garantiza la GUI de progreso
-	if nodeType == "Crystal" then
-		ensureCrystalGui(node)
-	end
+        placeOnTop(node, zonePart)
 
-	-- Registrar en mapas locales
-	if nodeType == "CommonStone" then
-		plotData.rocks[node] = true
-	else
-		plotData.crystals[node] = true
-	end
+        -- Si es cristal, garantiza la GUI de progreso
+        if nodeType == "Crystal" then
+                ensureCrystalGui(node)
+        end
 
-	dprint(("Spawned %s en '%s' (%s)"):format(nodeType, usedZone or "?", plotData.model.Name))
-	return true
+        -- Registrar en mapas locales
+        if nodeType == "CommonStone" then
+                plotData.rocks[node] = true
+        else
+                plotData.crystals[node] = true
+        end
+
+        dprint(("Spawned %s en '%s' (%s)"):format(nodeType, usedZone or "?", plotData.model.Name))
+        return true
 end
 
 local timers = setmetatable({}, { __mode = "k" })
