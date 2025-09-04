@@ -71,21 +71,51 @@
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
 		</Item>
-		<Item class="RemoteEvent" referent="RBXFFE4F937919A42B7A1E7FC11EC40D73B">
-			<Properties>
-				<BinaryString name="AttributesSerialize"></BinaryString>
-				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-				<bool name="DefinesCapabilities">false</bool>
-				<string name="Name">SellRequest</string>
-				<int64 name="SourceAssetId">-1</int64>
-				<BinaryString name="Tags"></BinaryString>
-			</Properties>
-		</Item>
-		<Item class="Folder" referent="RBX985347986C144B6AB1460093D714EDAB">
-			<Properties>
-				<BinaryString name="AttributesSerialize"></BinaryString>
-				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-				<bool name="DefinesCapabilities">false</bool>
+                <Item class="RemoteEvent" referent="RBXFFE4F937919A42B7A1E7FC11EC40D73B">
+                        <Properties>
+                                <BinaryString name="AttributesSerialize"></BinaryString>
+                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                <bool name="DefinesCapabilities">false</bool>
+                                <string name="Name">SellRequest</string>
+                                <int64 name="SourceAssetId">-1</int64>
+                                <BinaryString name="Tags"></BinaryString>
+                        </Properties>
+                </Item>
+               <Item class="RemoteEvent" referent="RBX0D53AF3528FB4B2E90977DC981200000">
+                       <Properties>
+                               <BinaryString name="AttributesSerialize"></BinaryString>
+                               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                               <bool name="DefinesCapabilities">false</bool>
+                               <string name="Name">SubtractHealth</string>
+                               <int64 name="SourceAssetId">-1</int64>
+                               <BinaryString name="Tags"></BinaryString>
+                       </Properties>
+               </Item>
+               <Item class="RemoteEvent" referent="RBX0D53AF3528FB4B2E90977DC981200001">
+                       <Properties>
+                               <BinaryString name="AttributesSerialize"></BinaryString>
+                               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                               <bool name="DefinesCapabilities">false</bool>
+                               <string name="Name">UpdateGui</string>
+                               <int64 name="SourceAssetId">-1</int64>
+                               <BinaryString name="Tags"></BinaryString>
+                       </Properties>
+               </Item>
+               <Item class="RemoteFunction" referent="RBX0D53AF3528FB4B2E90977DC981200002">
+                       <Properties>
+                               <BinaryString name="AttributesSerialize"></BinaryString>
+                               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                               <bool name="DefinesCapabilities">false</bool>
+                               <string name="Name">Debounce</string>
+                               <int64 name="SourceAssetId">-1</int64>
+                               <BinaryString name="Tags"></BinaryString>
+                       </Properties>
+               </Item>
+                <Item class="Folder" referent="RBX985347986C144B6AB1460093D714EDAB">
+                        <Properties>
+                                <BinaryString name="AttributesSerialize"></BinaryString>
+                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                <bool name="DefinesCapabilities">false</bool>
 				<string name="Name">PickFall</string>
 				<int64 name="SourceAssetId">-1</int64>
 				<BinaryString name="Tags"></BinaryString>
