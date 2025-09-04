@@ -8,6 +8,7 @@ local Workspace         = game:GetService("Workspace")
 local CollectionService = game:GetService("CollectionService")
 
 
+
 local Remotes        = ReplicatedStorage:WaitForChild("Remotes")
 local PickfallFolder = Remotes:WaitForChild("PickFall")
 local JoinEvent      = PickfallFolder:WaitForChild("PickfallJoin")
@@ -25,6 +26,7 @@ local arena     = Workspace:WaitForChild("PickfallArena")
 local base      = arena:WaitForChild("Base")
 local oreFolder = arena:WaitForChild("OrePlatforms")
 local spawns    = arena:WaitForChild("Spawners")
+
 
 
 local ROUND_INTERVAL = 300 -- segundos entre eventos
@@ -69,6 +71,7 @@ local function resetOreBlocks()
                         end
                         NodeService.register(model)
                 end
+
         end
 end
 
@@ -90,6 +93,7 @@ local function resetAll()
         participants = {}
         active = false
         resetOreBlocks()
+
 end
 
 
@@ -211,6 +215,7 @@ end
 
 registrationOpen = true
 resetOreBlocks()
+
 broadcast("idle")
 task.spawn(cycle)
 
