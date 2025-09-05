@@ -28,7 +28,6 @@ local ServerStorage = game:GetService("ServerStorage")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local NodeService = require(script.Parent.Parent:WaitForChild("Services"):WaitForChild("NodeService"))
 
-
 -- Fetch templates from the defined locations
 local function getTemplates()
     local paths = {
@@ -122,8 +121,11 @@ end
 
 local templates = getTemplates()
 
-local arena = Workspace:WaitForChild("PickFallArena", 5)
-local base = arena and arena:FindFirstChild("Base") or arena:WaitForChild("Base", 5)
+local arena = Workspace:FindFirstChild("PickFallArena") or Workspace:WaitForChild("PickFallArena", 5)
+local base
+if arena then
+    base = arena:FindFirstChild("Base") or arena:WaitForChild("Base", 5)
+end
 assert(arena and base, "Workspace/PickFallArena with Base not found")
 
 
