@@ -163,6 +163,9 @@ for layer = 1, CFG.layers do
             local cf = CFrame.new(basePos.X + x, basePos.Y + y, basePos.Z + z)
                 * CFrame.Angles(0, math.rad(CFG.tileYaw), 0)
             pivotTo(clone, cf)
+
+            clone:SetAttribute("NodeType", oreName)
+
             clone.Name = string.format("%s_q%d_r%d", oreName, q, r)
             clone.Parent = layerFolder
         end
