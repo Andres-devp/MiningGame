@@ -37,10 +37,10 @@
 
     "ServerStorage": {
       "$className": "ServerStorage",
-      "$ignoreUnknownInstances": false,
+      "$ignoreUnknownInstances": true,
       "NodeTemplates": { "$path": "src/ServerStorage/NodeTemplates.rbxmx" },
-      "TagList":       { "$path": "src/ServerStorage/TagList.rbxmx" },
-      "PickFall":       { "$path": "src/ServerStorage/PickFall.rbxmx" }
+      "TagList":       { "$path": "src/ServerStorage/TagList.rbxmx" }
+      
     },
 
     "ReplicatedStorage": {
