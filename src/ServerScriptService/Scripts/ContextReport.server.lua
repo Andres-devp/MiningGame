@@ -1,4 +1,4 @@
--- ContextReport.server — solo diagnóstico
+
 local function safeRequire(mod)
 	local ok, res = pcall(require, mod)
 	if not ok then
@@ -16,7 +16,6 @@ end
 
 print("=== [ContextReport.server] INICIO ===")
 
--- ReplicatedStorage/Remotes
 do
 	local RS = game:GetService("ReplicatedStorage")
 	local remotes = RS:FindFirstChild("Remotes")
@@ -32,7 +31,6 @@ do
 	end
 end
 
--- PlotManager (tu versión)
     do
         local sm = game.ServerScriptService:FindFirstChild("ServerModules")
         local PMpath = sm and sm:FindFirstChild("Plot") and sm.Plot:FindFirstChild("PlotManager")
@@ -49,7 +47,6 @@ end
         end
     end
 
--- ServerScriptService módulos
 do
         local function scanFolder(folder, label)
                 local items = {}
@@ -78,7 +75,6 @@ do
         if sm then scanFolder(sm, "[ServerModules]") end
 end
 
--- Workspace estructura base
 do
 	local hub = workspace:FindFirstChild("Hub")
 	local plots = workspace:FindFirstChild("Plots")

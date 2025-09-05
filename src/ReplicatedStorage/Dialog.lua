@@ -1,5 +1,4 @@
--- ReplicatedStorage/Dialog.lua
--- Módulo de diálogo para NPCs con soporte de animación y opciones de respuesta
+
 
 local Dialog = {}
 Dialog.__index = Dialog
@@ -19,8 +18,6 @@ local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 local saleDialog = playerGui:WaitForChild("SaleDialog")
 local DIALOG_RESPONSES_UI = saleDialog:WaitForChild("dialogResponses")
 
-
--- Constructor
 function Dialog.new(npcName, npc, prompt, animation)
     local self = setmetatable({}, Dialog)
     self.npcName = npcName
@@ -48,7 +45,7 @@ function Dialog.new(npcName, npc, prompt, animation)
     self.responded = eventSignal.Event
     self.fireResponded = eventSignal
 
-    -- tween variables
+    
     self.animNameText = TweenService:Create(self.npcGui.name, TweenInfo.new(.3), {TextTransparency = 1})
     self.animNameStroke = TweenService:Create(self.npcGui.name.UIStroke, TweenInfo.new(.3), {Transparency = 1})
     self.animArrowText = TweenService:Create(self.npcGui.arrow, TweenInfo.new(.3), {TextTransparency = 1})
@@ -56,7 +53,7 @@ function Dialog.new(npcName, npc, prompt, animation)
     self.animDialogText = TweenService:Create(self.npcGui.dialog, TweenInfo.new(.3), {TextTransparency = 1})
     self.animDialogStroke = TweenService:Create(self.npcGui.dialog.UIStroke, TweenInfo.new(.3), {Transparency = 1})
 
-    -- animate
+    
     if animation then
         local newAnimation = Instance.new("Animation")
         newAnimation.AnimationId = animation
@@ -64,7 +61,7 @@ function Dialog.new(npcName, npc, prompt, animation)
         newAnimLoaded:Play()
     end
 
-    -- Connections
+    
     local frameCount = 0
     local heartbeatConnection = RunService.Heartbeat:Connect(function()
         frameCount += 1
@@ -92,19 +89,16 @@ function Dialog.new(npcName, npc, prompt, animation)
     return self
 end
 
--- Add dialog to the NPC
 function Dialog:addDialog(dialogText, responseOptions)
     table.insert(self.dialogs, {text = dialogText, responses = responseOptions})
 end
 
--- Sort dialogs alphabetically or by custom function
 function Dialog:sortDialogs(sortFunc)
     table.sort(self.dialogs, sortFunc or function(a, b)
         return a.text < b.text
     end)
 end
 
--- Display the dialog when proximity prompt is triggered
 function Dialog:triggerDialog(player, questionNumber)
     self.player = player or Players.LocalPlayer
     self.active = true

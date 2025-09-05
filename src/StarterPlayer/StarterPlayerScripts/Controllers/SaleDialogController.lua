@@ -1,5 +1,4 @@
--- Controllers/SaleDialogController.lua
--- Maneja el diálogo con el vendedor para realizar conversiones de objetos
+
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")

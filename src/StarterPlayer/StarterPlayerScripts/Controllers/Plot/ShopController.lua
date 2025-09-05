@@ -1,5 +1,4 @@
--- Controllers/ShopController.lua
--- Maneja la tienda dentro de MainGui (abrir/cerrar y calcular costos)
+
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -13,7 +12,6 @@ local SoundManager = require(playerScripts:WaitForChild("ClientModules"):WaitFor
 local M = {}
 local initialized = false
 
--- Busca descendientes por nombre (por si no son hijos directos)
 local function findDesc(parent, name, timeout)
 	timeout = timeout or 5
 	local t0 = os.clock()
@@ -39,7 +37,7 @@ function M.init()
         local playerGui = player:WaitForChild("PlayerGui")
         local gui       = playerGui:WaitForChild("MainGui")
 
-        -- Widgets del GUI (busca recursivo por si cambió la jerarquía)
+        
         local upgradeFrame = gui:FindFirstChild("UpgradeShopFrame") or findDesc(gui, "UpgradeShopFrame")
         local robuxBtn     = gui:FindFirstChild("OpenShopButton") or findDesc(gui, "OpenShopButton")
         local robuxFrame   = gui:FindFirstChild("RobuxShopFrame") or findDesc(gui, "RobuxShopFrame")
@@ -53,12 +51,12 @@ function M.init()
                 return
         end
 
-	-- Rocas
+	
         local amountBtn   = findDesc(upgradeFrame, "AmountButton")
         local amountInfo  = findDesc(upgradeFrame, "AmountInfo")
         local rateBtn     = findDesc(upgradeFrame, "RateButton")
         local rateInfo    = findDesc(upgradeFrame, "RateInfo")
-	-- Cristales
+	
         local cAmountBtn  = findDesc(upgradeFrame, "CrystalAmountButton")
         local cAmountInfo = findDesc(upgradeFrame, "CrystalAmountInfo")
         local cRateBtn    = findDesc(upgradeFrame, "CrystalRateButton")
@@ -70,7 +68,7 @@ function M.init()
                 return
         end
 
-	-- Ajusta estos valores a como los tengas en UpgradeHandler (servidor)
+	
         local UPGRADE = {
                 RockAmount        = { base = 25,  mult = 1.3, start = 5 },
                 SpawnRate         = { base = 50,  mult = 1.5, start = 4.0, step = 0.25, min = 0.5 },
@@ -124,7 +122,7 @@ function M.init()
 	end
 
 	local function update()
-		-- Rocas
+		
 		local a = upgrades.RockAmount.Value
 		local ac = costAmount(a, UPGRADE.RockAmount)
 		amountInfo.Text = ("Nivel: %d\nCosto: %d Gemas"):format(a, ac)
@@ -133,14 +131,14 @@ function M.init()
 		local r = upgrades.SpawnRate.Value
 		local rc = costRate(r, UPGRADE.SpawnRate)
 		if r <= UPGRADE.SpawnRate.min + 1e-4 then
-			rateInfo.Text = ("Velocidad: MAX (%.2fs)\nCosto: --"):format(UPGRADE.SpawnRate.min)
+			rateInfo.Text = ("Velocidad: MAX (%.2fs)\nCosto: --"):format(UPGRADE.SpawnRate.min) 
 			style(rateBtn, false); rateBtn.Text = "MAX"
 		else
 			rateInfo.Text = ("Velocidad: %.2fs\nCosto: %d Gemas"):format(r, rc)
 			style(rateBtn, gems.Value >= rc)
 		end
 
-		-- Cristales
+		
 		local ca = upgrades.CrystalAmount.Value
 		local cac = costAmount(ca, UPGRADE.CrystalAmount)
 		cAmountInfo.Text = ("Nivel: %d\nCosto: %d Gemas"):format(ca, cac)
@@ -149,7 +147,7 @@ function M.init()
 		local cr = upgrades.CrystalSpawnRate.Value
 		local crc = costRate(cr, UPGRADE.CrystalSpawnRate)
 		if cr <= UPGRADE.CrystalSpawnRate.min + 1e-4 then
-			cRateInfo.Text = ("Velocidad: MAX (%.2fs)\nCosto: --"):format(UPGRADE.CrystalSpawnRate.min)
+			cRateInfo.Text = ("Velocidad: MAX (%.2fs)\nCosto: --"):format(UPGRADE.CrystalSpawnRate.min) 
 			style(cRateBtn, false); cRateBtn.Text = "MAX"
 		else
 			cRateInfo.Text = ("Velocidad: %.2fs\nCosto: %d Gemas"):format(cr, crc)
@@ -157,9 +155,9 @@ function M.init()
 		end
 	end
 
-        -- Mostrar/ocultar (ProximityPrompt en UpgradesShop/UpgradeShop)
+        
         upgradeFrame.Visible = false
-       -- carpeta de tiendas puede estar en 'Hub/Shops' o directamente en 'Shops'
+       
        local shopFolder = workspace:FindFirstChild("Shops", true)
        if not shopFolder then
                warn("[ShopController] No encontré carpeta 'Shops' en Workspace")
@@ -187,8 +185,7 @@ function M.init()
                warn("[ShopController] No encontré ProximityPrompt en UpgradesShop")
        end
 
-
-        -- Botón para tienda de Robux y accesos directos desde counters
+        
         if robuxFrame then
                 robuxFrame.Visible = false
 
@@ -202,7 +199,7 @@ function M.init()
                         warn("[ShopController] No encontré OpenShopButton")
                 end
 
-                -- ImageButtons de Gems y Stones abren la tienda de Robux
+                
                 local statsGui      = playerGui:FindFirstChild("PlayerStatsGui") or findDesc(playerGui, "PlayerStatsGui")
                 local statsContainer = statsGui and (statsGui:FindFirstChild("Container") or findDesc(statsGui, "Container"))
                 local gemsCounter   = statsContainer and (statsContainer:FindFirstChild("GemsCounter") or findDesc(statsContainer, "GemsCounter"))
@@ -225,13 +222,13 @@ function M.init()
                 end
         end
 
-        -- Botones de compra
+        
         connectUpgrade(amountBtn, "RockAmount")
         connectUpgrade(rateBtn, "SpawnRate")
         connectUpgrade(cAmountBtn, "CrystalAmount")
         connectUpgrade(cRateBtn, "CrystalSpawnRate")
 
-	-- Recalcula cuando cambian valores
+	
 	gems.Changed:Connect(update)
 	upgrades.RockAmount.Changed:Connect(update)
 	upgrades.SpawnRate.Changed:Connect(update)

@@ -1,8 +1,4 @@
--- ServerScriptService/Services/NodeService.lua
--- v1.0 - Índice de nodos para lookup O(1)
--- - Registra automáticamente nodos con tags "Stone" o "Crystal"
--- - Garantiza que cada nodo tiene atributo NodeId (GUID compacto)
--- - Expone getById / getId / register / unregister / start
+
 
 local CollectionService = game:GetService("CollectionService")
 local HttpService       = game:GetService("HttpService")
@@ -14,12 +10,10 @@ local ATTR_NODE_ID      = "NodeId"
 
 local NodeService = {}
 
--- Mapas principales
 local idToNode   : {[string]: Model} = {}
 local nodeToId   : {[Instance]: string} = {}
 local conns      : {[Instance]: RBXScriptConnection} = {}
 
--- ========= Helpers =========
 local function hasTagDeep(model: Model, tag: string): boolean
 	if CollectionService:HasTag(model, tag) then return true end
 	if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, tag) then return true end
@@ -43,13 +37,12 @@ local function rootModelForTagged(inst: Instance?): Model?
 end
 
 local function makeNodeId(): string
-	-- GUID compacto sin guiones, prefijo "N_"
-	local g = HttpService:GenerateGUID(false) -- "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+	
+	local g = HttpService:GenerateGUID(false) 
 	g = g:gsub("%-", "")
 	return "N_" .. g
 end
 
--- ========= Core =========
 function NodeService.assignNodeId(model: Model): string
 	local id = model:GetAttribute(ATTR_NODE_ID)
 	if type(id) == "string" and #id > 0 then
@@ -73,10 +66,10 @@ function NodeService.register(model: Model)
         local id = NodeService.assignNodeId(model)
         print("[NodeService] Registered", model:GetFullName(), "id=", id)
 
-        -- Si ya existía otro nodo con el mismo id (poco probable), lo reemplazamos
+        
         local prev = idToNode[id]
         if prev and prev ~= model then
-                -- Limpieza del anterior
+                
                 if conns[prev] then conns[prev]:Disconnect() conns[prev] = nil end
                 nodeToId[prev] = nil
         end
@@ -84,7 +77,7 @@ function NodeService.register(model: Model)
         idToNode[id] = model
         nodeToId[model] = id
 
-        -- Auto-unregister si el nodo se destruye/sale del árbol
+        
         conns[model] = model.AncestryChanged:Connect(function(_, newParent)
                 if newParent == nil then
                         NodeService.unregister(model)
@@ -120,7 +113,6 @@ function NodeService.count()
 	return c
 end
 
--- ========= Bootstrap =========
 local function registerIfNode(inst: Instance)
 	local mdl = rootModelForTagged(inst)
 	if mdl and isNodeModel(mdl) then
@@ -136,7 +128,7 @@ local function unregisterIfNode(inst: Instance)
 end
 
 function NodeService.start()
-	-- 1) Indexar existentes por tag
+	
 	local added = 0
 	for _, tag in ipairs({TAG_STONE, TAG_CRYSTAL}) do
 		for _, inst in ipairs(CollectionService:GetTagged(tag)) do
@@ -147,7 +139,7 @@ function NodeService.start()
 		end
 	end
 
-	-- 2) Señales de alta/baja por tag
+	
 	for _, tag in ipairs({TAG_STONE, TAG_CRYSTAL}) do
 		CollectionService:GetInstanceAddedSignal(tag):Connect(registerIfNode)
 		CollectionService:GetInstanceRemovedSignal(tag):Connect(unregisterIfNode)
@@ -156,7 +148,6 @@ function NodeService.start()
 	print(("[NodeService] Índice iniciado: %d nodos registrados."):format(added))
 end
 
--- API de utilidad (opcional)
 function NodeService.isNode(model: Model): boolean
 	return isNodeModel(model)
 end

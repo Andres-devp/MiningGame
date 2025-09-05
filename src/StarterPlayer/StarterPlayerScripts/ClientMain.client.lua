@@ -1,14 +1,11 @@
--- ClientMain.client — robusto y sin sorpresas
+
 local root        = script.Parent
 local modulesPath = root:WaitForChild("ClientModules")
 local controllers = root:WaitForChild("Controllers")
 
--- Esperar a que el personaje del jugador esté listo antes de iniciar
 local Players = game:GetService("Players")
 local player  = Players.LocalPlayer
 
-
--- Evitar doble inicialización si existe otra copia del script
 if player:GetAttribute("ClientMainReady") then
     print("[ClientMain] Controladores ya inicializados, omitiendo.")
     return
@@ -46,10 +43,10 @@ end
 
 local function call(mod, method, ...)
 	if type(mod) ~= "table" or type(mod[method]) ~= "function" then return end
-	-- Captura varargs antes de entrar al closure
+	
 	local args = table.pack(...)
 	local ok, err = pcall(function()
-		-- estilo ':' -> pasamos self (mod) como primer arg
+		
 		return mod[method](mod, table.unpack(args, 1, args.n))
 	end)
 	if ok then
@@ -59,10 +56,9 @@ local function call(mod, method, ...)
 	end
 end
 
--- Controladores (todos como ModuleScript .lua)
 local UIController         = loadModule(controllers, "UIController")         or {}
 local MiningController     = loadModule(controllers, "PickFall/MiningController")     or {}
-local InputController      = loadModule(controllers, "InputController")      or {} -- side-effect
+local InputController      = loadModule(controllers, "InputController")      or {} 
 local ShopController       = loadModule(controllers, "Plot/ShopController")       or {}
 local TPButtons            = loadModule(controllers, "Plot/TPButtons")            or {}
 local ShopPromptController = loadModule(controllers, "ShopPromptController") or {}
@@ -70,10 +66,8 @@ local CloseButtonController= loadModule(controllers, "CloseButtonController") or
 local PickfallController   = loadModule(controllers, "PickFall/PickfallController")   or {}
 local SaleDialogController = loadModule(controllers, "SaleDialogController") or {}
 
--- Módulos
 local SoundManager         = loadModule(modulesPath, "SoundManager")         or {}
 
--- Orden: UI -> Mining -> (Input side-effect) -> ShopUI -> TP -> ShopPrompt
 print("[ClientMain] Inicializando UIController.init")
 call(UIController,     "init")
 print("[ClientMain] Inicializando MiningController.start")
@@ -101,4 +95,4 @@ call(PickfallController, "init")
 print("[ClientMain] Inicializando SaleDialogController.init")
 call(SaleDialogController, "init")
 
-print("--- ClientMain: controllers initialized (UI, Mining, Input, ShopUI, TP, ShopPrompt, CloseButtons). ---")
+print("--- ClientMain: controllers initialized (UI, Mining, Input, ShopUI, TP, ShopPrompt, CloseButtons).")

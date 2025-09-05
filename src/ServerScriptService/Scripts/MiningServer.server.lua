@@ -1,13 +1,10 @@
--- ServerScriptService/Scripts/MiningServer.server.lua
--- Server-side handling for mining using remote events
+
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
-
 local SWING_COOLDOWN = 0.15
 local MAX_RANGE = 16
-
 
 local Remotes = ReplicatedStorage:FindFirstChild("Remotes")
 if not Remotes then
@@ -37,9 +34,7 @@ if not DebounceRF then
     DebounceRF.Parent = Remotes
 end
 
-
 local SoundManager = require(script.Parent.Parent.ServerModules.SoundManager)
-
 
 local Debounce = setmetatable({}, { __mode = "k" })
 
@@ -84,18 +79,17 @@ DebounceRF.OnServerInvoke = function(player, object)
 end
 
 SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtraction)
-    -- Validate parameters and basic conditions before processing the hit.
-    -- The previous version of this line was accidentally truncated, causing a
-    -- syntax error that stopped the entire server script from running.  This
-    -- meant remote events were never handled, breaking highlights, crystal
-    -- mining and sounds.  Restoring the full conditional fixes the issue.
+    
+    
+    
+    
+    
     if not player or typeof(object) ~= "Instance" or not object.Parent then
         return
     end
     if Debounce[player] then return end
     if not isMinable(object) then return end
     if not inRange(player, object) then return end
-
 
     Debounce[player] = true
 
@@ -116,7 +110,6 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
 
     local newHealth = math.max(0, current - amount)
     object:SetAttribute("Health", newHealth)
-
 
     UpdateGuiRE:FireClient(player)
 

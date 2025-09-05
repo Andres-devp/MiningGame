@@ -1,6 +1,4 @@
--- StarterPlayerScripts/Controllers/MiningController.lua
--- v9.1 restored: EventBus + barra cristal + SFX + VisualFX (sin RemoteEvents)
--- plus MiningGUI for stones
+
 
 local Players            = game:GetService("Players")
 local RunService         = game:GetService("RunService")
@@ -12,12 +10,10 @@ local Workspace          = game:GetService("Workspace")
 local player = Players.LocalPlayer
 local mouse  = player:GetMouse()
 
--- EventBus / Topics
 local Shared    = ReplicatedStorage:WaitForChild("Shared")
 local EventBus  = require(Shared:WaitForChild("events"):WaitForChild("EventBus"))
 local Topics    = require(Shared:WaitForChild("events"):WaitForChild("EventTopics"))
 
--- Visual FX + SFX
 local playerScripts = script:FindFirstAncestorOfClass("PlayerScripts") or script.Parent.Parent.Parent
 local VisualFX  = require(playerScripts:WaitForChild("ClientModules"):WaitForChild("VisualFX"))
 local M = {}
@@ -30,7 +26,6 @@ local STONE_COOLDOWN = 0.45
 local COLOR_CAN  = Color3.fromRGB(86, 220, 130)
 local COLOR_CANT = Color3.fromRGB(240, 120, 120)
 
--- helpers
 local function hrp()
     local c = player.Character
     return c and c:FindFirstChild("HumanoidRootPart")
@@ -118,7 +113,6 @@ local function nodeIdOf(model)
     return (model and model:GetAttribute("NodeId")) or (model and model.Name) or nil
 end
 
--- highlight
 local hl = Instance.new("Highlight")
 hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 hl.FillTransparency = 0.6
@@ -135,7 +129,6 @@ local function setHighlight(adorn, canMine)
     end
 end
 
--- Mining GUI
 local playerGui    = player:WaitForChild("PlayerGui")
 local GUIFolder    = playerGui:WaitForChild("PickFall")
 local MiningGUI    = GUIFolder:WaitForChild("MiningGUI")
@@ -153,7 +146,6 @@ local function updateMiningGUI(model)
     holderFrame.BarFrame.Size = UDim2.fromScale(mh > 0 and (h / mh) or 0, 1)
 end
 
--- Progreso cristal
 local function setCrystalProgress(model, ratio)
     local gui = model and model:FindFirstChild("ProgresoGui", true)
     if not (gui and gui:IsA("BillboardGui")) then return end
@@ -188,7 +180,6 @@ local function clearCrystalProgress(model)
     gui.Enabled = false
 end
 
--- input sostenido para cristal
 local isMouseDown = false
 UserInputService.InputBegan:Connect(function(input, gpe)
     if gpe then return end
@@ -202,7 +193,6 @@ UserInputService.InputEnded:Connect(function(input)
     end
 end)
 
--- estado
 local pendingModel   = nil
 local currentCrystal = nil
 local miningActive   = false
@@ -210,7 +200,6 @@ local crystalStart   = 0
 local lastStoneAuto  = 0
 local currentStone   = nil
 
--- === EventBus: feedback server → cliente ===
 EventBus.registerClient(Topics.MiningFeedback, function(payload)
     if not payload then return end
     local kind = payload.kind

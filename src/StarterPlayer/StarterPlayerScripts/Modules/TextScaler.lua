@@ -1,5 +1,4 @@
--- Modules/TextScaler.lua
--- Ajusta dinámicamente el tamaño del texto según la resolución de pantalla
+
 
 local TextScaler = {}
 

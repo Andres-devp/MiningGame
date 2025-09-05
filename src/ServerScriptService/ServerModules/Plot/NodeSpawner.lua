@@ -1,6 +1,4 @@
--- ServerModules/NodeSpawner.lua
--- v4.6 - Seed hasta CAPACIDAD, top-up al subir capacidad y coloca nodos
---        usando la altura real. Timers por plot y GUI de cristal garantizada.
+
 
 local ServerStorage     = game:GetService("ServerStorage")
 local CollectionService = game:GetService("CollectionService")
@@ -16,13 +14,10 @@ function NodeSpawner:init()
         self:start(plotManager)
 end
 
--- ===== DEBUG =====
 local DEBUG = true
 local function dprint(...) if DEBUG then print("[NodeSpawner]", ...) end end
 local function dwarn(...) warn("[NodeSpawner]", ...) end
--- =================
 
--- Nombres aceptados
 local TEMPLATE_NAMES = {
 	CommonStone = { "CommonStone", "Stone", "Rock", "StoneNode", "StoneModel", "RockNode" },
 	Crystal     = { "Crystal", "Cristal", "CrystalNode", "CrystalOre", "CrystalModel" },
@@ -32,7 +27,6 @@ local ZONE_NAMES = {
 	Crystal     = { "CrystalZone", "CristalZone", "Zone" },
 }
 
--- ============ Helpers ============
 local function getUpgrade(player, name, defaultValue)
 	local ups = player:FindFirstChild("Upgrades")
 	local v = ups and ups:FindFirstChild(name)
@@ -97,7 +91,6 @@ local function findZonePart(plotModel, nodeType)
 	return nil, nil
 end
 
--- Coloca el modelo centrado en XZ dentro de la zona y **sobre** su cara superior
 local function placeOnTop(model, zonePart, offsetXZ)
 	local primary = model.PrimaryPart or anyBasePart(model)
 	if not primary then return end
@@ -105,10 +98,10 @@ local function placeOnTop(model, zonePart, offsetXZ)
 	local ox = (offsetXZ and offsetXZ.X) or (math.random() - 0.5) * (zoneSize.X - 1)
 	local oz = (offsetXZ and offsetXZ.Z) or (math.random() - 0.5) * (zoneSize.Z - 1)
 
-	-- Posición horizontal dentro del bounds
+	
 	local basePos = (zoneCF * CFrame.new(ox, 0, oz)).Position
 
-	-- Altura: cara superior de la zona + mitad de la altura del modelo + un margen
+	
 	local modelHalfY = primary.Size.Y * 0.5
 	local topY = zoneCF.Position.Y + (zoneSize.Y * 0.5)
 	local y = topY + modelHalfY + 0.05
@@ -116,7 +109,6 @@ local function placeOnTop(model, zonePart, offsetXZ)
 	model:PivotTo(CFrame.new(basePos.X, y, basePos.Z))
 end
 
--- Garantiza GUI de progreso si el template no la trae
 local function ensureCrystalGui(node)
 	local pp = node.PrimaryPart or anyBasePart(node)
 	if not pp then return end
@@ -164,7 +156,7 @@ local function spawnNode(plotData, nodeType)
         local node = tpl:Clone()
         node.Parent = ensureNodesContainer(plotData.model)
 
-        -- Asegurar atributos de minado
+        
         if nodeType == "CommonStone" then
                 node:SetAttribute("MaxHealth", 1)
                 node:SetAttribute("Reward", 1)
@@ -177,8 +169,7 @@ local function spawnNode(plotData, nodeType)
 
         node:SetAttribute("NodeType", nodeType)
 
-
-        -- Asegurar PrimaryPart para PivotTo (si no hubiera)
+        
         if not node.PrimaryPart then
                 local any = anyBasePart(node)
                 if any then node.PrimaryPart = any end
@@ -186,12 +177,12 @@ local function spawnNode(plotData, nodeType)
 
         placeOnTop(node, zonePart)
 
-        -- Si es cristal, garantiza la GUI de progreso
+        
         if nodeType == "Crystal" then
                 ensureCrystalGui(node)
         end
 
-        -- Registrar en mapas locales
+        
         if nodeType == "CommonStone" then
                 plotData.rocks[node] = true
         else
@@ -218,7 +209,6 @@ local function topUp(plotData, nodeType, currentCount, maxCount)
 	return need
 end
 
--- ============ Bucle principal ============
 function NodeSpawner:start(PlotManager)
 	local plotsData = PlotManager.plotsData
 	dprint("NodeSpawner iniciado.")
@@ -240,7 +230,7 @@ function NodeSpawner:start(PlotManager)
 					local rockSec     = math.max(0.5, getUpgrade(player, "SpawnRate", 4.0))
 					local crystalSec  = math.max(0.5, getUpgrade(player, "CrystalSpawnRate", 8.0))
 
-					-- Seed inicial: llena a capacidad
+					
 					if not plotData._seeded then
 						local addR = topUp(plotData, "CommonStone", rockCount, maxRocks)
 						local addC = topUp(plotData, "Crystal",     crystalCount, maxCrystals)
@@ -251,7 +241,7 @@ function NodeSpawner:start(PlotManager)
 						plotData._lastMaxRocks = maxRocks
 						plotData._lastMaxCrystals = maxCrystals
 					else
-						-- Top-up si sube la capacidad (o si Upgrades llegó tarde)
+						
 						if not plotData._lastMaxRocks or maxRocks > plotData._lastMaxRocks then
 							local add = topUp(plotData, "CommonStone", rockCount, maxRocks)
 							if add > 0 then dprint(("TopUp stones %s: +%d (cap=%d)"):format(plotData.model.Name, add, maxRocks)) end
@@ -264,7 +254,7 @@ function NodeSpawner:start(PlotManager)
 						end
 					end
 
-					-- Spawner por tiempo (reposición)
+					
 					local t = getTimers(plotData)
 
 					t.rock += dt
