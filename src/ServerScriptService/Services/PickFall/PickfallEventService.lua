@@ -17,7 +17,7 @@ local NodeService   = require(script.Parent.Parent:WaitForChild("NodeService"))
 
 local arena     = Workspace:WaitForChild("PickfallArena")
 local base      = arena:WaitForChild("Base")
-local oreFolder = arena:WaitForChild("Ores")
+local oreFolder = arena:WaitForChild("OrePlatforms") -- updated name from "Ores"
 local spawns    = arena:WaitForChild("Spawners")
 
 local ROUND_INTERVAL = 300 
