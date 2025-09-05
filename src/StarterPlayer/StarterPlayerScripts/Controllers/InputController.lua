@@ -25,25 +25,38 @@ local function distOK(part)
 	return (root and part) and ((root.Position - part.Position).Magnitude <= MAX_DISTANCE) or false
 end
 
-local function focusPart(model: Model?)
-	if not model then return nil end
-	local hit = model:FindFirstChild("Hitbox")
-	if hit and hit:IsA("BasePart") then return hit end
-	return model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart", true)
+local function focusPart(inst: Instance?)
+        if not inst then return nil end
+        if inst:IsA("BasePart") then return inst end
+        local hit = inst:FindFirstChild("Hitbox")
+        if hit and hit:IsA("BasePart") then return hit end
+        return inst.PrimaryPart or inst:FindFirstChildWhichIsA("BasePart", true)
 end
 
-local function isStoneModel(model: Model?): boolean
-	if not (model and model:IsA("Model")) then return false end
-	if CollectionService:HasTag(model, "Stone") then return true end
-	if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, "Stone") then return true end
-	local hit = model:FindFirstChild("Hitbox")
-	if hit and hit:IsA("BasePart") and CollectionService:HasTag(hit, "Stone") then return true end
-	for _, d in ipairs(model:GetDescendants()) do
-		if d:IsA("BasePart") and CollectionService:HasTag(d, "Stone") then
-			return true
-		end
-	end
-	return false
+local function isStoneModel(model: Instance?): boolean
+        if not (model and (model:IsA("Model") or model:IsA("BasePart"))) then return false end
+
+        local nodeType = model:GetAttribute("NodeType")
+        if nodeType then
+                nodeType = string.lower(tostring(nodeType))
+                if nodeType:find("stone", 1, true) then return true end
+                if nodeType == "crystal" then return false end
+        end
+        if model:GetAttribute("IsMinable") then
+                return true
+        end
+        if CollectionService:HasTag(model, "Stone") then return true end
+        if model:IsA("Model") then
+                if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, "Stone") then return true end
+                local hit = model:FindFirstChild("Hitbox")
+                if hit and hit:IsA("BasePart") and CollectionService:HasTag(hit, "Stone") then return true end
+                for _, d in ipairs(model:GetDescendants()) do
+                        if d:IsA("BasePart") and CollectionService:HasTag(d, "Stone") then
+                                return true
+                        end
+                end
+        end
+        return false
 end
 
 local function raycastFromScreen(screenPos: Vector2)
@@ -60,24 +73,37 @@ local function raycastFromScreen(screenPos: Vector2)
 	return result and result.Instance or nil
 end
 
-local function fireMine(model: Model)
-	local id = model:GetAttribute("NodeId") or model.Name
-	EventBus.sendToServer(Topics.MiningRequest, {
-		node   = model,
-		nodeId = id,
-		toolTier = 1,
-	})
+local function fireMine(model: Instance)
+        local id = model:GetAttribute("NodeId") or model.Name
+        EventBus.sendToServer(Topics.MiningRequest, {
+                node   = model,
+                nodeId = id,
+                toolTier = 1,
+        })
 end
 
 local function tryMineFromPart(part: Instance)
-	if not part then return end
-	local model = part:FindFirstAncestorOfClass("Model")
-	if not isStoneModel(model) then return end
+	if not part then
+		warn("[InputController] click sin target")
+		return
+        end
+        local model = part:FindFirstAncestorOfClass("Model")
+        if not model and part:IsA("BasePart") then
+                model = part
+        end
+        if not isStoneModel(model) then
+                warn("[InputController] objetivo no minable", model and model.Name)
+                return
+        end
 
-	local focus = focusPart(model)
-	if not (focus and distOK(focus)) then return end
+        local focus = focusPart(model)
+        if not (focus and distOK(focus)) then
+                warn("[InputController] fuera de rango", model and model.Name)
+                return
+        end
 
-	fireMine(model)
+        warn("[InputController] enviando MiningRequest", model.Name)
+        fireMine(model)
 end
 
 -- PC + móvil

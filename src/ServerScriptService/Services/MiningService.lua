@@ -51,22 +51,25 @@ local function distOK(player, part)
 	return (hrp and part) and ((hrp.Position - part.Position).Magnitude <= MAX_DISTANCE) or false
 end
 
-local function hasTagDeep(model: Model, tag: string): boolean
-	if CollectionService:HasTag(model, tag) then return true end
-	if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, tag) then return true end
-	for _, d in ipairs(model:GetDescendants()) do
-		if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
-			return true
-		end
-	end
-	return false
+local function hasTagDeep(inst: Instance, tag: string): boolean
+        if CollectionService:HasTag(inst, tag) then return true end
+        if inst:IsA("Model") then
+                if inst.PrimaryPart and CollectionService:HasTag(inst.PrimaryPart, tag) then return true end
+                for _, d in ipairs(inst:GetDescendants()) do
+                        if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
+                                return true
+                        end
+                end
+        end
+        return false
 end
 
-local function focusPart(model: Model?): BasePart?
-	if not model then return nil end
-	local hit = model:FindFirstChild("Hitbox")
-	if hit and hit:IsA("BasePart") then return hit end
-	return model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart", true)
+local function focusPart(inst: Instance?): BasePart?
+        if not inst then return nil end
+        if inst:IsA("BasePart") then return inst end
+        local hit = inst:FindFirstChild("Hitbox")
+        if hit and hit:IsA("BasePart") then return hit end
+        return inst.PrimaryPart or inst:FindFirstChildWhichIsA("BasePart", true)
 end
 
 local function ownsPlotForModel(player, model)
@@ -114,8 +117,8 @@ local function buffMultiplier(player: Player)
         return 1
 end
 
--- coerce payload → Model con NodeService
-local function coerceNode(payload): Model?
+-- coerce payload → Instance con NodeService
+local function coerceNode(payload): Instance?
         if typeof(payload) ~= "table" then
                 print("[MiningService] coerceNode invalid payload", payload)
                 return nil
@@ -124,7 +127,7 @@ local function coerceNode(payload): Model?
         local inst = payload.node
         local id   = payload.nodeId
 
-        if typeof(inst) == "Instance" and inst:IsA("Model") then
+        if typeof(inst) == "Instance" and (inst:IsA("Model") or inst:IsA("BasePart")) then
                 return inst
         end
 
@@ -133,7 +136,7 @@ local function coerceNode(payload): Model?
                 if byIdx then return byIdx end
 
                 local byName = Workspace:FindFirstChild(id, true)
-                if byName and byName:IsA("Model") then return byName end
+                if byName and (byName:IsA("Model") or byName:IsA("BasePart")) then return byName end
         end
 
         print("[MiningService] coerceNode could not resolve node", payload)
@@ -141,7 +144,7 @@ local function coerceNode(payload): Model?
 end
 
 -- ========= Piedras =========
-local function mineStone(player, model: Model)
+local function mineStone(player, model: Instance)
         print("[MiningService] mineStone player=", player and player.Name, "model=", model and model.Name)
         local l = ensureLimiters(player)
         if not l.stone:allow(1) then
@@ -149,7 +152,7 @@ local function mineStone(player, model: Model)
                 return
         end
 
-        if typeof(model) ~= "Instance" or not model:IsA("Model") then
+        if typeof(model) ~= "Instance" or not (model:IsA("Model") or model:IsA("BasePart")) then
                 print("\tInvalid model", model)
                 return
         end
@@ -171,53 +174,61 @@ local function mineStone(player, model: Model)
                 return
         end
 
-        local add = hasPickaxeServer(player) and 2 or 1
-        add = add * buffMultiplier(player)
-        DataService.addResource(player, "stones", add)
+        local maxH = tonumber(model:GetAttribute("MaxHealth")) or 1
+        local current = tonumber(model:GetAttribute("Health")) or maxH
+        local dmg = hasPickaxeServer(player) and 2 or 1
+        dmg = dmg * buffMultiplier(player)
+        local newHealth = math.max(0, current - dmg)
+        model:SetAttribute("Health", newHealth)
 
-        EventBus.sendToClient(player, Topics.MiningFeedback, {
-                kind = "stone",
-                position = focus.Position,
-        })
-        -- efectos de partículas al romper la roca
-        local fx = model:FindFirstChild("FxStone", true)
-        if fx and fx:IsA("Attachment") then
-                local parent = fx.Parent
-                if parent and parent:IsA("BasePart") then
-                        local anchor = Instance.new("Part")
-                        anchor.Name = "FxStoneAnchor"
-                        anchor.Anchored = true
-                        anchor.CanCollide = false
-                        anchor.Transparency = 1
-                        anchor.Size = Vector3.new(0.1,0.1,0.1)
-                        anchor.CFrame = fx.WorldCFrame
+        if newHealth <= 0 then
+                local reward = tonumber(model:GetAttribute("Reward")) or dmg
+                DataService.addResource(player, "stones", reward * buffMultiplier(player))
 
-                        local clone = fx:Clone()
-                        clone.Parent = anchor
-                        anchor.Parent = Workspace
+                EventBus.sendToClient(player, Topics.MiningFeedback, {
+                        kind = "stone",
+                        position = focus.Position,
+                })
+                -- efectos de partículas al romper la roca
+                local fx = model:FindFirstChild("FxStone", true)
+                if fx and fx:IsA("Attachment") then
+                        local parent = fx.Parent
+                        if parent and parent:IsA("BasePart") then
+                                local anchor = Instance.new("Part")
+                                anchor.Name = "FxStoneAnchor"
+                                anchor.Anchored = true
+                                anchor.CanCollide = false
+                                anchor.Transparency = 1
+                                anchor.Size = Vector3.new(0.1,0.1,0.1)
+                                anchor.CFrame = fx.WorldCFrame
 
-                        for _, emitter in ipairs(clone:GetChildren()) do
-                                if emitter:IsA("ParticleEmitter") then
+                                local clone = fx:Clone()
+                                clone.Parent = anchor
+                                anchor.Parent = Workspace
 
-                                        local prevRate = emitter.Rate
-                                        emitter.Enabled = true
-                                        if emitter.Rate <= 0 then
-                                                emitter.Rate = 20
+                                for _, emitter in ipairs(clone:GetChildren()) do
+                                        if emitter:IsA("ParticleEmitter") then
+
+                                                local prevRate = emitter.Rate
+                                                emitter.Enabled = true
+                                                if emitter.Rate <= 0 then
+                                                        emitter.Rate = 20
+                                                end
+                                                emitter:Emit(15)
+                                                task.delay(0.5, function()
+                                                        emitter.Enabled = false
+                                                        emitter.Rate = prevRate
+                                                end)
+
                                         end
-                                        emitter:Emit(15)
-                                        task.delay(0.5, function()
-                                                emitter.Enabled = false
-                                                emitter.Rate = prevRate
-                                        end)
-
                                 end
+
+                                Debris:AddItem(anchor, 2)
                         end
-
-                        Debris:AddItem(anchor, 2)
                 end
-        end
 
-        if model.Parent then model:Destroy() end
+                if model.Parent then model:Destroy() end
+        end
 end
 
 -- ========= Cristales =========
