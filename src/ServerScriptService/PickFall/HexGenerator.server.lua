@@ -27,6 +27,7 @@ local ServerStorage = game:GetService("ServerStorage")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local NodeService = require(script.Parent.Parent:WaitForChild("Services"):WaitForChild("NodeService"))
 
+
 -- Fetch templates from the defined locations
 local function getTemplates()
     local paths = {
@@ -178,6 +179,7 @@ for layer = 1, CFG.layers do
             if clone:IsA("Model") then
                 NodeService.register(clone)
             end
+
         end
     end
 end
