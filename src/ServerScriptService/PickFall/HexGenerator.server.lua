@@ -1,10 +1,12 @@
 local CFG = {
     layers = 5, -- number of vertical layers
-    layerStep = -6, -- vertical offset between layers (studs)
-    radius = 5, -- axial radius of the honeycomb
-    tileWidth = 6, -- width flat-to-flat of a tile
+    layerStep = 0, -- vertical offset between layers
+    radius = 5, -- axial radius of the honeycomb (in tiles)
     topOffsetY = 0, -- offset from arena base to top layer
-    tileYaw = 0, -- rotation of each tile in degrees
+    tileYaw = 30, -- rotation of each tile in degrees
+    spacingXY = 0.985, -- multiplier for horizontal offsets
+    sameY = true, -- if true, all layers share the same Y
+    debug = true,
     baseWeights = {
         Stone = 40,
         Coal = 25,
@@ -121,6 +123,24 @@ local function pivotTo(obj, cf)
     end
 end
 
+-- Anchor parts and remove constraints before parenting
+local function prepStatic(inst)
+    if inst:IsA("BasePart") then
+        inst.Anchored = true
+        inst.CanCollide = true
+        inst.Massless = false
+    end
+    for _, d in ipairs(inst:GetDescendants()) do
+        if d:IsA("BasePart") then
+            d.Anchored = true
+            d.CanCollide = true
+            d.Massless = false
+        elseif d:IsA("Constraint") or d:IsA("JointInstance") or d:IsA("WeldConstraint") or d:IsA("Motor6D") then
+            d:Destroy()
+        end
+    end
+end
+
 -- Case-insensitive wait for child
 local function waitForChildCI(parent, name, timeout)
     timeout = timeout or 5
@@ -134,12 +154,31 @@ local function waitForChildCI(parent, name, timeout)
 end
 
 local templates = getTemplates()
+local stoneTpl = templates.Stone
+local tplSize
+if stoneTpl:IsA("Model") then
+    tplSize = stoneTpl:GetExtentsSize()
+else
+    tplSize = stoneTpl.Size
+end
+
+local flatW = math.max(tplSize.X, tplSize.Z)
+local tileRadius = flatW / 2
+
+local DX = 1.5 * tileRadius * CFG.spacingXY
+local DZ = math.sqrt(3) * tileRadius * CFG.spacingXY
+
+local layerStep = CFG.sameY and 0 or CFG.layerStep
+
+if CFG.debug then
+    print(('[HexGen] flatW=%.3f radius=%.3f DX=%.3f DZ=%.3f yaw=%d spacing=%.3f')
+        :format(flatW, tileRadius, DX, DZ, CFG.tileYaw, CFG.spacingXY))
+end
 
 local arena = waitForChildCI(Workspace, "PickFallArena", 5)
 local base = arena and waitForChildCI(arena, "Base", 5)
 assert(arena and base, "Workspace/PickFallArena with Base not found")
 print("HexGenerator: arena", arena, "base", base)
-
 
 local platforms = arena:FindFirstChild("OrePlatforms")
 if platforms then
@@ -155,40 +194,30 @@ end
 local basePos = base.Position
 local baseTopY = basePos.Y + (base.Size and base.Size.Y / 2 or 0)
 
-local size = CFG.tileWidth / 2
-
 for layer = 1, CFG.layers do
     local layerFolder = Instance.new("Folder")
     layerFolder.Name = string.format("Layer_%d", layer)
     layerFolder.Parent = platforms
 
     local weights = mergeWeights(CFG.baseWeights, CFG.layerOverrides[layer])
-    local y = baseTopY + CFG.topOffsetY + (layer - 1) * CFG.layerStep
-    print(string.format("HexGenerator: generating layer %d at y=%.2f", layer, y))
-    local tileCount = 0
+    local y = baseTopY + CFG.topOffsetY + (layer - 1) * layerStep
 
     for q = -CFG.radius, CFG.radius do
         local r1 = math.max(-CFG.radius, -q - CFG.radius)
         local r2 = math.min(CFG.radius, -q + CFG.radius)
         for r = r1, r2 do
-            local x = size * 1.5 * q
-            local z = size * math.sqrt(3) * (r + q / 2)
+            local relX = q * DX
+            local relZ = (r + q / 2) * DZ
 
-            local tileWeights = applyRadialBias(weights, x, z, size)
+            local tileWeights = applyRadialBias(weights, relX, relZ, tileRadius)
             local oreName = weightedPick(tileWeights)
             local template = templates[oreName]
             local clone = template:Clone()
+            prepStatic(clone)
+            clone.Parent = layerFolder
 
-            for _, part in ipairs(clone:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    part.Anchored = true
-                    part.CanCollide = true
-                end
-            end
+            local cf = CFrame.new(basePos.X + relX, y, basePos.Z + relZ) * CFrame.Angles(0, math.rad(CFG.tileYaw or 0), 0)
 
-            local cf = CFrame.new(basePos.X + x, y, basePos.Z + z)
-
-                * CFrame.Angles(0, math.rad(CFG.tileYaw), 0)
             pivotTo(clone, cf)
             clone:SetAttribute("NodeType", oreName)
             local maxHealth = (oreName == "Stone") and 1 or 20
@@ -199,22 +228,14 @@ for layer = 1, CFG.layers do
             clone:SetAttribute("RequiresPickaxe", true)
 
             clone.Name = string.format("%s_q%d_r%d", oreName, q, r)
-            clone.Parent = layerFolder
 
             if clone:IsA("Model") then
                 NodeService.register(clone)
             end
 
-            tileCount += 1
-            if tileCount <= 5 then
-                print(string.format("HexGenerator: placed %s at layer %d q=%d r=%d", oreName, layer, q, r))
-            end
-
         end
     end
-    print(string.format("HexGenerator: layer %d placed %d tiles", layer, tileCount))
 end
 
-print(string.format("HexGenerator: layers=%d radius=%d tileWidth=%.2f", CFG.layers, CFG.radius, CFG.tileWidth))
 print("HexGenerator: generation complete")
 
