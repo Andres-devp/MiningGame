@@ -20,7 +20,8 @@ local CFG = {
     },
 }
 
-math.randomseed(tick())
+math.randomseed(math.floor(os.clock()*1e6))
+
 
 local Workspace = game:GetService("Workspace")
 local ServerStorage = game:GetService("ServerStorage")
@@ -55,28 +56,29 @@ local function getTemplates()
     return templates
 end
 
--- Merge base and override weight tables
+-- Merge base and override weight tables (overrides replace)
 local function mergeWeights(a, b)
     local t = {}
-    for k, v in pairs(a) do
-        t[k] = v
-    end
+    for k, v in pairs(a) do t[k] = v end
     if b then
-        for k, v in pairs(b) do
-            t[k] = (t[k] or 0) + v
-        end
+        for k, v in pairs(b) do t[k] = v end
+
     end
     return t
 end
 
--- Weighted random pick from a weight table
 local function weightedPick(weights)
     local total = 0
     for _, w in pairs(weights) do
-        total += w
+        total += math.max(0, w or 0)
+    end
+    if total <= 0 then
+        return "Stone"
     end
     local r = math.random() * total
     for ore, w in pairs(weights) do
+        w = math.max(0, w or 0)
+
         r -= w
         if r <= 0 then
             return ore
@@ -133,6 +135,8 @@ else
 end
 
 local basePos = arena.Base.Position
+local baseTopY = basePos.Y + (arena.Base.Size and arena.Base.Size.Y / 2 or 0)
+
 local size = CFG.tileWidth / 2
 
 for layer = 1, CFG.layers do
@@ -141,7 +145,8 @@ for layer = 1, CFG.layers do
     layerFolder.Parent = platforms
 
     local weights = mergeWeights(CFG.baseWeights, CFG.layerOverrides[layer])
-    local y = CFG.topOffsetY + (layer - 1) * CFG.layerStep
+    local y = baseTopY + CFG.topOffsetY + (layer - 1) * CFG.layerStep
+
 
     for q = -CFG.radius, CFG.radius do
         local r1 = math.max(-CFG.radius, -q - CFG.radius)
@@ -162,7 +167,8 @@ for layer = 1, CFG.layers do
                 end
             end
 
-            local cf = CFrame.new(basePos.X + x, basePos.Y + y, basePos.Z + z)
+            local cf = CFrame.new(basePos.X + x, y, basePos.Z + z)
+
                 * CFrame.Angles(0, math.rad(CFG.tileYaw), 0)
             pivotTo(clone, cf)
             clone:SetAttribute("NodeType", oreName)
