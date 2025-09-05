@@ -34,6 +34,16 @@ end
 
 local function isStoneModel(model: Model?): boolean
 	if not (model and model:IsA("Model")) then return false end
+
+	local nodeType = model:GetAttribute("NodeType")
+	if nodeType then
+		nodeType = string.lower(tostring(nodeType))
+		if nodeType:find("stone", 1, true) then return true end
+		if nodeType == "crystal" then return false end
+	end
+	if model:GetAttribute("IsMinable") and not nodeType then
+		return true
+	end
 	if CollectionService:HasTag(model, "Stone") then return true end
 	if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, "Stone") then return true end
 	local hit = model:FindFirstChild("Hitbox")
@@ -70,13 +80,23 @@ local function fireMine(model: Model)
 end
 
 local function tryMineFromPart(part: Instance)
-	if not part then return end
+	if not part then
+		warn("[InputController] click sin target")
+		return
+	end
 	local model = part:FindFirstAncestorOfClass("Model")
-	if not isStoneModel(model) then return end
+	if not isStoneModel(model) then
+		warn("[InputController] objetivo no minable", model and model.Name)
+		return
+	end
 
 	local focus = focusPart(model)
-	if not (focus and distOK(focus)) then return end
+	if not (focus and distOK(focus)) then
+		warn("[InputController] fuera de rango", model and model.Name)
+		return
+	end
 
+	warn("[InputController] enviando MiningRequest", model.Name)
 	fireMine(model)
 end
 
