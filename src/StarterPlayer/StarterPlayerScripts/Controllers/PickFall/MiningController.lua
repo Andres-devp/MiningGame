@@ -266,11 +266,7 @@ function M:start(_, SoundManager)
             local inDist  = focus and distOK(focus)
             local canMine = inDist
             setHighlight(model, canMine)
-            if not canMine and model then
-                warn("[MiningController] Piedra fuera de rango", model.Name, "inDist=", inDist)
-            end
             if canMine then
-                warn("[MiningController] Piedra lista para minar", model.Name)
                 currentStone = model
                 updateMiningGUI(model)
             else
