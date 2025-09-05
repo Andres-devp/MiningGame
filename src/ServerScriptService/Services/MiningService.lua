@@ -174,53 +174,61 @@ local function mineStone(player, model: Instance)
                 return
         end
 
-        local add = hasPickaxeServer(player) and 2 or 1
-        add = add * buffMultiplier(player)
-        DataService.addResource(player, "stones", add)
+        local maxH = tonumber(model:GetAttribute("MaxHealth")) or 1
+        local current = tonumber(model:GetAttribute("Health")) or maxH
+        local dmg = hasPickaxeServer(player) and 2 or 1
+        dmg = dmg * buffMultiplier(player)
+        local newHealth = math.max(0, current - dmg)
+        model:SetAttribute("Health", newHealth)
 
-        EventBus.sendToClient(player, Topics.MiningFeedback, {
-                kind = "stone",
-                position = focus.Position,
-        })
-        -- efectos de partículas al romper la roca
-        local fx = model:FindFirstChild("FxStone", true)
-        if fx and fx:IsA("Attachment") then
-                local parent = fx.Parent
-                if parent and parent:IsA("BasePart") then
-                        local anchor = Instance.new("Part")
-                        anchor.Name = "FxStoneAnchor"
-                        anchor.Anchored = true
-                        anchor.CanCollide = false
-                        anchor.Transparency = 1
-                        anchor.Size = Vector3.new(0.1,0.1,0.1)
-                        anchor.CFrame = fx.WorldCFrame
+        if newHealth <= 0 then
+                local reward = tonumber(model:GetAttribute("Reward")) or dmg
+                DataService.addResource(player, "stones", reward * buffMultiplier(player))
 
-                        local clone = fx:Clone()
-                        clone.Parent = anchor
-                        anchor.Parent = Workspace
+                EventBus.sendToClient(player, Topics.MiningFeedback, {
+                        kind = "stone",
+                        position = focus.Position,
+                })
+                -- efectos de partículas al romper la roca
+                local fx = model:FindFirstChild("FxStone", true)
+                if fx and fx:IsA("Attachment") then
+                        local parent = fx.Parent
+                        if parent and parent:IsA("BasePart") then
+                                local anchor = Instance.new("Part")
+                                anchor.Name = "FxStoneAnchor"
+                                anchor.Anchored = true
+                                anchor.CanCollide = false
+                                anchor.Transparency = 1
+                                anchor.Size = Vector3.new(0.1,0.1,0.1)
+                                anchor.CFrame = fx.WorldCFrame
 
-                        for _, emitter in ipairs(clone:GetChildren()) do
-                                if emitter:IsA("ParticleEmitter") then
+                                local clone = fx:Clone()
+                                clone.Parent = anchor
+                                anchor.Parent = Workspace
 
-                                        local prevRate = emitter.Rate
-                                        emitter.Enabled = true
-                                        if emitter.Rate <= 0 then
-                                                emitter.Rate = 20
+                                for _, emitter in ipairs(clone:GetChildren()) do
+                                        if emitter:IsA("ParticleEmitter") then
+
+                                                local prevRate = emitter.Rate
+                                                emitter.Enabled = true
+                                                if emitter.Rate <= 0 then
+                                                        emitter.Rate = 20
+                                                end
+                                                emitter:Emit(15)
+                                                task.delay(0.5, function()
+                                                        emitter.Enabled = false
+                                                        emitter.Rate = prevRate
+                                                end)
+
                                         end
-                                        emitter:Emit(15)
-                                        task.delay(0.5, function()
-                                                emitter.Enabled = false
-                                                emitter.Rate = prevRate
-                                        end)
-
                                 end
+
+                                Debris:AddItem(anchor, 2)
                         end
-
-                        Debris:AddItem(anchor, 2)
                 end
-        end
 
-        if model.Parent then model:Destroy() end
+                if model.Parent then model:Destroy() end
+        end
 end
 
 -- ========= Cristales =========
