@@ -270,7 +270,6 @@ function M:start(_, SoundManager)
                 warn("[MiningController] Piedra fuera de rango", model.Name, "inDist=", inDist)
             end
             if canMine then
-                warn("[MiningController] Piedra lista para minar", model.Name)
                 currentStone = model
                 updateMiningGUI(model)
             else
