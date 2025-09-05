@@ -31,7 +31,8 @@
       "ServerModules": { "$path": "src/ServerScriptService/ServerModules" },
       "Services":      { "$path": "src/ServerScriptService/Services" },
       "Systems":       { "$path": "src/ServerScriptService/Systems" },
-      "Scripts":       { "$path": "src/ServerScriptService/Scripts" }
+      "Scripts":       { "$path": "src/ServerScriptService/Scripts" },
+      "PickFall":     { "$path": "src/ServerScriptService/PickFall" }
     },
 
     "ServerStorage": {
