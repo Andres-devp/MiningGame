@@ -47,6 +47,8 @@ local function setupOreBlocks()
     ore:SetAttribute("MaxHealth", mh)
     ore:SetAttribute("Health", ore:GetAttribute("Health") or mh)
     ore:SetAttribute("IsMinable", true)
+    ore:SetAttribute("Reward", 0)
+    ore:SetAttribute("RequiresPickaxe", true)
 
     if ore:IsA("Model") then
       for _, part in ipairs(ore:GetDescendants()) do

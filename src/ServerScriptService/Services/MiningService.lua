@@ -153,6 +153,11 @@ local function mineStone(player, model: Instance)
                 return
         end
 
+        local requiresPickaxe = model:GetAttribute("RequiresPickaxe")
+        if requiresPickaxe and not hasPickaxeServer(player) then
+                return
+        end
+
         local focus = focusPart(model)
         if not (focus and distOK(player, focus)) then
                 return
