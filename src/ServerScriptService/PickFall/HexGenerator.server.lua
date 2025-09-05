@@ -1,12 +1,12 @@
 local CFG = {
     layers = 5, -- number of vertical layers
-    layerStep = -6, -- vertical offset between layers (studs) when autoLayerStep=false
+    layerStep = 0, -- vertical offset between layers
     radius = 5, -- axial radius of the honeycomb (in tiles)
     topOffsetY = 0, -- offset from arena base to top layer
-    tileYaw = 0, -- rotation of each tile in degrees
-    spacingXY = 1.0, -- multiplier for horizontal offsets
-    gapY = 2, -- studs between layers
-    autoLayerStep = true, -- automatically derive layerStep from tile height
+    tileYaw = 30, -- rotation of each tile in degrees
+    spacingXY = 0.985, -- multiplier for horizontal offsets
+    sameY = true, -- if true, all layers share the same Y
+
     debug = true,
     baseWeights = {
         Stone = 40,
@@ -124,6 +124,24 @@ local function pivotTo(obj, cf)
     end
 end
 
+-- Anchor parts and remove constraints before parenting
+local function prepStatic(inst)
+    if inst:IsA("BasePart") then
+        inst.Anchored = true
+        inst.CanCollide = true
+        inst.Massless = false
+    end
+    for _, d in ipairs(inst:GetDescendants()) do
+        if d:IsA("BasePart") then
+            d.Anchored = true
+            d.CanCollide = true
+            d.Massless = false
+        elseif d:IsA("Constraint") or d:IsA("JointInstance") or d:IsA("WeldConstraint") or d:IsA("Motor6D") then
+            d:Destroy()
+        end
+    end
+end
+
 -- Case-insensitive wait for child
 local function waitForChildCI(parent, name, timeout)
     timeout = timeout or 5
@@ -146,16 +164,18 @@ else
 end
 
 local flatW = math.max(tplSize.X, tplSize.Z)
-local tileH = tplSize.Y
+
 local tileRadius = flatW / 2
 
 local DX = 1.5 * tileRadius * CFG.spacingXY
 local DZ = math.sqrt(3) * tileRadius * CFG.spacingXY
 
-local layerStep = CFG.autoLayerStep and -(tileH + CFG.gapY) or CFG.layerStep
+local layerStep = CFG.sameY and 0 or CFG.layerStep
 
 if CFG.debug then
-    print(string.format("HexGenerator: flatW=%.2f tileH=%.2f radius=%.2f DX=%.2f DZ=%.2f layerStep=%.2f", flatW, tileH, tileRadius, DX, DZ, layerStep))
+    print(('[HexGen] flatW=%.3f radius=%.3f DX=%.3f DZ=%.3f yaw=%d spacing=%.3f')
+        :format(flatW, tileRadius, DX, DZ, CFG.tileYaw, CFG.spacingXY))
+
 end
 
 local arena = waitForChildCI(Workspace, "PickFallArena", 5)
@@ -177,7 +197,6 @@ end
 local basePos = base.Position
 local baseTopY = basePos.Y + (base.Size and base.Size.Y / 2 or 0)
 
-local expectedTiles = 1 + 3 * CFG.radius * (CFG.radius + 1)
 
 for layer = 1, CFG.layers do
     local layerFolder = Instance.new("Folder")
@@ -186,10 +205,7 @@ for layer = 1, CFG.layers do
 
     local weights = mergeWeights(CFG.baseWeights, CFG.layerOverrides[layer])
     local y = baseTopY + CFG.topOffsetY + (layer - 1) * layerStep
-    if CFG.debug then
-        print(string.format("HexGenerator: generating layer %d at y=%.2f", layer, y))
-    end
-    local tileCount = 0
+
 
     for q = -CFG.radius, CFG.radius do
         local r1 = math.max(-CFG.radius, -q - CFG.radius)
@@ -202,24 +218,9 @@ for layer = 1, CFG.layers do
             local oreName = weightedPick(tileWeights)
             local template = templates[oreName]
             local clone = template:Clone()
-
-            -- prepare parts before parenting
-            if clone:IsA("BasePart") then
-                clone.Anchored = true
-                clone.CanCollide = true
-                clone.Massless = false
-            end
-            for _, desc in ipairs(clone:GetDescendants()) do
-                if desc:IsA("BasePart") then
-                    desc.Anchored = true
-                    desc.CanCollide = true
-                    desc.Massless = false
-                elseif desc:IsA("Weld") or desc:IsA("JointInstance") or desc:IsA("Constraint") then
-                    desc:Destroy()
-                end
-            end
-
+            prepStatic(clone)
             clone.Parent = layerFolder
+
 
             local cf = CFrame.new(basePos.X + relX, y, basePos.Z + relZ) * CFrame.Angles(0, math.rad(CFG.tileYaw or 0), 0)
 
@@ -238,15 +239,10 @@ for layer = 1, CFG.layers do
                 NodeService.register(clone)
             end
 
-            tileCount += 1
         end
-    end
-
-    if CFG.debug then
-        print(string.format("HexGenerator: layer %d placed %d tiles (expected %d)", layer, tileCount, expectedTiles))
     end
 end
 
-print(string.format("HexGenerator: layers=%d radius=%d", CFG.layers, CFG.radius))
+
 print("HexGenerator: generation complete")
 
