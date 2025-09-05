@@ -25,6 +25,8 @@ math.randomseed(tick())
 local Workspace = game:GetService("Workspace")
 local ServerStorage = game:GetService("ServerStorage")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local NodeService = require(script.Parent.Parent:WaitForChild("Services"):WaitForChild("NodeService"))
+
 
 -- Fetch templates from the defined locations
 local function getTemplates()
@@ -163,11 +165,21 @@ for layer = 1, CFG.layers do
             local cf = CFrame.new(basePos.X + x, basePos.Y + y, basePos.Z + z)
                 * CFrame.Angles(0, math.rad(CFG.tileYaw), 0)
             pivotTo(clone, cf)
-
             clone:SetAttribute("NodeType", oreName)
+            local maxHealth = (oreName == "Stone") and 1 or 20
+            clone:SetAttribute("MaxHealth", maxHealth)
+            clone:SetAttribute("Health", maxHealth)
+            clone:SetAttribute("IsMinable", true)
+            clone:SetAttribute("Reward", 0)
+            clone:SetAttribute("RequiresPickaxe", true)
 
             clone.Name = string.format("%s_q%d_r%d", oreName, q, r)
             clone.Parent = layerFolder
+
+            if clone:IsA("Model") then
+                NodeService.register(clone)
+            end
+
         end
     end
 end
