@@ -84,26 +84,24 @@ local function fireMine(model: Instance)
 end
 
 local function tryMineFromPart(part: Instance)
-	if not part then
-		warn("[InputController] click sin target")
-		return
+        if not part then
+                return
+
         end
         local model = part:FindFirstAncestorOfClass("Model")
         if not model and part:IsA("BasePart") then
                 model = part
         end
         if not isStoneModel(model) then
-                warn("[InputController] objetivo no minable", model and model.Name)
+
                 return
         end
 
         local focus = focusPart(model)
         if not (focus and distOK(focus)) then
-                warn("[InputController] fuera de rango", model and model.Name)
                 return
         end
 
-        warn("[InputController] enviando MiningRequest", model.Name)
         fireMine(model)
 
 end

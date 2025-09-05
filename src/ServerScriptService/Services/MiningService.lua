@@ -120,7 +120,6 @@ end
 -- coerce payload → Instance con NodeService
 local function coerceNode(payload): Instance?
         if typeof(payload) ~= "table" then
-                print("[MiningService] coerceNode invalid payload", payload)
                 return nil
         end
 
@@ -139,38 +138,33 @@ local function coerceNode(payload): Instance?
                 if byName and (byName:IsA("Model") or byName:IsA("BasePart")) then return byName end
         end
 
-        print("[MiningService] coerceNode could not resolve node", payload)
         return nil
 end
 
 -- ========= Piedras =========
 local function mineStone(player, model: Instance)
-        print("[MiningService] mineStone player=", player and player.Name, "model=", model and model.Name)
+
         local l = ensureLimiters(player)
         if not l.stone:allow(1) then
-                print("\tRate limited")
                 return
         end
 
         if typeof(model) ~= "Instance" or not (model:IsA("Model") or model:IsA("BasePart")) then
-                print("\tInvalid model", model)
+
                 return
         end
         local hasStoneTag = hasTagDeep(model, "Stone")
         local isMinable = model:GetAttribute("IsMinable")
         if not hasStoneTag and not isMinable then
-                print("\tNot minable", model.Name, "StoneTag=", hasStoneTag, "IsMinable=", isMinable)
                 return
         end
         if not ownsPlotForModel(player, model) then
-                print("\tPlayer does not own model", model.Name)
                 return
         end
 
 
         local focus = focusPart(model)
         if not (focus and distOK(player, focus)) then
-                print("\tDistance check failed for", model.Name)
                 return
         end
 
@@ -326,7 +320,6 @@ function MiningService.init()
 		stopCrystal(player)
 	end)
 
-	print("[MiningService] Initialized (clean EventBus only).")
 end
 
 function MiningService.ApplyMiningBuff(player: Player, duration: number, multiplier: number)

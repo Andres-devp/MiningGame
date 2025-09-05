@@ -93,19 +93,16 @@ end
 local function hasEquippedPickaxeClient()
     local ch = player.Character
     if not ch then
-        warn("[MiningController] hasEquippedPickaxeClient: sin character")
         return false
     end
     if ch:FindFirstChild("PickaxeModel") then
-        warn("[MiningController] hasEquippedPickaxeClient: PickaxeModel detectado")
+
         return true
     end
     for _, inst in ipairs(ch:GetChildren()) do
         if inst:IsA("Tool") then
             local lname = inst.Name:lower()
-            warn("[MiningController] Revisando herramienta", inst.Name)
             if lname:find("pick") or lname:find("pico") or CollectionService:HasTag(inst, "Pickaxe") then
-                warn("[MiningController] hasEquippedPickaxeClient: reconocida como pico", inst.Name)
 
                 return true
             end
