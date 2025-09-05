@@ -92,8 +92,11 @@ local function hasEquippedPickaxeClient()
     if not ch then return false end
     if ch:FindFirstChild("PickaxeModel") then return true end
     for _, inst in ipairs(ch:GetChildren()) do
-        if inst:IsA("Tool") and (inst.Name:lower():find("pick") or CollectionService:HasTag(inst, "Pickaxe")) then
-            return true
+        if inst:IsA("Tool") then
+            local lname = inst.Name:lower()
+            if lname:find("pick") or lname:find("pico") or CollectionService:HasTag(inst, "Pickaxe") then
+                return true
+            end
         end
     end
     local flag = player:FindFirstChild("PickaxeEquipped")
