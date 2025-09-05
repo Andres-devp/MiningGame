@@ -1,11 +1,13 @@
 local CFG = {
     layers = 5, -- number of vertical layers
     layerStep = -20, -- vertical offset between layers
+
     radius = 5, -- axial radius of the honeycomb (in tiles)
     topOffsetY = 0, -- offset from arena base to top layer
     tileYaw = 30, -- rotation of each tile in degrees
     spacingXY = 0.985, -- multiplier for horizontal offsets
     sameY = false, -- if true, all layers share the same Y
+
     debug = true,
     baseWeights = {
         Stone = 40,
@@ -163,6 +165,7 @@ else
 end
 
 local flatW = math.max(tplSize.X, tplSize.Z)
+
 local tileRadius = flatW / 2
 
 local DX = 1.5 * tileRadius * CFG.spacingXY
@@ -173,6 +176,7 @@ local layerStep = CFG.sameY and 0 or CFG.layerStep
 if CFG.debug then
     print(('[HexGen] flatW=%.3f radius=%.3f DX=%.3f DZ=%.3f yaw=%d spacing=%.3f')
         :format(flatW, tileRadius, DX, DZ, CFG.tileYaw, CFG.spacingXY))
+
 end
 
 local arena = waitForChildCI(Workspace, "PickFallArena", 5)
@@ -194,6 +198,7 @@ end
 local basePos = base.Position
 local baseTopY = basePos.Y + (base.Size and base.Size.Y / 2 or 0)
 
+
 for layer = 1, CFG.layers do
     local layerFolder = Instance.new("Folder")
     layerFolder.Name = string.format("Layer_%d", layer)
@@ -201,6 +206,7 @@ for layer = 1, CFG.layers do
 
     local weights = mergeWeights(CFG.baseWeights, CFG.layerOverrides[layer])
     local y = baseTopY + CFG.topOffsetY + (layer - 1) * layerStep
+
 
     for q = -CFG.radius, CFG.radius do
         local r1 = math.max(-CFG.radius, -q - CFG.radius)
@@ -215,6 +221,7 @@ for layer = 1, CFG.layers do
             local clone = template:Clone()
             prepStatic(clone)
             clone.Parent = layerFolder
+
 
             local cf = CFrame.new(basePos.X + relX, y, basePos.Z + relZ) * CFrame.Angles(0, math.rad(CFG.tileYaw or 0), 0)
 
@@ -236,6 +243,7 @@ for layer = 1, CFG.layers do
         end
     end
 end
+
 
 print("HexGenerator: generation complete")
 
