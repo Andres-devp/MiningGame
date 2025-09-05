@@ -105,7 +105,6 @@ local function hasEquippedPickaxeClient()
     end
     local flag = player:FindFirstChild("PickaxeEquipped")
     local equipped = (flag and flag.Value) or false
-    warn("[MiningController] hasEquippedPickaxeClient: flag PickaxeEquipped=", equipped)
     return equipped
 end
 
@@ -267,7 +266,6 @@ function M:start(_, SoundManager)
                 lastStoneAuto = time()
                 local id = nodeIdOf(model)
                 if id then
-                    warn("[MiningController] Enviando MiningRequest", model.Name, id)
                     EventBus.sendToServer(Topics.MiningRequest, { node = model, nodeId = id, toolTier = 1 })
                 end
             end
@@ -279,7 +277,6 @@ function M:start(_, SoundManager)
             local hasPick = hasEquippedPickaxeClient()
             local inDist  = focus and distOK(focus)
             local canMine = hasPick and inDist
-            warn("[MiningController] Cristal check hasPick=", hasPick, "inDist=", inDist, model and model.Name)
             setHighlight(model, canMine)
 
             local hoverAllowed  = ownsAutoMinePass() and autoMineEnabled()
@@ -289,7 +286,6 @@ function M:start(_, SoundManager)
                 pendingModel = model
                 local id = nodeIdOf(model)
                 if id then
-                    warn("[MiningController] Enviando MiningCrystalStart", model.Name, id)
                     EventBus.sendToServer(Topics.MiningCrystalStart, { node = model, nodeId = id })
                 end
             end
@@ -300,7 +296,6 @@ function M:start(_, SoundManager)
             end
 
             if (not shouldContinue) and (pendingModel or miningActive) then
-                warn("[MiningController] MiningCrystalStop")
                 EventBus.sendToServer(Topics.MiningCrystalStop, {})
                 if currentCrystal then clearCrystalProgress(currentCrystal) end
                 currentCrystal, miningActive, pendingModel = nil, false, nil
