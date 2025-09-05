@@ -41,39 +41,42 @@ local function distOK(part)
     return (root and part) and ((root.Position - part.Position).Magnitude <= MAX_DISTANCE) or false
 end
 
-local function hasTagDeep(model, tag)
-    if CollectionService:HasTag(model, tag) then return true end
-    if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, tag) then return true end
-    for _, d in ipairs(model:GetDescendants()) do
-        if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
-            return true
+local function hasTagDeep(inst, tag)
+    if CollectionService:HasTag(inst, tag) then return true end
+    if inst:IsA("Model") then
+        if inst.PrimaryPart and CollectionService:HasTag(inst.PrimaryPart, tag) then return true end
+        for _, d in ipairs(inst:GetDescendants()) do
+            if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
+                return true
+            end
         end
     end
     return false
 end
 
-local function focusPart(model)
-    if not model then return nil end
-    local hit = model:FindFirstChild("Hitbox")
+local function focusPart(inst)
+    if not inst then return nil end
+    if inst:IsA("BasePart") then return inst end
+    local hit = inst:FindFirstChild("Hitbox")
     if hit and hit:IsA("BasePart") then return hit end
-    return model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart", true)
+    return inst.PrimaryPart or inst:FindFirstChildWhichIsA("BasePart", true)
 end
 
-local function nodeInfoFrom(model)
-    if not (model and model:IsA("Model")) then return nil end
-    local attr = model:GetAttribute("NodeType")
+local function nodeInfoFrom(inst)
+    if not inst then return nil end
+    local attr = inst:GetAttribute("NodeType")
     if attr then
         if attr == "Crystal" then
-            return "Crystal", focusPart(model)
+            return "Crystal", focusPart(inst)
         else
-            return "Stone", focusPart(model)
+            return "Stone", focusPart(inst)
         end
     end
-    if model:GetAttribute("IsMinable") then
-        return "Stone", focusPart(model)
+    if inst:GetAttribute("IsMinable") then
+        return "Stone", focusPart(inst)
     end
-    if hasTagDeep(model, "Crystal") then return "Crystal", focusPart(model) end
-    if hasTagDeep(model, "Stone") then return "Stone", focusPart(model) end
+    if hasTagDeep(inst, "Crystal") then return "Crystal", focusPart(inst) end
+    if hasTagDeep(inst, "Stone") then return "Stone", focusPart(inst) end
     return nil
 end
 
@@ -89,11 +92,18 @@ end
 
 local function hasEquippedPickaxeClient()
     local ch = player.Character
-    if not ch then return false end
-    if ch:FindFirstChild("PickaxeModel") then return true end
+    if not ch then
+        return false
+    end
+    if ch:FindFirstChild("PickaxeModel") then
+        return true
+    end
     for _, inst in ipairs(ch:GetChildren()) do
-        if inst:IsA("Tool") and (inst.Name:lower():find("pick") or CollectionService:HasTag(inst, "Pickaxe")) then
-            return true
+        if inst:IsA("Tool") then
+            local lname = inst.Name:lower()
+            if lname:find("pick") or lname:find("pico") or CollectionService:HasTag(inst, "Pickaxe") then
+                return true
+            end
         end
     end
     local flag = player:FindFirstChild("PickaxeEquipped")
@@ -245,11 +255,12 @@ function M:start(_, SoundManager)
 
     RunService.RenderStepped:Connect(function()
         local target = mouse.Target
-        local model  = target and target:FindFirstAncestorOfClass("Model") or nil
+        local model  = target and (target:FindFirstAncestorOfClass("Model") or target) or nil
         local nodeType, focus = nodeInfoFrom(model)
 
         if nodeType == "Stone" then
-            local canMine = focus and distOK(focus)
+            local inDist  = focus and distOK(focus)
+            local canMine = inDist
             setHighlight(model, canMine)
             if canMine then
                 currentStone = model
