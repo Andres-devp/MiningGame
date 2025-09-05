@@ -96,3 +96,4 @@ print("[ClientMain] Inicializando SaleDialogController.init")
 call(SaleDialogController, "init")
 
 print("--- ClientMain: controllers initialized (UI, Mining, Input, ShopUI, TP, ShopPrompt, CloseButtons).")
+

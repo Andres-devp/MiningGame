@@ -132,6 +132,7 @@ function M.init()
 		local rc = costRate(r, UPGRADE.SpawnRate)
 		if r <= UPGRADE.SpawnRate.min + 1e-4 then
 			rateInfo.Text = ("Velocidad: MAX (%.2fs)\nCosto: --"):format(UPGRADE.SpawnRate.min) 
+
 			style(rateBtn, false); rateBtn.Text = "MAX"
 		else
 			rateInfo.Text = ("Velocidad: %.2fs\nCosto: %d Gemas"):format(r, rc)
@@ -148,6 +149,7 @@ function M.init()
 		local crc = costRate(cr, UPGRADE.CrystalSpawnRate)
 		if cr <= UPGRADE.CrystalSpawnRate.min + 1e-4 then
 			cRateInfo.Text = ("Velocidad: MAX (%.2fs)\nCosto: --"):format(UPGRADE.CrystalSpawnRate.min) 
+
 			style(cRateBtn, false); cRateBtn.Text = "MAX"
 		else
 			cRateInfo.Text = ("Velocidad: %.2fs\nCosto: %d Gemas"):format(cr, crc)
