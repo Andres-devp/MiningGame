@@ -1,6 +1,3 @@
--- Bootstrap.server.lua
--- Carga módulos de ServerModules y ejecuta init si existe, evitando ConversionHandler eliminado
-
 local ServerScriptService = game:GetService("ServerScriptService")
 local modulesFolder = ServerScriptService:WaitForChild("ServerModules")
 local servicesFolder = ServerScriptService:WaitForChild("Services")
@@ -18,45 +15,24 @@ local modules = {
     "Plot/SpawnPlotAssociation",
 }
 
-local function safeRequire(folder, path)
+local function load(folder, path)
     local inst = folder
     for name in string.gmatch(path, "[^/]+") do
-        inst = inst:FindFirstChild(name)
-        if not inst then
-            warn(string.format("[FALLO] require %s (NO encontrado: %s/%s)", path, folder:GetFullName(), name))
-            return nil
-        end
-        folder = inst
+        inst = inst:WaitForChild(name)
     end
-    local ok, mod = pcall(require, inst)
-    if not ok then
-        warn(string.format("[FALLO] require %s (%s)", path, mod))
-        return nil
-    end
-    print("[OK] require " .. path)
-    if type(mod) == "table" and type(mod.init) == "function" then
-        local okInit, err = pcall(mod.init, mod)
-        if not okInit then
-            warn(string.format("[FALLO] init %s (%s)", path, err))
-        end
+    local mod = require(inst)
+    if type(mod) == "table" and mod.init then
+        mod.init(mod)
     end
     return mod
 end
 
 for _, name in ipairs(modules) do
-    safeRequire(modulesFolder, name)
+    load(modulesFolder, name)
 end
 
-
--- Servicios que no se encuentran dentro de ServerModules y
--- necesitan cargarse manualmente para que expongan su API/Events.
--- GamePassService maneja el estado del AutoMine (game pass + toggle),
--- por lo que debe inicializarse junto con MiningService.
 local services = { "MiningService", "GamePassService", "PickFall/PickfallEventService" }
 
-
 for _, name in ipairs(services) do
-    safeRequire(servicesFolder, name)
+    load(servicesFolder, name)
 end
-
-print("[Bootstrap] módulos cargados")

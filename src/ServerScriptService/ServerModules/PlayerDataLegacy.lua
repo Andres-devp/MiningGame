@@ -1,10 +1,9 @@
--- ServerModules/PlayerDataLegacy.lua
--- v2.7 - DataStore (gems, stones, upgrades, tools) + AutoMine + MÍNIMOS EN CARGA
+
 
 local START_ROCK_AMOUNT        = 5
 local START_CRYSTAL_AMOUNT     = 1
-local START_SPAWN_RATE         = 4.0   -- s/roca (menor = mejor)
-local START_CRYSTAL_SPAWN_RATE = 8.0   -- s/cristal (menor = mejor)
+local START_SPAWN_RATE         = 4.0   
+local START_CRYSTAL_SPAWN_RATE = 8.0   
 
 local Players            = game:GetService("Players")
 local DataStoreService   = game:GetService("DataStoreService")
@@ -13,7 +12,6 @@ local MarketplaceService = game:GetService("MarketplaceService")
 
 local LeaderstatsScript = {}
 
--- ⚠️ CAMBIA ESTE ID POR TU GAME PASS REAL (y usa el mismo en el cliente)
 local AUTOMINE_PASS_ID  = 1406821381
 local STORE_NAME        = "ACM_PlayerData_V1"
 
@@ -29,7 +27,6 @@ local DEFAULT_DATA = {
 	tools = { HasPickaxe = false },
 }
 
--- ========== Utils ==========
 local function deepcopy(t)
 	if type(t) ~= "table" then return t end
 	local r = {}
@@ -49,20 +46,18 @@ local function applyDefaults(dst, defs)
 end
 
 local store = DataStoreService:GetDataStore(STORE_NAME)
-local cache = {} -- [userId] = table
+local cache = {} 
 
--- Aplica mínimos al cargar (sube el piso para TODOS los jugadores)
 local function applyMinimums(data)
-	-- Cantidades (más alto = mejor)
+	
 	if data.upgrades.RockAmount    < START_ROCK_AMOUNT    then data.upgrades.RockAmount    = START_ROCK_AMOUNT    end
 	if data.upgrades.CrystalAmount < START_CRYSTAL_AMOUNT then data.upgrades.CrystalAmount = START_CRYSTAL_AMOUNT end
 
-	-- Velocidades (menor = mejor)
+	
 	if data.upgrades.SpawnRate        > START_SPAWN_RATE        then data.upgrades.SpawnRate        = START_SPAWN_RATE        end
 	if data.upgrades.CrystalSpawnRate > START_CRYSTAL_SPAWN_RATE then data.upgrades.CrystalSpawnRate = START_CRYSTAL_SPAWN_RATE end
 end
 
--- ========== Carga / Guardado ==========
 local function loadData(userId)
 	local key = tostring(userId)
 	local ok, data = pcall(function() return store:GetAsync(key) end)
@@ -88,7 +83,6 @@ local function saveData(userId)
 	end)
 end
 
--- ========== Remotos ==========
 local function ensureRemotes()
 	local root = ReplicatedStorage:FindFirstChild("Remotes") or Instance.new("Folder")
 	root.Name = "Remotes"
@@ -109,7 +103,6 @@ end
 
 local SyncAutoMinePass, RequestToggleAutoMine = ensureRemotes()
 
--- ========== Builders ==========
 local function buildLeaderstats(player, data)
 	local leaderstats = player:FindFirstChild("leaderstats") or Instance.new("Folder")
 	leaderstats.Name = "leaderstats"
@@ -216,7 +209,6 @@ local function refreshOwnership(player)
 	end
 end
 
--- ========== Remote handlers ==========
 SyncAutoMinePass.OnServerEvent:Connect(function(player)
 	refreshOwnership(player)
 end)
@@ -231,7 +223,6 @@ RequestToggleAutoMine.OnServerEvent:Connect(function(player)
 	end
 end)
 
--- ========== API ==========
 function LeaderstatsScript:init()
 	Players.PlayerAdded:Connect(function(player)
 		local data = loadData(player.UserId)
@@ -254,7 +245,7 @@ function LeaderstatsScript:init()
 		cache[player.UserId] = nil
 	end)
 
-	-- Autosave periódico
+	
 	task.spawn(function()
 		while true do
 			task.wait(60)

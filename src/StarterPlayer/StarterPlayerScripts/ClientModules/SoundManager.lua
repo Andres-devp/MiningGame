@@ -1,20 +1,18 @@
--- SoundManager (Cliente) v2.1 - Lógica de combo con time(), búsqueda flexible de plantillas
+
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DebrisService = game:GetService("Debris")
 
 local SoundManager = {}
 
--- Helper: busca sonidos en ReplicatedStorage/Sounds o en la raíz
 local function findSoundTemplate(name)
 	local soundsFolder = ReplicatedStorage:FindFirstChild("Sounds")
 	if soundsFolder and soundsFolder:FindFirstChild(name) then
 		return soundsFolder[name]
 	end
-	return ReplicatedStorage:WaitForChild(name) -- fallback a raíz
+	return ReplicatedStorage:WaitForChild(name) 
 end
 
--- Plantillas de sonido (soporta ambas jerarquías)
 SoundManager.soundTemplates = {
         BreakSound      = findSoundTemplate("BreakSound"),
         CrystalSound    = findSoundTemplate("CrystalSound"),
@@ -23,14 +21,12 @@ SoundManager.soundTemplates = {
         Upgrade         = findSoundTemplate("Upgrade"),
 }
 
--- === LÓGICA DE COMBO CENTRALIZADA ===
 local COMBO_WINDOW = 0.5
 local PITCH_INCREASE = 0.08
 local MAX_PITCH = 2.5
 local lastStoneMineTime = 0
 local comboCount = 1
 
--- Función genérica para reproducir un sonido
 function SoundManager:playSound(soundName, position, pitch)
 	local soundTemplate = self.soundTemplates[soundName]
 	if not soundTemplate then
@@ -54,7 +50,6 @@ function SoundManager:playSound(soundName, position, pitch)
 	DebrisService:AddItem(soundContainer, 3)
 end
 
--- === NUEVA FUNCIÓN PARA EL SONIDO DE COMBO ===
 function SoundManager:playComboSound(soundName, position)
 	local now = time()
 	if (now - lastStoneMineTime) <= COMBO_WINDOW then

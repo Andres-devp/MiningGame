@@ -1,4 +1,4 @@
--- ContextReport.client — diagnóstico seguro (para usar dentro de StarterPlayerScripts/Controllers)
+
 local Players = game:GetService("Players")
 local lp = Players.LocalPlayer
 
@@ -19,13 +19,10 @@ end
 
 print("=== [ContextReport.client] INICIO ===")
 
--- 1) Ubica PlayerScripts (no uses script.Parent porque aquí estamos dentro de /Controllers)
 local ps = script:FindFirstAncestorOfClass("PlayerScripts") or lp:WaitForChild("PlayerScripts")
 
--- 2) Da tiempo a que se clonen las carpetas hijas
 task.wait()
 
--- 3) Busca las carpetas hermanas correctas bajo PlayerScripts
 local controllers = ps:FindFirstChild("Controllers") or ps:WaitForChild("Controllers", 10)
 local clientModules = ps:FindFirstChild("ClientModules") or ps:WaitForChild("ClientModules", 10)
 

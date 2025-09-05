@@ -1,5 +1,4 @@
--- ServerModules/ShopService.lua
--- v1.4 - Buy pickaxe with Gems or DevProduct + persistence (OwnedTools.HasPickaxe)
+
 
 local MarketplaceService = game:GetService("MarketplaceService")
 local Players = game:GetService("Players")
@@ -8,9 +7,9 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ShopService = {}
 
 function ShopService:init()
-        -- Config
+        
         local GEM_PRICE = 10
-        local PICKAXE_PRODUCT_ID = 3374702806 -- your DevProduct
+        local PICKAXE_PRODUCT_ID = 3374702806 
 
         local pickaxeTemplate = ReplicatedStorage:WaitForChild("PickaxeModel")
         local pickaxeShop = workspace:WaitForChild("TiendaPico")
@@ -36,16 +35,16 @@ function ShopService:init()
 		local flag = owned:FindFirstChild("HasPickaxe") or Instance.new("BoolValue")
 		flag.Name = "HasPickaxe"
 		flag.Parent = owned
-                flag.Value = true -- Will persist via LeaderstatsScript
+                flag.Value = true 
         end
 
-        -- Purchase with Gems
+        
         prompt.Triggered:Connect(function(player)
                 local leaderstats = player:FindFirstChild("leaderstats")
                 local gems = leaderstats and leaderstats:FindFirstChild("Gems")
                 if not gems then return end
 
-                -- If already owned, ensure it's in the Backpack
+                
                 local owned = player:FindFirstChild("OwnedTools")
                 local has = owned and owned:FindFirstChild("HasPickaxe")
                 if has and has.Value then
@@ -62,8 +61,8 @@ function ShopService:init()
                 end
         end)
 
-        -- Purchase with Robux
-        -- ⚠️ Ensure ONLY this script assigns ProcessReceipt across the game.
+        
+        
         MarketplaceService.ProcessReceipt = function(receiptInfo)
                 local userId = receiptInfo.PlayerId
                 local productId = receiptInfo.ProductId
@@ -79,7 +78,7 @@ function ShopService:init()
                 return Enum.ProductPurchaseDecision.NotProcessedYet
         end
 
-        -- If the player already owns it, give it on spawn
+        
         Players.PlayerAdded:Connect(function(player)
                 player.CharacterAdded:Connect(function()
                         local owned = player:FindFirstChild("OwnedTools")

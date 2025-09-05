@@ -1,5 +1,4 @@
--- ServerScriptService/Services/MiningService.lua
--- v4.1 clean: EventBus + NodeService + RateLimiter (sin RemoteEvents legacy)
+
 
 local Players            = game:GetService("Players")
 local CollectionService  = game:GetService("CollectionService")
@@ -8,23 +7,19 @@ local RunService         = game:GetService("RunService")
 local Workspace          = game:GetService("Workspace")
 local Debris             = game:GetService("Debris")
 
--- Services
 local NodeService  = require(script.Parent:WaitForChild("NodeService"))
 local DataService  = require(script.Parent:WaitForChild("DataService"))
 local RateLimiter  = require(script.Parent:WaitForChild("RateLimiter"))
 
--- EventBus / Topics
 local Shared     = ReplicatedStorage:WaitForChild("Shared")
 local EventBus   = require(Shared:WaitForChild("events"):WaitForChild("EventBus"))
 local Topics     = require(Shared:WaitForChild("events"):WaitForChild("EventTopics"))
 
--- Parámetros gameplay
 local MAX_DISTANCE   = 18
 local CRYSTAL_TIME   = 1.4
 local CRYSTAL_REWARD = 5
 local FAIL_GRACE     = 0.20
 
--- Anti-spam
 local STONE_BURST      = 6
 local STONE_REFILL     = 6
 local STONE_MIN_GAP    = 0.20
@@ -35,12 +30,10 @@ local CRYSTAL_MIN_GAP  = 0.50
 
 local MiningService = {}
 
--- Estado por jugador
 local activeCrystal: {[Player]: {model: Model, t0: number, lastValid: number, focus: BasePart?}} = {}
 local limits: {[Player]: {stone: any, crystal: any}} = {}
 local buffs: {[Player]: {multiplier: number, expires: number}} = {}
 
--- ========= Helpers =========
 local function getHRP(player)
 	local c = player.Character
 	return c and c:FindFirstChild("HumanoidRootPart")
@@ -117,7 +110,6 @@ local function buffMultiplier(player: Player)
         return 1
 end
 
--- coerce payload → Instance con NodeService
 local function coerceNode(payload): Instance?
         if typeof(payload) ~= "table" then
                 return nil
@@ -141,7 +133,6 @@ local function coerceNode(payload): Instance?
         return nil
 end
 
--- ========= Piedras =========
 local function mineStone(player, model: Instance)
 
         local l = ensureLimiters(player)
@@ -161,7 +152,6 @@ local function mineStone(player, model: Instance)
         if not ownsPlotForModel(player, model) then
                 return
         end
-
 
         local focus = focusPart(model)
         if not (focus and distOK(player, focus)) then
@@ -183,7 +173,7 @@ local function mineStone(player, model: Instance)
                         kind = "stone",
                         position = focus.Position,
                 })
-                -- efectos de partículas al romper la roca
+                
                 local fx = model:FindFirstChild("FxStone", true)
                 if fx and fx:IsA("Attachment") then
                         local parent = fx.Parent
@@ -225,7 +215,6 @@ local function mineStone(player, model: Instance)
         end
 end
 
--- ========= Cristales =========
 local function beginCrystal(player, model: Model)
 	local l = ensureLimiters(player)
 	if not l.crystal:allow(1) then

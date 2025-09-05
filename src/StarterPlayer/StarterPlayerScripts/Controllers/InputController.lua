@@ -1,5 +1,4 @@
--- StarterPlayerScripts/Controllers/InputController.lua
--- v5.0 (clean) - Click/tap para minar rocas; peticiones por EventBus
+
 
 local Players            = game:GetService("Players")
 local UserInputService   = game:GetService("UserInputService")
@@ -106,7 +105,6 @@ local function tryMineFromPart(part: Instance)
 
 end
 
--- PC + móvil
 UserInputService.InputBegan:Connect(function(input, gpe)
 	if gpe then return end
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then

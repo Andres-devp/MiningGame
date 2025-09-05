@@ -1,5 +1,4 @@
--- Controllers/CloseButtonController.lua
--- Conecta botones llamados "CloseButton" para ocultar su Frame padre
+
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
@@ -7,7 +6,6 @@ local player = Players.LocalPlayer
 
 local M = {}
 
--- Conecta un botón específico
 local function hookButton(btn: GuiButton)
     local uiScale = btn:FindFirstChildOfClass("UIScale") or Instance.new("UIScale", btn)
     local tweenInfo = TweenInfo.new(0.25, Enum.EasingStyle.Back)
@@ -36,14 +34,14 @@ end
 function M:init()
     local gui = player:WaitForChild("PlayerGui")
 
-    -- Buscar botones existentes
+    
     for _, inst in ipairs(gui:GetDescendants()) do
         if inst:IsA("GuiButton") and inst.Name == "CloseButton" then
             hookButton(inst)
         end
     end
 
-    -- Escuchar nuevos botones agregados dinámicamente
+    
     gui.DescendantAdded:Connect(function(inst)
         if inst:IsA("GuiButton") and inst.Name == "CloseButton" then
             hookButton(inst)

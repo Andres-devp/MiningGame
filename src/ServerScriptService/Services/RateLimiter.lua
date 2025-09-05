@@ -1,5 +1,4 @@
--- ServerScriptService/Services/RateLimiter.lua
--- Token Bucket + minInterval por operación
+
 
 local RateLimiter = {}
 RateLimiter.__index = RateLimiter
@@ -19,14 +18,14 @@ function RateLimiter:allow(tokensRequired: number?)
 	local need = math.max(1, tokensRequired or 1)
 	local now  = time()
 
-	-- Refill continuo
+	
 	local elapsed = now - self.lastRefill
 	if elapsed > 0 then
 		self.tokens = math.min(self.capacity, self.tokens + elapsed * self.refillPerSec)
 		self.lastRefill = now
 	end
 
-	-- Enforce intervalo mínimo entre usos
+	
 	if (now - self.lastUse) < self.minInterval then
 		return false
 	end

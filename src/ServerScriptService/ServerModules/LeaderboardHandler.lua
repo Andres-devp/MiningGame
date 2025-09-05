@@ -1,4 +1,4 @@
--- Ubicación: ServerScriptService > ServerModules > LeaderboardHandler
+
 
 local DataStoreService = game:GetService("DataStoreService")
 local Players = game:GetService("Players")
@@ -74,7 +74,7 @@ function LeaderboardHandler:init()
                 updatePlayerScore(player, true)
 	end)
 
-	-- Usamos coroutine.wrap para que el bucle no bloquee el resto del script
+	
 	local leaderboardLoop = coroutine.wrap(function()
 		while true do
 			pcall(updateLeaderboard)
@@ -82,7 +82,7 @@ function LeaderboardHandler:init()
 		end
 	end)
 
-	leaderboardLoop() -- Iniciamos el bucle
+	leaderboardLoop() 
 	print("[LeaderboardHandler] Inicializado.")
 end
 

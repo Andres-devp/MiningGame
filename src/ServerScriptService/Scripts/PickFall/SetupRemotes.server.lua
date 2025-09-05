@@ -1,5 +1,4 @@
--- ServerScriptService/Scripts/SetupRemotes.server.lua
--- Crea RemoteEvents necesarios para Pickfall si no existen
+
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -9,7 +8,6 @@ if not remotesFolder then
     remotesFolder.Name = "Remotes"
     remotesFolder.Parent = ReplicatedStorage
 end
-
 
 local pickfallFolder = remotesFolder:FindFirstChild("PickFall")
 if not pickfallFolder then

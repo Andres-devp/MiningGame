@@ -1,8 +1,4 @@
--- SpawnPlotAssociation (v2 robusto) — asocia spawns con plots
--- - No ejecuta lógica al require; usa M.init()
--- - Tolera nombres: "Plot6", "Spawn_Plot6", "Plot6_Spawn", etc.
--- - Si un plot tiene TeleportPoint o Spawn (BasePart) lo prefiere.
--- - Se actualiza si agregas o quitas plots/spawns en runtime.
+
 
 local Workspace = game:GetService("Workspace")
 
@@ -34,7 +30,7 @@ end
 
 local function link(plot, spawn)
 	if not plot or not spawn then return end
-	-- Desvincula anteriores
+	
 	local old = M._plotToSpawn[plot]
 	if old and old ~= spawn then M._spawnToPlot[old] = nil end
 	M._plotToSpawn[plot] = spawn
@@ -56,12 +52,12 @@ end
 function M.refreshForPlot(plot, spawnsFolder)
 	if not plot or not plot:IsA("Model") then return end
 	spawnsFolder = spawnsFolder or Workspace:FindFirstChild("Spawns")
-	-- Preferir un TP interno si existe
+	
 	local tp = plot:FindFirstChild("TeleportPoint") or plot:FindFirstChild("Spawn")
 	if tp and tp:IsA("BasePart") then
 		link(plot, tp); return
 	end
-	-- Buscar en carpeta Spawns por nombre
+	
 	if spawnsFolder then
 		for _, sp in ipairs(spawnsFolder:GetChildren()) do
 			local target = sp
@@ -86,14 +82,14 @@ function M:init(opts)
 		return false
 	end
 
-	-- Escaneo inicial
+	
 	for _, plot in ipairs(plotsFolder:GetChildren()) do
 		if plot:IsA("Model") then
 			M.refreshForPlot(plot, spawnsFolder)
 		end
 	end
 
-	-- Watchers (altas/bajas)
+	
 	plotsFolder.ChildAdded:Connect(function(child)
 		if child:IsA("Model") then
 			M.refreshForPlot(child, spawnsFolder)
@@ -124,7 +120,6 @@ function M:init(opts)
 	return true
 end
 
--- API pública
 function M.GetSpawnForPlot(plot)  return M._plotToSpawn[plot] end
 function M.GetPlotForSpawn(spawn) return M._spawnToPlot[spawn] end
 

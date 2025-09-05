@@ -1,9 +1,8 @@
--- TeleportHandler.server — compatible con PlotManager v2.8.1 (usa PlotName y TeleportPoint)
+
 local RS = game:GetService("ReplicatedStorage")
 local Remotes = RS:WaitForChild("Remotes")
 local plotsFolder = workspace:WaitForChild("Plots")
 
--- carpeta de tiendas puede estar en 'Hub/Shops' o directamente en 'Shops'
 local shops = workspace:FindFirstChild("Shops", true)
 if not shops then
        warn("[TeleportHandler] No encontré carpeta 'Shops' en Workspace")
@@ -12,19 +11,17 @@ end
 
 print("[TeleportHandler] shops", shops:GetFullName())
 
-
 local toPlot = Remotes:WaitForChild("TeleportToPlot")
 local toShop = Remotes:WaitForChild("TeleportToShop")
 
--- intenta leer el Plot del jugador por PlotName (y como fallback, por owner en plotsData)
 local function getPlayerPlotModel(plr)
-	-- 1) por StringValue PlotName
+	
 	local pn = plr:FindFirstChild("PlotName")
 	if pn and pn.Value ~= "" then
 		local mdl = plotsFolder:FindFirstChild(pn.Value)
 		if mdl then return mdl end
 	end
-	-- 2) fallback por plotsData del módulo (opcional)
+	
         local ok, PM = pcall(function()
                 return require(game.ServerScriptService.ServerModules:WaitForChild("Plot"):WaitForChild("PlotManager"))
         end)
@@ -48,7 +45,7 @@ end
 toPlot.OnServerEvent:Connect(function(plr)
 	local model = getPlayerPlotModel(plr)
 	if not model then return end
-	-- Tu PlotManager usa 'TeleportPoint'; también acepto 'Spawn' por si lo cambias
+	
 	local tp = model:FindFirstChild("TeleportPoint") or model:FindFirstChild("Spawn")
 	if not tp then return end
 	local char = plr.Character or plr.CharacterAdded:Wait()
