@@ -51,22 +51,25 @@ local function distOK(player, part)
 	return (hrp and part) and ((hrp.Position - part.Position).Magnitude <= MAX_DISTANCE) or false
 end
 
-local function hasTagDeep(model: Model, tag: string): boolean
-	if CollectionService:HasTag(model, tag) then return true end
-	if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, tag) then return true end
-	for _, d in ipairs(model:GetDescendants()) do
-		if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
-			return true
-		end
-	end
-	return false
+local function hasTagDeep(inst: Instance, tag: string): boolean
+        if CollectionService:HasTag(inst, tag) then return true end
+        if inst:IsA("Model") then
+                if inst.PrimaryPart and CollectionService:HasTag(inst.PrimaryPart, tag) then return true end
+                for _, d in ipairs(inst:GetDescendants()) do
+                        if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
+                                return true
+                        end
+                end
+        end
+        return false
 end
 
-local function focusPart(model: Model?): BasePart?
-	if not model then return nil end
-	local hit = model:FindFirstChild("Hitbox")
-	if hit and hit:IsA("BasePart") then return hit end
-	return model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart", true)
+local function focusPart(inst: Instance?): BasePart?
+        if not inst then return nil end
+        if inst:IsA("BasePart") then return inst end
+        local hit = inst:FindFirstChild("Hitbox")
+        if hit and hit:IsA("BasePart") then return hit end
+        return inst.PrimaryPart or inst:FindFirstChildWhichIsA("BasePart", true)
 end
 
 local function ownsPlotForModel(player, model)
@@ -114,8 +117,8 @@ local function buffMultiplier(player: Player)
         return 1
 end
 
--- coerce payload → Model con NodeService
-local function coerceNode(payload): Model?
+-- coerce payload → Instance con NodeService
+local function coerceNode(payload): Instance?
         if typeof(payload) ~= "table" then
                 print("[MiningService] coerceNode invalid payload", payload)
                 return nil
@@ -124,7 +127,7 @@ local function coerceNode(payload): Model?
         local inst = payload.node
         local id   = payload.nodeId
 
-        if typeof(inst) == "Instance" and inst:IsA("Model") then
+        if typeof(inst) == "Instance" and (inst:IsA("Model") or inst:IsA("BasePart")) then
                 return inst
         end
 
@@ -133,7 +136,7 @@ local function coerceNode(payload): Model?
                 if byIdx then return byIdx end
 
                 local byName = Workspace:FindFirstChild(id, true)
-                if byName and byName:IsA("Model") then return byName end
+                if byName and (byName:IsA("Model") or byName:IsA("BasePart")) then return byName end
         end
 
         print("[MiningService] coerceNode could not resolve node", payload)
@@ -141,7 +144,7 @@ local function coerceNode(payload): Model?
 end
 
 -- ========= Piedras =========
-local function mineStone(player, model: Model)
+local function mineStone(player, model: Instance)
         print("[MiningService] mineStone player=", player and player.Name, "model=", model and model.Name)
         local l = ensureLimiters(player)
         if not l.stone:allow(1) then
@@ -149,7 +152,7 @@ local function mineStone(player, model: Model)
                 return
         end
 
-        if typeof(model) ~= "Instance" or not model:IsA("Model") then
+        if typeof(model) ~= "Instance" or not (model:IsA("Model") or model:IsA("BasePart")) then
                 print("\tInvalid model", model)
                 return
         end
