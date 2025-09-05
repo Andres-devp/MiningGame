@@ -57,6 +57,7 @@ local function isStoneModel(model: Instance?): boolean
                 end
         end
         return false
+
 end
 
 local function raycastFromScreen(screenPos: Vector2)
@@ -104,6 +105,7 @@ local function tryMineFromPart(part: Instance)
 
         warn("[InputController] enviando MiningRequest", model.Name)
         fireMine(model)
+
 end
 
 -- PC + móvil

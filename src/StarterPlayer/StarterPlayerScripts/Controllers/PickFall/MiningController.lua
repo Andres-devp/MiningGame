@@ -103,6 +103,7 @@ local function hasEquippedPickaxeClient()
             warn("[MiningController] Revisando herramienta", inst.Name)
             if lname:find("pick") or lname:find("pico") or CollectionService:HasTag(inst, "Pickaxe") then
                 warn("[MiningController] hasEquippedPickaxeClient: reconocida como pico", inst.Name)
+
                 return true
             end
         end
