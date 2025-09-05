@@ -57,6 +57,7 @@ local function isStoneModel(model: Instance?): boolean
                 end
         end
         return false
+
 end
 
 local function raycastFromScreen(screenPos: Vector2)
@@ -85,12 +86,14 @@ end
 local function tryMineFromPart(part: Instance)
         if not part then
                 return
+
         end
         local model = part:FindFirstAncestorOfClass("Model")
         if not model and part:IsA("BasePart") then
                 model = part
         end
         if not isStoneModel(model) then
+
                 return
         end
 
@@ -100,6 +103,7 @@ local function tryMineFromPart(part: Instance)
         end
 
         fireMine(model)
+
 end
 
 -- PC + móvil

@@ -143,12 +143,14 @@ end
 
 -- ========= Piedras =========
 local function mineStone(player, model: Instance)
+
         local l = ensureLimiters(player)
         if not l.stone:allow(1) then
                 return
         end
 
         if typeof(model) ~= "Instance" or not (model:IsA("Model") or model:IsA("BasePart")) then
+
                 return
         end
         local hasStoneTag = hasTagDeep(model, "Stone")
