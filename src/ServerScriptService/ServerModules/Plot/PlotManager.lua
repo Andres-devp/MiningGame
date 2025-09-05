@@ -1,5 +1,4 @@
--- Ubicación: ServerScriptService > ServerModules > PlotManager
--- v2.8.1 - Inicializa parcelas y resetea flags para el spawner (sin '}' perdido)
+
 
 local Players = game:GetService("Players")
 local plotsFolder = workspace:WaitForChild("Plots")
@@ -7,7 +6,6 @@ local plotsFolder = workspace:WaitForChild("Plots")
 local PlotManager = {}
 PlotManager.plotsData = {}
 
--- Población inicial de la tabla de parcelas
 for _, plotModel in ipairs(plotsFolder:GetChildren()) do
 	if plotModel:IsA("Model") then
 		PlotManager.plotsData[plotModel.Name] = {
@@ -23,7 +21,6 @@ for _, plotModel in ipairs(plotsFolder:GetChildren()) do
 end
 print("[PlotManager] Tabla de parcelas inicializada con " .. #plotsFolder:GetChildren() .. " parcelas.")
 
--- Crea/obtiene StringValue PlotName
 local function getOrCreatePlotNameValue(player)
 	local v = player:FindFirstChild("PlotName")
 	if not v then
@@ -35,7 +32,6 @@ local function getOrCreatePlotNameValue(player)
 	return v
 end
 
--- Teletransporta al TP point si existe
 local function teleportToPlot(player, plotModel)
 	local character = player.Character or player.CharacterAdded:Wait()
 	local tp = plotModel:FindFirstChild("TeleportPoint")
@@ -49,7 +45,6 @@ local function teleportToPlot(player, plotModel)
 	end
 end
 
--- Asigna una parcela libre
 local function assignPlot(player)
 	local plotNameValue = getOrCreatePlotNameValue(player)
 
@@ -70,19 +65,18 @@ local function assignPlot(player)
 	warn("No hay parcelas libres para asignar a " .. player.Name)
 end
 
--- Libera la parcela actual del jugador
 local function removePlot(player)
 	local plotNameValue = player:FindFirstChild("PlotName")
 	local plotName = plotNameValue and plotNameValue.Value or ""
 	if plotName ~= "" and PlotManager.plotsData[plotName] then
-		-- Destruir nodos
+		
 		for node in pairs(PlotManager.plotsData[plotName].rocks) do
 			if node and node.Parent then node:Destroy() end
 		end
 		for node in pairs(PlotManager.plotsData[plotName].crystals) do
 			if node and node.Parent then node:Destroy() end
 		end
-		-- Reset
+		
 		PlotManager.plotsData[plotName].owner = nil
 		PlotManager.plotsData[plotName]._seeded = false
 		PlotManager.plotsData[plotName]._lastMaxRocks = nil
@@ -92,12 +86,11 @@ local function removePlot(player)
 	if plotNameValue then plotNameValue.Value = "" end
 end
 
--- API
 function PlotManager:init()
 	Players.PlayerAdded:Connect(assignPlot)
 	Players.PlayerRemoving:Connect(removePlot)
 
-	-- En Studio, por si el jugador ya estaba cuando se requirió el módulo
+	
 	for _, p in ipairs(Players:GetPlayers()) do
 		task.defer(assignPlot, p)
 	end

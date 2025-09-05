@@ -1,5 +1,4 @@
--- ServerModules/SoundManager.lua (Servidor)
--- Busca plantillas en ReplicatedStorage/Sounds o raíz
+
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DebrisService = game:GetService("Debris")

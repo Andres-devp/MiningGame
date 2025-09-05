@@ -1,5 +1,4 @@
--- ServerModules/SellService.lua
--- Maneja la conversión de piedras a gemas cuando el jugador vende en la tienda
+
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
@@ -16,7 +15,7 @@ local function sellStones(player)
         if not stones or stones.Value <= 0 then return end
         local amount = stones.Value
         stones.Value = 0
-        -- Cada piedra vendida se convierte en dos gemas
+        
         DataService.addResource(player, "gems", amount * 2)
 end
 

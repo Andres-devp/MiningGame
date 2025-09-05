@@ -1,5 +1,4 @@
--- ServerScriptService/Services/PickfallEventService.lua
--- v1.0: Minijuego "Pickfall" (último en pie)
+
 
 local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -7,18 +6,12 @@ local RunService        = game:GetService("RunService")
 local Workspace         = game:GetService("Workspace")
 local CollectionService = game:GetService("CollectionService")
 
-
-
 local Remotes        = ReplicatedStorage:WaitForChild("Remotes")
 local PickfallFolder = Remotes:WaitForChild("PickFall")
 local JoinEvent      = PickfallFolder:WaitForChild("PickfallJoin")
 local StateEvent     = PickfallFolder:WaitForChild("PickfallState")
 local WinnerEvent    = PickfallFolder:WaitForChild("PickfallWinner")
 
-
--- MiningService no está ubicado dentro de la carpeta `PickFall`, por lo que debemos
--- buscarlo en el directorio padre. Anteriormente se esperaba que fuese un hijo
--- directo, provocando un `infinite yield` al no encontrarlo.
 local MiningService = require(script.Parent.Parent:WaitForChild("MiningService"))
 local NodeService   = require(script.Parent.Parent:WaitForChild("NodeService"))
 
@@ -27,21 +20,13 @@ local base      = arena:WaitForChild("Base")
 local oreFolder = arena:WaitForChild("Ores")
 local spawns    = arena:WaitForChild("Spawners")
 
-
--- Los minerales se toman directamente de la carpeta "Ores" ya existente en la
--- arena, de modo que agregar un nuevo mineral sólo requiere colocar su modelo
--- dentro de dicha carpeta.
-
-
-
-local ROUND_INTERVAL = 300 -- segundos entre eventos
+local ROUND_INTERVAL = 300 
 local COUNTDOWN      = 10
 local MONEY_REWARD   = 100
 local BUFF_DURATION  = 60
 local BUFF_MULT      = 2
 
 local PickfallEventService = {}
-
 
 local participants = {}
 
@@ -77,17 +62,11 @@ local function setupOreBlocks()
   end
 end
 
--- Reset the Pickfall arena's ore blocks.
---
--- The previous implementation referenced a `resetOreBlocks` function that
--- did not exist, causing a runtime error when the service started.  This
--- function rebuilds the ore platforms and registers any new ore models with
--- `NodeService` so that mining interactions work correctly.
 local function resetOreBlocks()
-  -- Configure existing ore blocks
+  
   setupOreBlocks()
 
-  -- Register ore models with NodeService for mining behaviour
+  
   for _, ore in ipairs(oreFolder:GetChildren()) do
     if ore:IsA("Model") then
       NodeService.register(ore)
@@ -117,9 +96,7 @@ local function resetAll()
 
 end
 
-
 local function reward(plr)
-
 
         if not plr then return end
         WinnerEvent:FireAllClients(plr.Name)
@@ -155,7 +132,6 @@ local function checkWin()
                 end)
         end
 end
-
 
 local function eliminate(plr)
 

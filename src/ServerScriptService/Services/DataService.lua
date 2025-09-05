@@ -1,5 +1,4 @@
--- ServerScriptService/Services/DataService.lua
--- Servicio simple para sumar recursos en valores del jugador.
+
 
 local DataService = {}
 
@@ -14,7 +13,6 @@ local function addIntValue(parent: Instance, name: string, startValue: number)
 	return v
 end
 
--- kind: "gems" | "stones"
 function DataService.addResource(player: Player, kind: string, delta: number)
 	if not player or type(delta) ~= "number" then return end
 	if kind == "gems" then

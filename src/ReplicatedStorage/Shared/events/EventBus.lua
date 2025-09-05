@@ -1,24 +1,21 @@
--- ReplicatedStorage/Shared/events/EventBus.lua
--- Seguro para cliente y servidor. REQUIERE: ReplicatedStorage/Remotes/Net (RemoteEvent)
+
 
 local RS         = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local Remotes = RS:WaitForChild("Remotes")
-local Net     = Remotes:WaitForChild("Net") -- RemoteEvent
+local Net     = Remotes:WaitForChild("Net") 
 
 local EventBus = {}
 local serverHandlers = {}
 local clientHandlers = {}
 
--- ===== CLIENTE → SERVIDOR =====
 function EventBus.sendToServer(topic: string, payload: any)
 	if RunService:IsClient() then
 		Net:FireServer(topic, payload)
 	end
 end
 
--- ===== SERVIDOR =====
 function EventBus.registerServer(topic: string, fn)
 	serverHandlers[topic] = fn
 end
@@ -36,7 +33,6 @@ function EventBus.sendToClient(player, topic: string, payload: any)
 	end
 end
 
--- ===== CLIENTE =====
 function EventBus.registerClient(topic: string, fn)
 	clientHandlers[topic] = fn
 end

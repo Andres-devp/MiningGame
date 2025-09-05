@@ -1,5 +1,5 @@
--- Controllers/ShopPromptController.lua
--- Controla el ProximityPrompt de workspace.TiendaPico (texto dinámico según gemas)
+
+
 local Players    = game:GetService("Players")
 local RunService = game:GetService("RunService")
 

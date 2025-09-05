@@ -1,11 +1,11 @@
--- UpgradeHandler.lua v2.1 - Debe usar los mismos "start" que LeaderstatsScript
+
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local UpgradeHandler = {}
 
 function UpgradeHandler:init()
-        -- RemoteEvent compartido con el cliente en ReplicatedStorage/Remotes
+        
         local remotes = ReplicatedStorage:FindFirstChild("Remotes") or Instance.new("Folder")
         remotes.Name = "Remotes"
         remotes.Parent = ReplicatedStorage
@@ -17,12 +17,12 @@ function UpgradeHandler:init()
                 upgradeEvent.Parent = remotes
         end
 
-	-- >>> Alinea estos "start" con LeaderstatsScript <<<
+	
         local UPGRADE = {
-                RockAmount = { base = 25,  mult = 1.3, start = 5 },    -- +1
-                SpawnRate  = { base = 50,  mult = 1.5, start = 4.0, step = 0.25, min = 0.5 }, -- seg ↓
-                CrystalAmount    = { base = 75,  mult = 1.4, start = 0 },    -- +1
-                CrystalSpawnRate = { base = 100, mult = 1.6, start = 8.0, step = 0.5,  min = 2.0 }, -- seg ↓
+                RockAmount = { base = 25,  mult = 1.3, start = 5 },    
+                SpawnRate  = { base = 50,  mult = 1.5, start = 4.0, step = 0.25, min = 0.5 }, 
+                CrystalAmount    = { base = 75,  mult = 1.4, start = 0 },    
+                CrystalSpawnRate = { base = 100, mult = 1.6, start = 8.0, step = 0.5,  min = 2.0 }, 
         }
 
 	local function ensureUps(plr)

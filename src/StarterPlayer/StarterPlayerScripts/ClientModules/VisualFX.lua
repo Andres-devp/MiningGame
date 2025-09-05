@@ -1,5 +1,4 @@
--- StarterPlayerScripts/ClientModules/VisualFX.lua
--- v1.1 - Efectos mejorados: polvo extra (roca) y destellos con luz (cristal)
+
 
 local Debris    = game:GetService("Debris")
 local RunService= game:GetService("RunService")
@@ -38,14 +37,14 @@ local function shakeCamera(duration, magnitude)
 end
 
 function M.impactDust(pos: Vector3)
-        -- Particle effects removed; retain only camera shake
+        
         shakeCamera(0.10, 1.2)
 end
 
 function M.crystalBurst(pos: Vector3)
         local part = mkAnchorPart(pos)
         local ring = Instance.new("ParticleEmitter")
-        ring.Texture = "rbxassetid://3018581294" -- ring
+        ring.Texture = "rbxassetid://3018581294" 
         ring.Rate = 0
         ring.Speed = NumberRange.new(2,4)
         ring.Lifetime = NumberRange.new(0.35,0.55)
