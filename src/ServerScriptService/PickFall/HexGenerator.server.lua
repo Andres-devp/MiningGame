@@ -22,10 +22,12 @@ local CFG = {
 
 math.randomseed(math.floor(os.clock()*1e6))
 
+
 local Workspace = game:GetService("Workspace")
 local ServerStorage = game:GetService("ServerStorage")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local NodeService = require(script.Parent.Parent:WaitForChild("Services"):WaitForChild("NodeService"))
+
 
 -- Fetch templates from the defined locations
 local function getTemplates()
@@ -60,6 +62,7 @@ local function mergeWeights(a, b)
     for k, v in pairs(a) do t[k] = v end
     if b then
         for k, v in pairs(b) do t[k] = v end
+
     end
     return t
 end
@@ -75,6 +78,7 @@ local function weightedPick(weights)
     local r = math.random() * total
     for ore, w in pairs(weights) do
         w = math.max(0, w or 0)
+
         r -= w
         if r <= 0 then
             return ore
@@ -132,6 +136,7 @@ end
 
 local basePos = arena.Base.Position
 local baseTopY = basePos.Y + (arena.Base.Size and arena.Base.Size.Y / 2 or 0)
+
 local size = CFG.tileWidth / 2
 
 for layer = 1, CFG.layers do
@@ -141,6 +146,7 @@ for layer = 1, CFG.layers do
 
     local weights = mergeWeights(CFG.baseWeights, CFG.layerOverrides[layer])
     local y = baseTopY + CFG.topOffsetY + (layer - 1) * CFG.layerStep
+
 
     for q = -CFG.radius, CFG.radius do
         local r1 = math.max(-CFG.radius, -q - CFG.radius)
@@ -162,6 +168,7 @@ for layer = 1, CFG.layers do
             end
 
             local cf = CFrame.new(basePos.X + x, y, basePos.Z + z)
+
                 * CFrame.Angles(0, math.rad(CFG.tileYaw), 0)
             pivotTo(clone, cf)
             clone:SetAttribute("NodeType", oreName)
@@ -178,6 +185,7 @@ for layer = 1, CFG.layers do
             if clone:IsA("Model") then
                 NodeService.register(clone)
             end
+
         end
     end
 end
