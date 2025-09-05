@@ -198,7 +198,6 @@ local function spawnNode(plotData, nodeType)
                 plotData.crystals[node] = true
         end
 
-        dprint(("Spawned %s en '%s' (%s)"):format(nodeType, usedZone or "?", plotData.model.Name))
         return true
 end
 
