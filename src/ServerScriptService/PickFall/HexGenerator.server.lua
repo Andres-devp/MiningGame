@@ -122,8 +122,10 @@ end
 
 local templates = getTemplates()
 
-local arena = Workspace:FindFirstChild("PickFallArena")
-assert(arena and arena:FindFirstChild("Base"), "Workspace/PickFallArena with Base not found")
+local arena = Workspace:WaitForChild("PickFallArena", 5)
+local base = arena and arena:FindFirstChild("Base") or arena:WaitForChild("Base", 5)
+assert(arena and base, "Workspace/PickFallArena with Base not found")
+
 
 local platforms = arena:FindFirstChild("OrePlatforms")
 if platforms then
@@ -134,8 +136,8 @@ else
     platforms.Parent = arena
 end
 
-local basePos = arena.Base.Position
-local baseTopY = basePos.Y + (arena.Base.Size and arena.Base.Size.Y / 2 or 0)
+local basePos = base.Position
+local baseTopY = basePos.Y + (base.Size and base.Size.Y / 2 or 0)
 
 local size = CFG.tileWidth / 2
 
