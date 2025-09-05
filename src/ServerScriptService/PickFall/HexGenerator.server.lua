@@ -119,13 +119,22 @@ local function pivotTo(obj, cf)
     end
 end
 
+-- Case-insensitive wait for child
+local function waitForChildCI(parent, name, timeout)
+    timeout = timeout or 5
+    local lower, t0 = name:lower(), os.clock()
+    repeat
+        for _, child in ipairs(parent:GetChildren()) do
+            if child.Name:lower() == lower then return child end
+        end
+        task.wait(0.1)
+    until os.clock() - t0 >= timeout
+end
+
 local templates = getTemplates()
 
-local arena = Workspace:FindFirstChild("PickFallArena") or Workspace:WaitForChild("PickFallArena", 5)
-local base
-if arena then
-    base = arena:FindFirstChild("Base") or arena:WaitForChild("Base", 5)
-end
+local arena = waitForChildCI(Workspace, "PickFallArena", 5)
+local base = arena and waitForChildCI(arena, "Base", 5)
 assert(arena and base, "Workspace/PickFallArena with Base not found")
 
 
@@ -150,7 +159,6 @@ for layer = 1, CFG.layers do
 
     local weights = mergeWeights(CFG.baseWeights, CFG.layerOverrides[layer])
     local y = baseTopY + CFG.topOffsetY + (layer - 1) * CFG.layerStep
-
 
     for q = -CFG.radius, CFG.radius do
         local r1 = math.max(-CFG.radius, -q - CFG.radius)
