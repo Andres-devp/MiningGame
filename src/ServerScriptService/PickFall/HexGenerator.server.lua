@@ -44,6 +44,7 @@ local function getTemplates()
         end
     end
     assert(folder, "Ore templates not found in expected locations")
+    print("HexGenerator: using template folder", folder:GetFullName())
 
     local names = { "Stone", "Coal", "Bronze", "Gold", "Emerald", "Diamond" }
     local templates = {}
@@ -52,6 +53,7 @@ local function getTemplates()
         assert(inst, "Missing template: " .. name)
         templates[name] = inst
     end
+    print("HexGenerator: loaded templates", table.concat(names, ", "))
     return templates
 end
 
@@ -136,15 +138,18 @@ local templates = getTemplates()
 local arena = waitForChildCI(Workspace, "PickFallArena", 5)
 local base = arena and waitForChildCI(arena, "Base", 5)
 assert(arena and base, "Workspace/PickFallArena with Base not found")
+print("HexGenerator: arena", arena, "base", base)
 
 
 local platforms = arena:FindFirstChild("OrePlatforms")
 if platforms then
     platforms:ClearAllChildren()
+    print("HexGenerator: cleared existing platforms")
 else
     platforms = Instance.new("Folder")
     platforms.Name = "OrePlatforms"
     platforms.Parent = arena
+    print("HexGenerator: created platforms folder")
 end
 
 local basePos = base.Position
@@ -159,6 +164,8 @@ for layer = 1, CFG.layers do
 
     local weights = mergeWeights(CFG.baseWeights, CFG.layerOverrides[layer])
     local y = baseTopY + CFG.topOffsetY + (layer - 1) * CFG.layerStep
+    print(string.format("HexGenerator: generating layer %d at y=%.2f", layer, y))
+    local tileCount = 0
 
     for q = -CFG.radius, CFG.radius do
         local r1 = math.max(-CFG.radius, -q - CFG.radius)
@@ -198,9 +205,16 @@ for layer = 1, CFG.layers do
                 NodeService.register(clone)
             end
 
+            tileCount += 1
+            if tileCount <= 5 then
+                print(string.format("HexGenerator: placed %s at layer %d q=%d r=%d", oreName, layer, q, r))
+            end
+
         end
     end
+    print(string.format("HexGenerator: layer %d placed %d tiles", layer, tileCount))
 end
 
 print(string.format("HexGenerator: layers=%d radius=%d tileWidth=%.2f", CFG.layers, CFG.radius, CFG.tileWidth))
+print("HexGenerator: generation complete")
 
