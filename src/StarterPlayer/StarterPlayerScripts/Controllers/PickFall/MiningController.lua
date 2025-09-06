@@ -112,15 +112,27 @@ local function nodeIdOf(model)
     return (model and model:GetAttribute("NodeId")) or (model and model.Name) or nil
 end
 
-local hl = Instance.new("Highlight")
-hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-hl.FillTransparency = 0.6
-hl.Enabled = true
-hl.Parent = player:WaitForChild("PlayerGui")
+local hl
+
+local function createHighlight()
+    local highlight = Instance.new("Highlight")
+    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    highlight.FillTransparency = 0.6
+    highlight.Enabled = true
+    highlight.Parent = player:WaitForChild("PlayerGui")
+    return highlight
+end
+
+hl = createHighlight()
 
 local function setHighlight(adorn, canMine)
+    if not hl or not hl.Parent then
+        hl = createHighlight()
+    end
     if adorn then
-        hl.Adornee = adorn
+        if adorn ~= hl.Adornee then
+            hl.Adornee = adorn
+        end
         hl.FillColor = canMine and COLOR_CAN or COLOR_CANT
         hl.OutlineColor = canMine and COLOR_CAN or COLOR_CANT
     else
@@ -147,6 +159,7 @@ end
 
 player.CharacterAdded:Connect(function()
     task.defer(refreshGuiRefs)
+    hl = createHighlight()
 end)
 
 local function updateMiningGUI(model)
