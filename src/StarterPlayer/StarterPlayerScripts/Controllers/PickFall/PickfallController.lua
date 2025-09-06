@@ -17,28 +17,33 @@ local PickfallController = {}
 local guiFolder = player:WaitForChild("PlayerGui"):WaitForChild("PickFall")
 
 local gui       = guiFolder:WaitForChild("PickfallGui")
-local joinButton = gui:FindFirstChild("JoinButton") or gui:FindFirstChild("Inscribirse") or gui:FindFirstChildWhichIsA("TextButton")
-local stateLabel = gui:FindFirstChild("StateText") or gui:FindFirstChild("StatusLabel") or gui:FindFirstChildWhichIsA("TextLabel")
-local container = joinButton and joinButton.Parent or gui:FindFirstChildWhichIsA("Frame")
+local container = gui:WaitForChild("Frame")
+local joinButton = container:WaitForChild("JoinButton")
+local countdownLabel = container:WaitForChild("CountDown")
+
+local DEFAULT_JOIN_TEXT = joinButton.Text
 
 local joined = false
 local countdownConn, countdownTime
 
 local function updateCountdown()
-        if not stateLabel then return end
+        if not countdownLabel then return end
         local m = math.floor(countdownTime/60)
         local s = math.floor(countdownTime%60)
-        stateLabel.Text = string.format("Pickfall empieza en %02d:%02d!", m, s)
+        countdownLabel.Text = string.format("%02d:%02d", m, s)
 end
 
 function PickfallController.init()
        print("[PickfallController] init")
        if joinButton then
                joinButton.MouseButton1Click:Connect(function()
+                       if joined then return end
                        print("[PickfallController] Join button clicked")
                        JoinEvent:FireServer()
                        joined = true
-                       joinButton.Visible = false
+                       joinButton.Text = "Registrado"
+                       joinButton.AutoButtonColor = false
+                       joinButton.Active = false
                end)
        else
                print("[PickfallController] Join button not found")
@@ -51,11 +56,16 @@ function PickfallController.init()
                                countdownConn:Disconnect()
                                countdownConn = nil
                        end
-                       if stateLabel then
-                               stateLabel.Text = "Evento inactivo"
+                       if countdownLabel then
+                               countdownLabel.Text = "00:00"
                        end
                        joined = false
-                       if joinButton then joinButton.Visible = true end
+                       if joinButton then
+                               joinButton.Text = DEFAULT_JOIN_TEXT
+                               joinButton.AutoButtonColor = true
+                               joinButton.Active = true
+                               joinButton.Visible = true
+                       end
                elseif state == "countdown" then
                        countdownTime = tonumber(data) or 0
                        updateCountdown()
@@ -65,14 +75,14 @@ function PickfallController.init()
                                        updateCountdown()
                                end)
                        end
-                       if joinButton then joinButton.Visible = not joined end
+                       if joinButton then joinButton.Visible = true end
                elseif state == "running" then
                        if countdownConn then
                                countdownConn:Disconnect()
                                countdownConn = nil
                        end
-                       if stateLabel then
-                               stateLabel.Text = "Evento en progreso"
+                       if countdownLabel then
+                               countdownLabel.Text = "Evento en progreso"
                        end
                        if joinButton then joinButton.Visible = false end
                end
@@ -87,15 +97,18 @@ function PickfallController.init()
                        countdownConn:Disconnect()
                        countdownConn = nil
                end
-               if stateLabel then
+               if countdownLabel then
                        if name and name ~= "" then
-                               stateLabel.Text = name .. " ganó!"
+                               countdownLabel.Text = name .. " ganó!"
                        else
-                               stateLabel.Text = "Sin ganador"
+                               countdownLabel.Text = "Sin ganador"
                        end
                end
                joined = false
                if joinButton then
+                       joinButton.Text = DEFAULT_JOIN_TEXT
+                       joinButton.AutoButtonColor = true
+                       joinButton.Active = true
                        joinButton.Visible = true
                end
                if container then

@@ -21,7 +21,7 @@ local oreFolder = arena:WaitForChild("OrePlatforms") -- updated name from "Ores"
 local spawns    = arena:WaitForChild("Spawners")
 
 local ROUND_INTERVAL = 300 
-local COUNTDOWN      = 10
+local COUNTDOWN      = 30
 local MONEY_REWARD   = 100
 local BUFF_DURATION  = 60
 local BUFF_MULT      = 2
@@ -210,19 +210,19 @@ end
 
 local function runRound()
         print("[PickfallEventService] runRound invoked")
-        if not next(participants) then
-                print("\tNo participants")
-                broadcast("idle")
-                registrationOpen = true
-                return
-        end
         registrationOpen = true
-        print("\tCountdown starting with", #participants, "participants")
+        print("\tCountdown starting")
         for t = COUNTDOWN, 1, -1 do
                 broadcast("countdown", t)
                 task.wait(1)
         end
         registrationOpen = false
+        if not next(participants) then
+                print("\tNo participants after countdown")
+                broadcast("idle")
+                registrationOpen = true
+                return
+        end
         print("\tTeleporting players")
         teleport()
         active = true
