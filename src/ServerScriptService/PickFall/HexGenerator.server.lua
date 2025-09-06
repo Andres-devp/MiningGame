@@ -227,13 +227,26 @@ for layer = 1, CFG.layers do
             local cf = CFrame.new(basePos.X + relX, y, basePos.Z + relZ) * CFrame.Angles(0, math.rad(CFG.tileYaw or 0), 0)
 
             pivotTo(clone, cf)
-            clone:SetAttribute("NodeType", oreName)
-            local maxHealth = (oreName == "Stone") and 1 or 20
-            clone:SetAttribute("MaxHealth", maxHealth)
-            clone:SetAttribute("Health", maxHealth)
-            clone:SetAttribute("IsMinable", true)
-            clone:SetAttribute("Reward", 0)
-            clone:SetAttribute("RequiresPickaxe", true)
+            if clone:GetAttribute("NodeType") == nil then
+                clone:SetAttribute("NodeType", oreName)
+            end
+            local maxHealth = clone:GetAttribute("MaxHealth")
+            if maxHealth == nil then
+                maxHealth = (oreName == "Stone") and 1 or 20
+                clone:SetAttribute("MaxHealth", maxHealth)
+            end
+            if clone:GetAttribute("Health") == nil then
+                clone:SetAttribute("Health", maxHealth)
+            end
+            if clone:GetAttribute("IsMinable") == nil then
+                clone:SetAttribute("IsMinable", true)
+            end
+            if clone:GetAttribute("Reward") == nil then
+                clone:SetAttribute("Reward", 0)
+            end
+            if clone:GetAttribute("RequiresPickaxe") == nil then
+                clone:SetAttribute("RequiresPickaxe", true)
+            end
 
             clone.Name = string.format("%s_q%d_r%d", oreName, q, r)
 
