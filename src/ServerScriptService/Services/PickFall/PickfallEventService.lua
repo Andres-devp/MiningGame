@@ -83,6 +83,7 @@ local function broadcast(state, data)
 end
 
 local function resetAll()
+        print("[PickfallEventService] resetAll")
         for plr, info in pairs(participants) do
                 local char = plr.Character
                 if char and info.startCFrame then
@@ -95,19 +96,21 @@ local function resetAll()
         participants = {}
         active = false
         resetOreBlocks()
+        print("[PickfallEventService] resetAll complete")
 
 end
 
 local function reward(plr)
-
         if not plr then return end
+        print("[PickfallEventService] reward", plr.Name)
         WinnerEvent:FireAllClients(plr.Name)
         local stats = plr:FindFirstChild("leaderstats")
         local money = stats and stats:FindFirstChild("Money")
         if money then
-
                 money.Value = money.Value + MONEY_REWARD
-
+                print("\tMoney awarded", MONEY_REWARD)
+        else
+                print("\tMoney stat missing")
         end
         MiningService.ApplyMiningBuff(plr, BUFF_DURATION, BUFF_MULT)
 end
@@ -115,17 +118,17 @@ end
 local function checkWin()
         local count, last = 0, nil
         for plr in pairs(participants) do
-
                 count = count + 1
-
                 last = plr
         end
+        print("[PickfallEventService] checkWin participants", count)
         if count <= 1 then
                 active = false
                 if count == 1 then
                         reward(last)
                 else
                         WinnerEvent:FireAllClients("")
+                        print("[PickfallEventService] No winner")
                 end
                 task.delay(5, function()
                         resetAll()
@@ -136,7 +139,7 @@ local function checkWin()
 end
 
 local function eliminate(plr)
-
+        print("[PickfallEventService] eliminate", plr and plr.Name)
         participants[plr] = nil
         checkWin()
 end
@@ -152,6 +155,7 @@ RunService.Heartbeat:Connect(function()
                 end
         end
         for _, plr in ipairs(toRemove) do
+                print("[PickfallEventService] Player fell", plr.Name)
                 eliminate(plr)
         end
 end)
@@ -177,7 +181,9 @@ JoinEvent.OnServerEvent:Connect(function(plr)
                 return
         end
         participants[plr] = { startCFrame = hrp.CFrame }
-        print("\tRegistered", plr.Name)
+        local total = 0
+        for _ in pairs(participants) do total += 1 end
+        print("\tRegistered", plr.Name, "total participants", total)
 end)
 
 local function teleport()
@@ -213,6 +219,7 @@ local function runRound()
         registrationOpen = true
         print("\tCountdown starting")
         for t = COUNTDOWN, 1, -1 do
+                print("\tCountdown tick", t)
                 broadcast("countdown", t)
                 task.wait(1)
         end
@@ -232,9 +239,12 @@ end
 
 local function cycle()
         while true do
+                print("[PickfallEventService] Waiting", ROUND_INTERVAL, "seconds for next round")
                 task.wait(ROUND_INTERVAL)
                 runRound()
-                while active do task.wait(1) end
+                while active do
+                        task.wait(1)
+                end
                 registrationOpen = true
                 broadcast("idle")
         end

@@ -20,6 +20,8 @@ local container = gui:WaitForChild("Frame")
 local joinButton = container:WaitForChild("JoinButton")
 local countdownLabel = container:WaitForChild("CountDown")
 
+print("[PickfallController] GUI elements", guiFolder, gui, container, joinButton, countdownLabel)
+
 local DEFAULT_JOIN_TEXT = joinButton.Text
 
 
@@ -51,9 +53,10 @@ function PickfallController.init()
        StateEvent.OnClientEvent:Connect(function(state, data)
                print("[PickfallController] StateEvent", state, data)
                if state == "idle" then
-
                        if countdownLabel then
                                countdownLabel.Text = "00:00"
+                               print("[PickfallController] Countdown reset to 00:00")
+
                        end
                        joined = false
                        if joinButton then
@@ -61,22 +64,40 @@ function PickfallController.init()
                                joinButton.AutoButtonColor = true
                                joinButton.Active = true
                                joinButton.Visible = true
+                               print("[PickfallController] Join button reset")
+
                        end
                elseif state == "countdown" then
                        local t = tonumber(data) or 0
                        if countdownLabel then
                                countdownLabel.Text = formatTime(t)
+                               print("[PickfallController] Countdown updated", countdownLabel.Text)
+                       else
+                               print("[PickfallController] countdownLabel missing during countdown")
                        end
-                       if joinButton then joinButton.Visible = true end
+                       if joinButton then
+                               joinButton.Visible = true
+                       else
+                               print("[PickfallController] joinButton missing during countdown")
+                       end
                elseif state == "running" then
-
                        if countdownLabel then
                                countdownLabel.Text = "Evento en progreso"
+                               print("[PickfallController] Round running")
                        end
-                       if joinButton then joinButton.Visible = false end
+                       if joinButton then
+                               joinButton.Visible = false
+                               print("[PickfallController] Join button hidden")
+
+                       end
+               else
+                       print("[PickfallController] Unknown state", state)
                end
                if container then
                        container.Visible = state ~= "running"
+                       print("[PickfallController] Container visibility", container.Visible)
+               else
+                       print("[PickfallController] container missing")
                end
        end)
 
@@ -89,6 +110,7 @@ function PickfallController.init()
                        else
                                countdownLabel.Text = "Sin ganador"
                        end
+                       print("[PickfallController] Winner label", countdownLabel.Text)
                end
                joined = false
                if joinButton then
@@ -96,6 +118,7 @@ function PickfallController.init()
                        joinButton.AutoButtonColor = true
                        joinButton.Active = true
                        joinButton.Visible = true
+                       print("[PickfallController] Join button restored after winner")
                end
                if container then
                        container.Visible = true
