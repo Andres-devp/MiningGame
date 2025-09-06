@@ -145,6 +145,7 @@ local GUIFolder    = playerGui:WaitForChild("PickFall")
 local MiningGUI    = GUIFolder:WaitForChild("MiningGUI")
 local holderFrame  = MiningGUI:WaitForChild("HolderFrame")
 MiningGUI.Enabled  = false
+local miningGuiActive = false
 
 local function refreshGuiRefs()
     playerGui = player:FindFirstChild("PlayerGui")
@@ -154,12 +155,21 @@ local function refreshGuiRefs()
     MiningGUI = GUIFolder:FindFirstChild("MiningGUI")
     if not MiningGUI then return false end
     holderFrame = MiningGUI:FindFirstChild("HolderFrame")
+    MiningGUI.Enabled = miningGuiActive
     return holderFrame ~= nil
 end
 
 player.CharacterAdded:Connect(function()
     task.defer(refreshGuiRefs)
     hl = createHighlight()
+end)
+
+player.CharacterRemoving:Connect(function()
+    if MiningGUI then
+        miningGuiActive = MiningGUI.Enabled
+    end
+    setHighlight(nil, false)
+
 end)
 
 local function updateMiningGUI(model)
@@ -174,6 +184,7 @@ local function updateMiningGUI(model)
     if not (nameLabel and healthLabel and barFrame) then return end
 
     MiningGUI.Enabled = true
+    miningGuiActive = true
     nameLabel.Text = model.Name
     local h  = tonumber(model:GetAttribute("Health")) or 0
     local mh = tonumber(model:GetAttribute("MaxHealth")) or math.max(1, h)
@@ -260,6 +271,7 @@ EventBus.registerClient(Topics.MiningFeedback, function(payload)
         end
         if currentStone and not currentStone.Parent then
             MiningGUI.Enabled = false
+            miningGuiActive = false
             currentStone = nil
         end
     end
@@ -283,6 +295,9 @@ function M:start(_, SoundManager)
     ClientSoundManager = SoundManager
 
     RunService.RenderStepped:Connect(function()
+        if not player.Character then
+            return
+        end
         local target = mouse.Target
         local model  = target and (target:FindFirstAncestorOfClass("Model") or target) or nil
         local nodeType, focus = nodeInfoFrom(model)
@@ -296,6 +311,7 @@ function M:start(_, SoundManager)
                 updateMiningGUI(model)
             else
                 MiningGUI.Enabled = false
+                miningGuiActive = false
                 currentStone = nil
             end
 
@@ -309,6 +325,7 @@ function M:start(_, SoundManager)
 
         elseif nodeType == "Crystal" then
             MiningGUI.Enabled = false
+            miningGuiActive = false
             currentStone = nil
 
             local hasPick = hasEquippedPickaxeClient()
@@ -346,6 +363,7 @@ function M:start(_, SoundManager)
                 currentCrystal, miningActive, pendingModel = nil, false, nil
             end
             MiningGUI.Enabled = false
+            miningGuiActive = false
             currentStone = nil
         end
     end)
