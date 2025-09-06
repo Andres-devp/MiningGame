@@ -134,15 +134,39 @@ local MiningGUI    = GUIFolder:WaitForChild("MiningGUI")
 local holderFrame  = MiningGUI:WaitForChild("HolderFrame")
 MiningGUI.Enabled  = false
 
+local function refreshGuiRefs()
+    playerGui = player:FindFirstChild("PlayerGui")
+    if not playerGui then return false end
+    GUIFolder = playerGui:FindFirstChild("PickFall")
+    if not GUIFolder then return false end
+    MiningGUI = GUIFolder:FindFirstChild("MiningGUI")
+    if not MiningGUI then return false end
+    holderFrame = MiningGUI:FindFirstChild("HolderFrame")
+    return holderFrame ~= nil
+end
+
+player.CharacterAdded:Connect(function()
+    task.defer(refreshGuiRefs)
+end)
+
 local function updateMiningGUI(model)
     if not model then return end
+    if not holderFrame or not holderFrame.Parent then
+        if not refreshGuiRefs() then return end
+    end
+
+    local nameLabel = holderFrame:FindFirstChild("NameLabel")
+    local healthLabel = holderFrame:FindFirstChild("HealthLabel")
+    local barFrame = holderFrame:FindFirstChild("BarFrame")
+    if not (nameLabel and healthLabel and barFrame) then return end
+
     MiningGUI.Enabled = true
-    holderFrame.NameLabel.Text = model.Name
+    nameLabel.Text = model.Name
     local h  = tonumber(model:GetAttribute("Health")) or 0
     local mh = tonumber(model:GetAttribute("MaxHealth")) or math.max(1, h)
     if h < 0 then h = 0 end
-    holderFrame.HealthLabel.Text = tostring(h) .. " / " .. tostring(mh)
-    holderFrame.BarFrame.Size = UDim2.fromScale(mh > 0 and (h / mh) or 0, 1)
+    healthLabel.Text = tostring(h) .. " / " .. tostring(mh)
+    barFrame.Size = UDim2.fromScale(mh > 0 and (h / mh) or 0, 1)
 end
 
 local function setCrystalProgress(model, ratio)
