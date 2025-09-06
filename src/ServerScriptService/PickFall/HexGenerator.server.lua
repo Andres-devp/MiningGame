@@ -1,11 +1,11 @@
 local CFG = {
     layers = 5, -- number of vertical layers
     layerStep = -20, -- vertical offset between layers
-
     radius = 5, -- axial radius of the honeycomb (in tiles)
     topOffsetY = 0, -- offset from arena base to top layer
     tileYaw = 30, -- rotation of each tile in degrees
-    spacingXY = 0.985, -- multiplier for horizontal offsets
+    spacingXY = 1.0, -- multiplier for horizontal offsets
+    gapXY = 0.25, -- extra spacing in studs between tiles
     sameY = false, -- if true, all layers share the same Y
 
     debug = true,
@@ -165,17 +165,18 @@ else
 end
 
 local flatW = math.max(tplSize.X, tplSize.Z)
-
 local tileRadius = flatW / 2
 
-local DX = 1.5 * tileRadius * CFG.spacingXY
-local DZ = math.sqrt(3) * tileRadius * CFG.spacingXY
+local gapXY = CFG.gapXY or 0
+local DX = 1.5 * tileRadius * CFG.spacingXY + gapXY
+local DZ = math.sqrt(3) * tileRadius * CFG.spacingXY + gapXY
+
 
 local layerStep = CFG.sameY and 0 or CFG.layerStep
 
 if CFG.debug then
-    print(('[HexGen] flatW=%.3f radius=%.3f DX=%.3f DZ=%.3f yaw=%d spacing=%.3f')
-        :format(flatW, tileRadius, DX, DZ, CFG.tileYaw, CFG.spacingXY))
+    print(('[HexGen] flatW=%.3f radius=%.3f DX=%.3f DZ=%.3f yaw=%d spacing=%.3f gap=%.3f')
+        :format(flatW, tileRadius, DX, DZ, CFG.tileYaw, CFG.spacingXY, gapXY))
 
 end
 
