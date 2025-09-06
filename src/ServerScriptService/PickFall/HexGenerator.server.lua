@@ -12,14 +12,13 @@ local CFG = {
     baseWeights = {
         Stone = 40,
         Coal = 25,
-        Bronze = 15,
-        Gold = 10,
-        Emerald = 6,
+        Emerald = 15,
+        Gold = 8,
         Diamond = 4,
     },
     -- Optional per-layer overrides: [layer] = {OreName = weight, ...}
     layerOverrides = {
-        [1] = { Stone = 50, Coal = 30, Bronze = 10, Gold = 5, Emerald = 3, Diamond = 2 },
+        [1] = { Stone = 50, Coal = 30, Emerald = 10, Gold = 6, Diamond = 4 },
         -- Add more overrides as needed
     },
 }
@@ -50,7 +49,7 @@ local function getTemplates()
     assert(folder, "Ore templates not found in expected locations")
     print("HexGenerator: using template folder", folder:GetFullName())
 
-    local names = { "Stone", "Coal", "Bronze", "Gold", "Emerald", "Diamond" }
+    local names = { "Stone", "Coal", "Emerald", "Gold", "Diamond" }
     local templates = {}
     for _, name in ipairs(names) do
         local inst = folder:FindFirstChild(name)
@@ -104,8 +103,8 @@ local function applyRadialBias(weights, dx, dz, size)
     w.Stone = (w.Stone or 0) * (1 + t * 0.5)
     w.Coal = (w.Coal or 0) * (1 + t * 0.3)
     local center = 1 - t
+    w.Emerald = (w.Emerald or 0) * (1 + center * 0.3)
     w.Gold = (w.Gold or 0) * (1 + center * 0.4)
-    w.Emerald = (w.Emerald or 0) * (1 + center * 0.4)
     w.Diamond = (w.Diamond or 0) * (1 + center * 0.6)
     return w
 end
