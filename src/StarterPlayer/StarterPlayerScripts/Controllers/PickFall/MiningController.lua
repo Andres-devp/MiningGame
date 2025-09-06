@@ -169,6 +169,7 @@ player.CharacterRemoving:Connect(function()
         miningGuiActive = MiningGUI.Enabled
     end
     setHighlight(nil, false)
+
 end)
 
 local function updateMiningGUI(model)
