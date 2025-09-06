@@ -45,9 +45,9 @@
 					<token name="BottomSurface">0</token>
 					<token name="BottomSurfaceInput">0</token>
 					<CoordinateFrame name="CFrame">
-						<X>28.4599991</X>
-						<Y>21.683548</Y>
-						<Z>-235.30571</Z>
+						<X>15.1898756</X>
+						<Y>33.7697983</Y>
+						<Z>-256.242554</Z>
 						<R00>1</R00>
 						<R01>0</R01>
 						<R02>0</R02>
@@ -181,9 +181,9 @@
 					<token name="BottomSurface">0</token>
 					<token name="BottomSurfaceInput">0</token>
 					<CoordinateFrame name="CFrame">
-						<X>13.9351091</X>
-						<Y>21.683548</Y>
-						<Z>-286.298065</Z>
+						<X>0.664985657</X>
+						<Y>33.7697983</Y>
+						<Z>-307.234894</Z>
 						<R00>1</R00>
 						<R01>0</R01>
 						<R02>0</R02>
@@ -317,9 +317,9 @@
 				<token name="BottomSurface">0</token>
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
-					<X>21.8979568</X>
-					<Y>-14.4437342</Y>
-					<Z>-281.426636</Z>
+					<X>6.85865784</X>
+					<Y>22.7576675</Y>
+					<Z>-284.586426</Z>
 					<R00>1</R00>
 					<R01>0</R01>
 					<R02>0</R02>
@@ -330,7 +330,7 @@
 					<R21>0</R21>
 					<R22>1</R22>
 				</CoordinateFrame>
-				<bool name="CanCollide">true</bool>
+				<bool name="CanCollide">false</bool>
 				<bool name="CanQuery">true</bool>
 				<bool name="CanTouch">true</bool>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -387,7 +387,7 @@
 				<float name="TopParamB">0.5</float>
 				<token name="TopSurface">0</token>
 				<token name="TopSurfaceInput">0</token>
-				<float name="Transparency">0</float>
+				<float name="Transparency">1</float>
 				<Vector3 name="Velocity">
 					<X>0</X>
 					<Y>0</Y>
@@ -396,9 +396,9 @@
 				<token name="formFactorRaw">1</token>
 				<token name="shape">1</token>
 				<Vector3 name="size">
-					<X>185.188705</X>
-					<Y>1</Y>
-					<Z>185.910126</Z>
+					<X>7.77071381</X>
+					<Y>0.041961059</Y>
+					<Z>7.80000019</Z>
 				</Vector3>
 			</Properties>
 		</Item>
