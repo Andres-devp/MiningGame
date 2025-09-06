@@ -14,9 +14,23 @@ local Sounds = ReplicatedStorage:WaitForChild("Sounds")
 local TICK_SOUND = Sounds:WaitForChild("tick")
 local END_TICK_SOUND = Sounds:WaitForChild("tick2")
 
-local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-local saleDialog = playerGui:WaitForChild("SaleDialog")
-local DIALOG_RESPONSES_UI = saleDialog:WaitForChild("dialogResponses")
+local function getDialogResponsesUI()
+    local playerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
+    local saleDialog = playerGui:WaitForChild("SaleDialog")
+    local responses = saleDialog:WaitForChild("dialogResponses")
+    if not responses:FindFirstChild("1") then
+        local template = responses:FindFirstChild("template")
+        if template then
+            for i = 1, 9 do
+                local newResponseButton = template:Clone()
+                newResponseButton.Parent = responses
+                newResponseButton.Name = tostring(i)
+            end
+            template:Destroy()
+        end
+    end
+    return responses
+end
 
 function Dialog.new(npcName, npc, prompt, animation)
     local self = setmetatable({}, Dialog)
@@ -31,15 +45,8 @@ function Dialog.new(npcName, npc, prompt, animation)
     self.prompt = prompt
     self.player = nil
 
-    local template = DIALOG_RESPONSES_UI:FindFirstChild("template")
-    if template then
-        for i = 1, 9 do
-            local newResponseButton = template:Clone()
-            newResponseButton.Parent = DIALOG_RESPONSES_UI
-            newResponseButton.Name = i
-        end
-        template:Destroy()
-    end
+    -- ensure the dialog response buttons exist each time a dialog is created
+    getDialogResponsesUI()
 
     local eventSignal = Instance.new("BindableEvent")
     self.responded = eventSignal.Event
@@ -146,10 +153,13 @@ function Dialog:triggerDialog(player, questionNumber)
             Enum.KeyCode.Nine,
         }
 
-        local uiResponses = DIALOG_RESPONSES_UI
+        local uiResponses = getDialogResponsesUI()
         local responseNum
         for i, response in ipairs(dialog.responses) do
-            local option = uiResponses[i]
+            local option = uiResponses:FindFirstChild(tostring(i))
+            if not option then
+                continue
+            end
             option.text.Text = "<font color='rgb(255,220,127)'>" .. i .. ".)</font> [''" .. response .. "'']"
 
             option.Size = UDim2.fromScale(option.Size.X.Scale, 0.4)
@@ -245,7 +255,7 @@ function Dialog:hideGui(exitQuip)
 
     TweenService:Create(workspace.CurrentCamera, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {FieldOfView = 70}):Play()
 
-    local playerReponseOptions = DIALOG_RESPONSES_UI
+    local playerReponseOptions = getDialogResponsesUI()
     for _, option in ipairs(playerReponseOptions:GetChildren()) do
         if option:IsA("GuiButton") then
             option.Visible = false
