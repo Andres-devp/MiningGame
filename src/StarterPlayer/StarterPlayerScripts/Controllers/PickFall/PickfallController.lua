@@ -23,6 +23,7 @@ local countdownLabel = container:WaitForChild("CountDown")
 
 local DEFAULT_JOIN_TEXT = joinButton.Text
 
+
 local joined = false
 local countdownConn, countdownTime
 
