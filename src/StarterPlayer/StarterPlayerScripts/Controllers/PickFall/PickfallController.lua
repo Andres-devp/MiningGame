@@ -22,12 +22,14 @@ local countdownLabel = container:WaitForChild("CountDown")
 
 local DEFAULT_JOIN_TEXT = joinButton.Text
 
+
 local joined = false
 
 local function formatTime(t)
         local m = math.floor(t/60)
         local s = math.floor(t%60)
         return string.format("%02d:%02d", m, s)
+
 end
 
 function PickfallController.init()
@@ -49,6 +51,7 @@ function PickfallController.init()
        StateEvent.OnClientEvent:Connect(function(state, data)
                print("[PickfallController] StateEvent", state, data)
                if state == "idle" then
+
                        if countdownLabel then
                                countdownLabel.Text = "00:00"
                        end
@@ -66,6 +69,7 @@ function PickfallController.init()
                        end
                        if joinButton then joinButton.Visible = true end
                elseif state == "running" then
+
                        if countdownLabel then
                                countdownLabel.Text = "Evento en progreso"
                        end
@@ -78,6 +82,7 @@ function PickfallController.init()
 
        WinnerEvent.OnClientEvent:Connect(function(name)
                print("[PickfallController] WinnerEvent", name)
+
                if countdownLabel then
                        if name and name ~= "" then
                                countdownLabel.Text = name .. " ganó!"
