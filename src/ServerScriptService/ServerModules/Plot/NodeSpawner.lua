@@ -157,17 +157,33 @@ local function spawnNode(plotData, nodeType)
         node.Parent = ensureNodesContainer(plotData.model)
 
         
-        if nodeType == "CommonStone" then
-                node:SetAttribute("MaxHealth", 1)
-                node:SetAttribute("Reward", 1)
-        else
-                node:SetAttribute("MaxHealth", 20)
-                node:SetAttribute("Reward", 5)
-        end
-        node:SetAttribute("Health", node:GetAttribute("MaxHealth"))
-        node:SetAttribute("IsMinable", true)
+       if node:GetAttribute("MaxHealth") == nil then
+               if nodeType == "CommonStone" then
+                       node:SetAttribute("MaxHealth", 1)
+               else
+                       node:SetAttribute("MaxHealth", 20)
+               end
+       end
 
-        node:SetAttribute("NodeType", nodeType)
+       if node:GetAttribute("Reward") == nil then
+               if nodeType == "CommonStone" then
+                       node:SetAttribute("Reward", 1)
+               else
+                       node:SetAttribute("Reward", 5)
+               end
+       end
+
+       if node:GetAttribute("Health") == nil then
+               node:SetAttribute("Health", node:GetAttribute("MaxHealth"))
+       end
+
+       if node:GetAttribute("IsMinable") == nil then
+               node:SetAttribute("IsMinable", true)
+       end
+
+       if node:GetAttribute("NodeType") == nil then
+               node:SetAttribute("NodeType", nodeType)
+       end
 
         
         if not node.PrimaryPart then

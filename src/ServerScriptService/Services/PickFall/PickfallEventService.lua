@@ -39,16 +39,31 @@ local function setupOreBlocks()
   print("[PickfallEventService] Preparing ore blocks")
   for _, ore in ipairs(oreFolder:GetChildren()) do
     local nodeType = ore:GetAttribute("NodeType") or ore.Name
-    ore:SetAttribute("NodeType", nodeType)
-    local mh = ore:GetAttribute("MaxHealth")
-    if not mh then
-      mh = (ore.Name == "CommonStone") and 1 or 20
+    if ore:GetAttribute("NodeType") == nil then
+      ore:SetAttribute("NodeType", nodeType)
     end
-    ore:SetAttribute("MaxHealth", mh)
-    ore:SetAttribute("Health", ore:GetAttribute("Health") or mh)
-    ore:SetAttribute("IsMinable", true)
-    ore:SetAttribute("Reward", 0)
-    ore:SetAttribute("RequiresPickaxe", true)
+
+    local mh = ore:GetAttribute("MaxHealth")
+    if mh == nil then
+      mh = (ore.Name == "CommonStone") and 1 or 20
+      ore:SetAttribute("MaxHealth", mh)
+    end
+
+    if ore:GetAttribute("Health") == nil then
+      ore:SetAttribute("Health", mh)
+    end
+
+    if ore:GetAttribute("IsMinable") == nil then
+      ore:SetAttribute("IsMinable", true)
+    end
+
+    if ore:GetAttribute("Reward") == nil then
+      ore:SetAttribute("Reward", 0)
+    end
+
+    if ore:GetAttribute("RequiresPickaxe") == nil then
+      ore:SetAttribute("RequiresPickaxe", true)
+    end
 
     if ore:IsA("Model") then
       for _, part in ipairs(ore:GetDescendants()) do
