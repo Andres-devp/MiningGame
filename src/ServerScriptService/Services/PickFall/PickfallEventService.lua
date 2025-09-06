@@ -21,7 +21,7 @@ local oreFolder = arena:WaitForChild("OrePlatforms") -- updated name from "Ores"
 local spawns    = arena:WaitForChild("Spawners")
 
 local ROUND_INTERVAL = 300 
-local COUNTDOWN      = 10
+local COUNTDOWN      = 30
 local MONEY_REWARD   = 100
 local BUFF_DURATION  = 60
 local BUFF_MULT      = 2
