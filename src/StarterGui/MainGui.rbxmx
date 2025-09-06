@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="ScreenGui" referent="RBXE6960C3BAB994D048BFF8D65E4B8023D">
+	<Item class="ScreenGui" referent="RBX67AEF1F7D3064E1EBA32A4AFBB045D1A">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<bool name="AutoLocalize">true</bool>
@@ -25,7 +25,7 @@
 			<BinaryString name="Tags"></BinaryString>
 			<token name="ZIndexBehavior">1</token>
 		</Properties>
-		<Item class="TextButton" referent="RBX230F363D300E4FFD9A03D5FE951DCCF1">
+		<Item class="TextButton" referent="RBX54166D67C9BB4B418CA6E1AC59EBE14C">
 			<Properties>
 				<bool name="Active">true</bool>
 				<Vector2 name="AnchorPoint">
@@ -124,7 +124,7 @@
 				<bool name="Visible">true</bool>
 				<int name="ZIndex">1</int>
 			</Properties>
-			<Item class="UICorner" referent="RBX6F751F9D76D3424D90794616A373800E">
+			<Item class="UICorner" referent="RBX2546D3E75B8C46C89E7F0B100AADB191">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -138,7 +138,7 @@
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="UIStroke" referent="RBXC6E8EDBFEC79404F945098A6AFD5C448">
+			<Item class="UIStroke" referent="RBX31BC5A36973846FF9605D0FFFF49EBD8">
 				<Properties>
 					<token name="ApplyStrokeMode">1</token>
 					<BinaryString name="AttributesSerialize"></BinaryString>
@@ -165,7 +165,7 @@
 					<int name="ZIndex">1</int>
 				</Properties>
 			</Item>
-			<Item class="UIGradient" referent="RBX46B60080D0D94D7BA2CC6559E754107C">
+			<Item class="UIGradient" referent="RBXAF4E3C00C75843BF941175ABBB92C0AA">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -183,7 +183,7 @@
 					<NumberSequence name="Transparency">0 0 0 1 0 0 </NumberSequence>
 				</Properties>
 			</Item>
-			<Item class="ImageButton" referent="RBX2F55DBAD37F04F99916AAD674A6F322B">
+			<Item class="ImageButton" referent="RBXB308498C13FA46F396DC197D8ADFA0F9">
 				<Properties>
 					<bool name="Active">true</bool>
 					<Vector2 name="AnchorPoint">
@@ -288,8 +288,34 @@
 					<int name="ZIndex">1</int>
 				</Properties>
 			</Item>
+			<Item class="UIAspectRatioConstraint" referent="RBX6BF395E08D2D4B2C91F5F792FB8B47A7">
+				<Properties>
+					<float name="AspectRatio">1</float>
+					<token name="AspectType">0</token>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<token name="DominantAxis">0</token>
+					<string name="Name">UIAspectRatioConstraint</string>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
+			<Item class="UIAspectRatioConstraint" referent="RBXF5B4C77A3C6A47F883731237D9F4FBA1">
+				<Properties>
+					<float name="AspectRatio">1</float>
+					<token name="AspectType">0</token>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+					<bool name="DefinesCapabilities">false</bool>
+					<token name="DominantAxis">0</token>
+					<string name="Name">UIAspectRatioConstraint</string>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+			</Item>
 		</Item>
-		<Item class="TextButton" referent="RBXE601802406CD46EA963D33DEA6FF47C7">
+		<Item class="TextButton" referent="RBX70CE439093AD4F4F86B0F9AFB47EE438">
 			<Properties>
 				<bool name="Active">true</bool>
 				<Vector2 name="AnchorPoint">
@@ -388,119 +414,7 @@
 				<bool name="Visible">true</bool>
 				<int name="ZIndex">1</int>
 			</Properties>
-			<Item class="LocalScript" referent="RBX7BAE0E3C3E134372BB80BE1438617B60">
-				<Properties>
-					<BinaryString name="AttributesSerialize"></BinaryString>
-					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-					<bool name="DefinesCapabilities">false</bool>
-					<bool name="Disabled">false</bool>
-					<Content name="LinkedSource"><null></null></Content>
-					<string name="Name">ToggleButtonScript</string>
-					<token name="RunContext">0</token>
-					<string name="ScriptGuid">{C300F4FC-A2AE-417A-8583-1F374FE326F8}</string>
-					<ProtectedString name="Source"><![CDATA[-- StarterGui/MainGui/AutoMineButton/ToggleButtonScript
--- v2.0 - Server-driven: no escribe valores locales; usa EventBus
-
-local Players = game:GetService("Players")
-local MarketplaceService = game:GetService("MarketplaceService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local player = Players.LocalPlayer
-local button = script.Parent  -- TextButton recomendado
-
--- EventBus
-local EventBus = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventBus"))
-local Topics   = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventTopics"))
-
--- ⚠️ Mismo ID que en GamePassService
-local AUTO_MINE_PASS_ID = 1406821381
-
--- ====== UI label único ======
-local label = button:FindFirstChildOfClass("TextLabel")
-if label then
-	if button:IsA("TextButton") then button.Text = "" end
-	label.BackgroundTransparency = 1
-	label.Size = UDim2.fromScale(1, 1)
-	label.TextScaled = true
-	label.Font = Enum.Font.GothamBlack
-	label.TextStrokeTransparency = 0
-	label.TextColor3 = Color3.new(1,1,1)
-else
-	label = button :: TextButton
-	label.TextScaled = true
-	label.Font = Enum.Font.GothamBlack
-	label.TextStrokeTransparency = 0
-	label.TextColor3 = Color3.new(1,1,1)
-end
-
-local COLOR_ON  = Color3.fromRGB(40, 167, 69)
-local COLOR_OFF = Color3.fromRGB(220, 53, 69)
-local COLOR_BUY = Color3.fromRGB(0, 123, 255)
-
--- Valores replicados (los crea el server)
-local ownsAutoMinePass = player:WaitForChild("OwnsAutoMinePass")
-local autoVal = player:FindFirstChild("AutoMineEnabled") or player:WaitForChild("AutoMineEnabled")
-
-local function setText(t) label.Text = t end
-
-local function updateButton()
-	if ownsAutoMinePass.Value then
-		if autoVal and autoVal.Value then
-			setText("AUTO-MINADO: ON")
-			button.BackgroundColor3 = COLOR_ON
-		else
-			setText("AUTO-MINADO: OFF")
-			button.BackgroundColor3 = COLOR_OFF
-		end
-	else
-		setText("AUTO-MINADO")
-		button.BackgroundColor3 = COLOR_BUY
-	end
-end
-
-local debounce = false
-local function onActivated()
-	if debounce then return end
-	debounce = true
-	task.delay(0.25, function() debounce = false end)
-
-	if ownsAutoMinePass.Value then
-		-- Pedimos togglear al servidor
-		EventBus.sendToServer(Topics.AutoMineToggleRequest, {})
-	else
-		-- Solicitamos la compra (solo cliente puede mostrar prompt)
-		MarketplaceService:PromptGamePassPurchase(player, AUTO_MINE_PASS_ID)
-	end
-end
-
-if button:IsA("TextButton") then
-	button.Activated:Connect(onActivated)
-else
-	warn("[AutoMineButton] No es TextButton; añade un TextButton para clics.")
-end
-
--- Cuando finaliza un intento de compra, pedimos re-sync al server
-MarketplaceService.PromptGamePassPurchaseFinished:Connect(function(plr, passId, success)
-	if plr ~= player then return end
-	if passId == AUTO_MINE_PASS_ID then
-		-- El server re-verifica con UserOwnsGamePassAsync (nosotros no tocamos valores)
-		EventBus.sendToServer(Topics.AutoMineSyncRequest, {})
-	end
-end)
-
--- Refresco UI ante cambios (server actualiza y replica)
-ownsAutoMinePass.Changed:Connect(updateButton)
-if autoVal then autoVal.Changed:Connect(updateButton) end
-
--- Sync inicial (por si el server aún no escribió)
-EventBus.sendToServer(Topics.AutoMineSyncRequest, {})
-updateButton()
-]]></ProtectedString>
-					<int64 name="SourceAssetId">-1</int64>
-					<BinaryString name="Tags"></BinaryString>
-				</Properties>
-			</Item>
-			<Item class="UICorner" referent="RBXD9F13677D99047AFBA277F4A82995115">
+			<Item class="UICorner" referent="RBX5A126DE059D04E4F835E0879648E077B">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -514,7 +428,7 @@ updateButton()
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="UIStroke" referent="RBX9887255656EB454A9B4F12EA8041EF8E">
+			<Item class="UIStroke" referent="RBXE66FC6B39E784443A6CBFBC007DAF237">
 				<Properties>
 					<token name="ApplyStrokeMode">1</token>
 					<BinaryString name="AttributesSerialize"></BinaryString>
@@ -541,7 +455,7 @@ updateButton()
 					<int name="ZIndex">1</int>
 				</Properties>
 			</Item>
-			<Item class="TextLabel" referent="RBXE1A944BA00A846BDAD8065D50AF2D391">
+			<Item class="TextLabel" referent="RBXC5AF89239B8042D4895FF661CE07881B">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -586,9 +500,9 @@ updateButton()
 					<Ref name="NextSelectionUp">null</Ref>
 					<string name="OpenTypeFeatures"></string>
 					<UDim2 name="Position">
-						<XS>0.0264900643</XS>
+						<XS>0.100950196</XS>
 						<XO>0</XO>
-						<YS>0.0764058754</YS>
+						<YS>0.0723594502</YS>
 						<YO>0</YO>
 					</UDim2>
 					<bool name="RichText">false</bool>
@@ -603,9 +517,9 @@ updateButton()
 					<Ref name="SelectionImageObject">null</Ref>
 					<int name="SelectionOrder">0</int>
 					<UDim2 name="Size">
-						<XS>0.935982287</XS>
+						<XS>0.811882138</XS>
 						<XO>0</XO>
-						<YS>0.764058769</YS>
+						<YS>0.84046483</YS>
 						<YO>0</YO>
 					</UDim2>
 					<token name="SizeConstraint">0</token>
@@ -634,7 +548,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="UIStroke" referent="RBXCC7BD617E9A94FD7ABE95FB34A24F56F">
+				<Item class="UIStroke" referent="RBX682061DDD8184D9F84E9F0C51F3F6A84">
 					<Properties>
 						<token name="ApplyStrokeMode">0</token>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -663,7 +577,7 @@ updateButton()
 				</Item>
 			</Item>
 		</Item>
-		<Item class="TextButton" referent="RBXB58BF7667B94478DB8E89BEAD26EE318">
+		<Item class="TextButton" referent="RBX2668DD1391314F918F282FFA8856C44B">
 			<Properties>
 				<bool name="Active">true</bool>
 				<Vector2 name="AnchorPoint">
@@ -762,7 +676,7 @@ updateButton()
 				<bool name="Visible">true</bool>
 				<int name="ZIndex">1</int>
 			</Properties>
-			<Item class="UIStroke" referent="RBX83FF6C32D79F41858F475F73906C426D">
+			<Item class="UIStroke" referent="RBXFD731638E5854A73922C1E3ADC68E61B">
 				<Properties>
 					<token name="ApplyStrokeMode">1</token>
 					<BinaryString name="AttributesSerialize"></BinaryString>
@@ -789,7 +703,7 @@ updateButton()
 					<int name="ZIndex">1</int>
 				</Properties>
 			</Item>
-			<Item class="UIGradient" referent="RBX2F89210BA8984E88BF6EC27023B15349">
+			<Item class="UIGradient" referent="RBX6358336036ED4D1B8ABCA881E31C8726">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -807,7 +721,7 @@ updateButton()
 					<NumberSequence name="Transparency">0 0 0 1 0 0 </NumberSequence>
 				</Properties>
 			</Item>
-			<Item class="UICorner" referent="RBX423AF235BB834364890E317B11EF6ECD">
+			<Item class="UICorner" referent="RBX9981A2B8E5A54999B5221014A3D8848C">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -821,7 +735,7 @@ updateButton()
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="TextLabel" referent="RBX31C574487AA8458DB67F19AA8E108EDC">
+			<Item class="TextLabel" referent="RBX28D74432DFB3449096D23DE60289853D">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -914,7 +828,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="UIStroke" referent="RBX28A56EE180D14AB783E2DA77CF488961">
+				<Item class="UIStroke" referent="RBXF0F990C27DCE4DD1A61433844FC03270">
 					<Properties>
 						<token name="ApplyStrokeMode">0</token>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -943,7 +857,7 @@ updateButton()
 				</Item>
 			</Item>
 		</Item>
-		<Item class="TextButton" referent="RBXD742092091814ABA991DA2DC1328197D">
+		<Item class="TextButton" referent="RBX00CFC81B4B5C47779D70E97A200263E6">
 			<Properties>
 				<bool name="Active">true</bool>
 				<Vector2 name="AnchorPoint">
@@ -1042,7 +956,7 @@ updateButton()
 				<bool name="Visible">true</bool>
 				<int name="ZIndex">1</int>
 			</Properties>
-			<Item class="UIStroke" referent="RBX46287E917CDD4ED29CA2ED144CC8EB2C">
+			<Item class="UIStroke" referent="RBX3DB9785EAB054DE2A715BED13EB5F4C6">
 				<Properties>
 					<token name="ApplyStrokeMode">1</token>
 					<BinaryString name="AttributesSerialize"></BinaryString>
@@ -1069,7 +983,7 @@ updateButton()
 					<int name="ZIndex">1</int>
 				</Properties>
 			</Item>
-			<Item class="UIGradient" referent="RBXA38261BAECC64C6997DAC123B09DE81E">
+			<Item class="UIGradient" referent="RBX56AC024AC8464010B1A6156CE284086D">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -1087,7 +1001,7 @@ updateButton()
 					<NumberSequence name="Transparency">0 0 0 1 0 0 </NumberSequence>
 				</Properties>
 			</Item>
-			<Item class="UICorner" referent="RBXEA60287AE15D471786600AD7BB8956CD">
+			<Item class="UICorner" referent="RBXB5972CBD7ECF4DE9875AFAC8717E78B7">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -1101,7 +1015,7 @@ updateButton()
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="TextLabel" referent="RBXC390FB02F469443C86574D762D275765">
+			<Item class="TextLabel" referent="RBX0138F5834847444FB11148DE6FC917DE">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -1194,7 +1108,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="UIStroke" referent="RBX64C31BE92AA745ACB99A274969A7C875">
+				<Item class="UIStroke" referent="RBX53DD62890ACD45A89F403B0816E04724">
 					<Properties>
 						<token name="ApplyStrokeMode">0</token>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -1223,7 +1137,7 @@ updateButton()
 				</Item>
 			</Item>
 		</Item>
-		<Item class="Frame" referent="RBXC0D73AE71E7D45DB93D7835B6749C53B">
+		<Item class="Frame" referent="RBX6F0C293C839146019BCA91A629144B1E">
 			<Properties>
 				<bool name="Active">false</bool>
 				<Vector2 name="AnchorPoint">
@@ -1286,7 +1200,7 @@ updateButton()
 				<bool name="Visible">false</bool>
 				<int name="ZIndex">1</int>
 			</Properties>
-			<Item class="UICorner" referent="RBX3FA4CD438F9D4E32ADB052A57D1B3CB8">
+			<Item class="UICorner" referent="RBX98B15BE94BDD44D89B08459B70846544">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -1300,7 +1214,7 @@ updateButton()
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="Frame" referent="RBXF2667FCFA73B4EA0A9BCAE4314E0D705">
+			<Item class="Frame" referent="RBX9AA0E755FA104011BCCED4EACB138115">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -1363,7 +1277,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="TextLabel" referent="RBXD77AC548C04042B4ACDB79EBF1BAE8B7">
+				<Item class="TextLabel" referent="RBX28D44E7F628E42EB9BD4C45AB39F9CF1">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -1457,7 +1371,7 @@ updateButton()
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="TextLabel" referent="RBX924AF76E5E6F4D4C8EC695368F77EB3A">
+				<Item class="TextLabel" referent="RBXF8ABB923610E460985545563AA48396F">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -1551,7 +1465,7 @@ updateButton()
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="TextButton" referent="RBX236A4F54B0DD47E39C24398C23B8D2E8">
+				<Item class="TextButton" referent="RBX12080B7757B2455DB72BBBEF0D1DCD90">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -1650,7 +1564,7 @@ updateButton()
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UICorner" referent="RBXE61E9378BA484D7CBCB8CF0B226C6061">
+					<Item class="UICorner" referent="RBXEC8D8602CEAD43D1A83C4B52BF37EC64">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -1666,7 +1580,7 @@ updateButton()
 					</Item>
 				</Item>
 			</Item>
-			<Item class="TextLabel" referent="RBXF06260FA0CEE45E2AFA14B249274663E">
+			<Item class="TextLabel" referent="RBX50049E9C49B24452B90D5CC1D159EE5F">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -1760,7 +1674,7 @@ updateButton()
 					<int name="ZIndex">1</int>
 				</Properties>
 			</Item>
-			<Item class="Frame" referent="RBX54F305963CE2480F80E45242C3803A6B">
+			<Item class="Frame" referent="RBXEC7435B356A943D58AB4FF3CC3EA30BA">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -1823,7 +1737,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="TextLabel" referent="RBX9D04E64D92614CE4B403F550D9CD9FB2">
+				<Item class="TextLabel" referent="RBX3E86D96A311B4BF2B37BB625F4C8D549">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -1917,7 +1831,7 @@ updateButton()
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="TextLabel" referent="RBX881F87137A9B48818EA48661AB86BD68">
+				<Item class="TextLabel" referent="RBXD87DB370D22A48909F471219EDE5C978">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -2011,7 +1925,7 @@ updateButton()
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="TextButton" referent="RBX802C08E9C1744E88A90A7FA394300D97">
+				<Item class="TextButton" referent="RBXB31960EEB66241C0AF421A504D103E71">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -2110,7 +2024,7 @@ updateButton()
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UICorner" referent="RBX9C67AEBD07A74918B9EBB9349524E904">
+					<Item class="UICorner" referent="RBXB22FA786D7A248128A20F47212513326">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -2126,7 +2040,7 @@ updateButton()
 					</Item>
 				</Item>
 			</Item>
-			<Item class="Frame" referent="RBX0FA8F5488DB44B9B923B88EFC0123461">
+			<Item class="Frame" referent="RBX2A9BAEC6ACCE40498C132B26A2EF89AA">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -2189,7 +2103,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="TextLabel" referent="RBX05E5C4C31D3A42C9AB6F15D167C6B5EC">
+				<Item class="TextLabel" referent="RBX94F174B356B14558ACDD6E3D19FFC253">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -2283,7 +2197,7 @@ updateButton()
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="TextLabel" referent="RBXCAB5F2041C0A40CF8348ADD2E82AA10F">
+				<Item class="TextLabel" referent="RBX9A4247C386414FBCBAC9D9D5554074B1">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -2377,7 +2291,7 @@ updateButton()
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="TextButton" referent="RBXA17821B8B62A42CEA72678808C51E9F4">
+				<Item class="TextButton" referent="RBX6A27DA5BF4EA4CBBACD50EFCF7228D51">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -2476,7 +2390,7 @@ updateButton()
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UICorner" referent="RBX686753FF3E8B498B97AD5D566FFEA731">
+					<Item class="UICorner" referent="RBXADD9C6E81BD64FBB8FB7769CE30D46EC">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -2492,7 +2406,7 @@ updateButton()
 					</Item>
 				</Item>
 			</Item>
-			<Item class="Frame" referent="RBXE56294FAA33243AC91F18922BB70A2FA">
+			<Item class="Frame" referent="RBX6E83940B3C8B40D08B3A08D3F8F9A445">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -2555,7 +2469,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="TextLabel" referent="RBX44DA6240BDDC47779A1802B244E3C101">
+				<Item class="TextLabel" referent="RBX0740B9EB66FD4445A194BDC9DF52E260">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -2649,7 +2563,7 @@ updateButton()
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="TextLabel" referent="RBX062C3D5512684B88B410AA7CE5D352D2">
+				<Item class="TextLabel" referent="RBX192AF1BF38E44F0991799C5AC13E760E">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -2743,7 +2657,7 @@ updateButton()
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="TextButton" referent="RBX77B1DB42F55A42EFA7D96D70EB0B1201">
+				<Item class="TextButton" referent="RBX79EDA61E9F764088A7448820CB5BCA60">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -2842,7 +2756,7 @@ updateButton()
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UICorner" referent="RBXAFA24DCF03304347A23F4F2B8C9003B5">
+					<Item class="UICorner" referent="RBX385E9C2B051A4644B6406D4EB4AFF3B4">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -2858,7 +2772,7 @@ updateButton()
 					</Item>
 				</Item>
 			</Item>
-			<Item class="TextButton" referent="RBX2E646BE0AE5741B0AFB3268EA01B4D0A">
+			<Item class="TextButton" referent="RBXC19B78F73CE04E35A5E7226F44F41B3A">
 				<Properties>
 					<bool name="Active">true</bool>
 					<Vector2 name="AnchorPoint">
@@ -2890,7 +2804,6 @@ updateButton()
 						<Family><url>rbxasset://fonts/families/SourceSansPro.json</url></Family>
 						<Weight>400</Weight>
 						<Style>Normal</Style>
-						<CachedFaceId><url>rbxasset://fonts/SourceSansPro-Regular.ttf</url></CachedFaceId>
 					</Font>
 					<Ref name="HoverHapticEffect">null</Ref>
 					<bool name="Interactable">true</bool>
@@ -2958,7 +2871,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="UICorner" referent="RBX800BD3DEE52A45AF81C769C0B075DC29">
+				<Item class="UICorner" referent="RBX24279FB02A854B7B94AED3EF7CBB7BE4">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -2972,7 +2885,7 @@ updateButton()
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="UIStroke" referent="RBX5D76F6ABF06448BB936E8A752F889047">
+				<Item class="UIStroke" referent="RBX6D9B095764074C9E8B279C433C246EEA">
 					<Properties>
 						<token name="ApplyStrokeMode">0</token>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -3001,7 +2914,7 @@ updateButton()
 				</Item>
 			</Item>
 		</Item>
-		<Item class="Frame" referent="RBXCBB979E120B64686A4EE581D1D789080">
+		<Item class="Frame" referent="RBX2CD73F654C7E4EC180C87AFE3B6ACF33">
 			<Properties>
 				<bool name="Active">false</bool>
 				<Vector2 name="AnchorPoint">
@@ -3064,7 +2977,7 @@ updateButton()
 				<bool name="Visible">false</bool>
 				<int name="ZIndex">1</int>
 			</Properties>
-			<Item class="UICorner" referent="RBXC9BB27916CE0440D8F9FC9F1B85ECD13">
+			<Item class="UICorner" referent="RBX8E9AADD15D3F47FE8AD1E203C18BE0F8">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -3078,7 +2991,7 @@ updateButton()
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="TextButton" referent="RBX7B4AEBD0C45345D0B87DEE3D19E7A376">
+			<Item class="TextButton" referent="RBX7B8EC55A2F774A3C86E971EB30EB3112">
 				<Properties>
 					<bool name="Active">true</bool>
 					<Vector2 name="AnchorPoint">
@@ -3177,7 +3090,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">2</int>
 				</Properties>
-				<Item class="UICorner" referent="RBX7A55FEDB4D5A495189C044D23B8551CD">
+				<Item class="UICorner" referent="RBX03BA66AB9C8246ECA457C50341EEF845">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -3191,7 +3104,7 @@ updateButton()
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="UIStroke" referent="RBXD3ADB5AB43A341958C4D72ED1C428181">
+				<Item class="UIStroke" referent="RBXD6F1684FE0FB437882E0292F03A44EC9">
 					<Properties>
 						<token name="ApplyStrokeMode">1</token>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -3218,7 +3131,7 @@ updateButton()
 						<int name="ZIndex">1</int>
 					</Properties>
 				</Item>
-				<Item class="UIScale" referent="RBX1F9B97E0BF744FB79397F4ED6D851BE8">
+				<Item class="UIScale" referent="RBX14469CB88D1D415F919B8F234899F73D">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -3229,7 +3142,7 @@ updateButton()
 						<BinaryString name="Tags"></BinaryString>
 					</Properties>
 				</Item>
-				<Item class="UIAspectRatioConstraint" referent="RBXF4C375415D39479FA840A16EAA3233C9">
+				<Item class="UIAspectRatioConstraint" referent="RBX67EFF2445B0B4D2F89EB1A1377C0F841">
 					<Properties>
 						<float name="AspectRatio">1</float>
 						<token name="AspectType">0</token>
@@ -3243,7 +3156,7 @@ updateButton()
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="TextLabel" referent="RBXA63E11BAF4B641F793600C1E74F6055B">
+			<Item class="TextLabel" referent="RBXC05668E6712A4015BB45B2F2289CF547">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -3336,7 +3249,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="UIStroke" referent="RBX365ECCD8FD974A179ECAB7FEDE9DBC2A">
+				<Item class="UIStroke" referent="RBX97CCB33478AD44B38EF5693701DF4B3E">
 					<Properties>
 						<token name="ApplyStrokeMode">0</token>
 						<BinaryString name="AttributesSerialize"></BinaryString>
@@ -3364,7 +3277,7 @@ updateButton()
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="ScrollingFrame" referent="RBX26D2213A442340EFB6AED0155C250771">
+			<Item class="ScrollingFrame" referent="RBX89DDD47171814D2D8B04386131512BCE">
 				<Properties>
 					<bool name="Active">true</bool>
 					<Vector2 name="AnchorPoint">
@@ -3453,7 +3366,7 @@ updateButton()
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="Frame" referent="RBX906956F83DD94E68B02277DB3D970E4B">
+				<Item class="Frame" referent="RBXB78BD815ED9F42EAA3BDB6DFCAB48923">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -3516,7 +3429,7 @@ updateButton()
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UICorner" referent="RBXB516D6148DC4451E90218292919578E2">
+					<Item class="UICorner" referent="RBX193BF675769E4A6497F4471EEB0684C3">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -3530,7 +3443,7 @@ updateButton()
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
 					</Item>
-					<Item class="ImageLabel" referent="RBX3004E28617254DB5872BE2CD29E52FE0">
+					<Item class="ImageLabel" referent="RBXFE25881C840D44F1AB40C2BF0EDC994F">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -3627,7 +3540,7 @@ updateButton()
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextLabel" referent="RBX231E66400DC04AAC9092F72F2AD63D6D">
+					<Item class="TextLabel" referent="RBX82302E0911024330990448D72F952FCC">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -3720,7 +3633,7 @@ updateButton()
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UIStroke" referent="RBXA7B6C7753BA4499E9054543F637ABF15">
+						<Item class="UIStroke" referent="RBX92673FBF1CCD4DD496BB3947E5966A61">
 							<Properties>
 								<token name="ApplyStrokeMode">0</token>
 								<BinaryString name="AttributesSerialize"></BinaryString>
@@ -3747,7 +3660,7 @@ updateButton()
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="UIGradient" referent="RBXB63C715383E24A2E89E913B325471923">
+						<Item class="UIGradient" referent="RBX135B30DA3CD047958B7F232ABA4807ED">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -3766,7 +3679,7 @@ updateButton()
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBX3A9D8ED9DCCC4D688951BD67F5417DA9">
+					<Item class="TextButton" referent="RBXD0E4152508DF4230A56ED941FD1CCE04">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -3865,7 +3778,7 @@ updateButton()
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UICorner" referent="RBXA7CFE1C92C1146D59C23E78158EB2122">
+						<Item class="UICorner" referent="RBX3805FA1A01C648A28BB21F3639E4B412">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -3879,7 +3792,7 @@ updateButton()
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UIStroke" referent="RBX9DFA86CAE2B04D148917DA291A0C9128">
+						<Item class="UIStroke" referent="RBX803FB4A2C5A54A9A9B0E132F9339E1F3">
 							<Properties>
 								<token name="ApplyStrokeMode">1</token>
 								<BinaryString name="AttributesSerialize"></BinaryString>
@@ -3906,7 +3819,7 @@ updateButton()
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="TextLabel" referent="RBX15F0D0E949AF477680B14D5317AFEF9B">
+						<Item class="TextLabel" referent="RBXA9C3407674F04937AB851A8AB77119B7">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -3976,7 +3889,7 @@ updateButton()
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#195;&#131;&#194;&#174;&#195;&#130;&#194;&#128;&#195;&#130;&#194;&#130; FREE</string>
+								<string name="Text">&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#131;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#174;&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#130;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#128;&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#130;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#130; FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -3999,7 +3912,7 @@ updateButton()
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIStroke" referent="RBX5008429083F54CCFB362CD2BDD407C82">
+							<Item class="UIStroke" referent="RBX6DCD46CAC26E46B5B769D0703675F01F">
 								<Properties>
 									<token name="ApplyStrokeMode">0</token>
 									<BinaryString name="AttributesSerialize"></BinaryString>
@@ -4028,7 +3941,7 @@ updateButton()
 							</Item>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBX009014256A6D44198D93324EDAB5B827">
+					<Item class="TextButton" referent="RBX0391D0ED9E4D410E8E0C20F836B5B267">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -4127,7 +4040,7 @@ updateButton()
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UICorner" referent="RBX6C4701550DD349028F2083892192F90F">
+						<Item class="UICorner" referent="RBX52F52C8326D943E69F97FABECB7D7992">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -4141,7 +4054,7 @@ updateButton()
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UIStroke" referent="RBXDBD68D20DAA54BF3A9157278996009A7">
+						<Item class="UIStroke" referent="RBX29F14C68BF3042FEA58D9A18E8C31D39">
 							<Properties>
 								<token name="ApplyStrokeMode">1</token>
 								<BinaryString name="AttributesSerialize"></BinaryString>
@@ -4168,7 +4081,7 @@ updateButton()
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="TextLabel" referent="RBX81E005B77E664F4ABCABCF9A42E79125">
+						<Item class="TextLabel" referent="RBXE511D7FF934C49B18E46A5C920874EFE">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -4238,7 +4151,7 @@ updateButton()
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#195;&#131;&#194;&#174;&#195;&#130;&#194;&#128;&#195;&#130;&#194;&#130;FREE</string>
+								<string name="Text">&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#131;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#174;&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#130;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#128;&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#130;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#130;FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -4261,7 +4174,7 @@ updateButton()
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIStroke" referent="RBX6466337C7FAB4CDDB7BCB6F6107B92D8">
+							<Item class="UIStroke" referent="RBX5DE35CD5A87D49E58893B0F614480729">
 								<Properties>
 									<token name="ApplyStrokeMode">0</token>
 									<BinaryString name="AttributesSerialize"></BinaryString>
@@ -4290,7 +4203,7 @@ updateButton()
 							</Item>
 						</Item>
 					</Item>
-					<Item class="UIStroke" referent="RBXB2B1ED9A744847429CC4789633834962">
+					<Item class="UIStroke" referent="RBXEF2E5C1DCA9F4439A33288A5A843B022">
 						<Properties>
 							<token name="ApplyStrokeMode">0</token>
 							<BinaryString name="AttributesSerialize"></BinaryString>
@@ -4317,7 +4230,7 @@ updateButton()
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextLabel" referent="RBXFA27A9A49061424B9B0A2644638128DE">
+					<Item class="TextLabel" referent="RBX35CC8D00ED414642898B3754D052181B">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -4410,7 +4323,7 @@ updateButton()
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UIStroke" referent="RBXEEB0325B95DB4A58B1A123D140A43EF4">
+						<Item class="UIStroke" referent="RBX44B76DC94EE448EBA76EDE30A307921F">
 							<Properties>
 								<token name="ApplyStrokeMode">0</token>
 								<BinaryString name="AttributesSerialize"></BinaryString>
@@ -4438,7 +4351,7 @@ updateButton()
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="ImageLabel" referent="RBXE76AB18E475740748A96980B8DA755BB">
+					<Item class="ImageLabel" referent="RBX891A26E462174AC9AD434C3362B62744">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -4536,7 +4449,7 @@ updateButton()
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="Frame" referent="RBXAE70384FDEEB42E197215620F043C2E4">
+				<Item class="Frame" referent="RBXC236018FBBC545BA93F4983E644D5364">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -4599,7 +4512,7 @@ updateButton()
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="UICorner" referent="RBX7C95954922D74D169EFD379CF43DFEF5">
+					<Item class="UICorner" referent="RBX11AA7020981749EF8C8462994A680341">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -4613,7 +4526,7 @@ updateButton()
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
 					</Item>
-					<Item class="ImageLabel" referent="RBX8660703B266B48CDB9527C3F6074C42C">
+					<Item class="ImageLabel" referent="RBX629822F62B8740679983F24E458ADB84">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -4710,7 +4623,7 @@ updateButton()
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextLabel" referent="RBXBF5C0A1F88F0491D96B27A5A8BB1DCF3">
+					<Item class="TextLabel" referent="RBX52D9161CAB244EF48931AF500067E18B">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -4803,7 +4716,7 @@ updateButton()
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UIStroke" referent="RBX20EED43FCE1D418389CCF95BAEFF1A35">
+						<Item class="UIStroke" referent="RBXF357EC5C86EF4D148244D718A5FFCE5A">
 							<Properties>
 								<token name="ApplyStrokeMode">0</token>
 								<BinaryString name="AttributesSerialize"></BinaryString>
@@ -4830,7 +4743,7 @@ updateButton()
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="UIGradient" referent="RBX12F7B691BE3346F6B2872F16B5D8888F">
+						<Item class="UIGradient" referent="RBXB8E00097A7F44448ACA38B840A017E41">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -4849,7 +4762,7 @@ updateButton()
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBXF38F49C9968E4AAAA63F984464FF3E01">
+					<Item class="TextButton" referent="RBXE32986C6A35D470C974A32D84D1C0730">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -4948,7 +4861,7 @@ updateButton()
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UICorner" referent="RBX1AA00D4C00684ECD8D3CF0096187544D">
+						<Item class="UICorner" referent="RBXC32EF9F08E7D44DB9222934535F55BA4">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -4962,7 +4875,7 @@ updateButton()
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UIStroke" referent="RBX5056789C2A914807BE070FC16FB5B780">
+						<Item class="UIStroke" referent="RBX25891333BA3048DAA0849F9FC9DA4C7C">
 							<Properties>
 								<token name="ApplyStrokeMode">1</token>
 								<BinaryString name="AttributesSerialize"></BinaryString>
@@ -4989,7 +4902,7 @@ updateButton()
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="TextLabel" referent="RBX615993EFA89F400699817EA03047A2D3">
+						<Item class="TextLabel" referent="RBX7D14E71D03F04C2EBA08B46F9873C400">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -5059,7 +4972,7 @@ updateButton()
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#195;&#131;&#194;&#174;&#195;&#130;&#194;&#128;&#195;&#130;&#194;&#130; FREE</string>
+								<string name="Text">&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#131;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#174;&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#130;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#128;&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#130;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#130; FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -5082,7 +4995,7 @@ updateButton()
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIStroke" referent="RBX4D148E5AB3794366B6EEA60CEDF1D30F">
+							<Item class="UIStroke" referent="RBXF4312A043DD94C2AA2F7A6EFB63B3608">
 								<Properties>
 									<token name="ApplyStrokeMode">0</token>
 									<BinaryString name="AttributesSerialize"></BinaryString>
@@ -5111,7 +5024,7 @@ updateButton()
 							</Item>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBX75F152AA937243A1A27FB5FC842DB3BE">
+					<Item class="TextButton" referent="RBX3025600AF2E34CA983DAC086304EA885">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -5210,7 +5123,7 @@ updateButton()
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UICorner" referent="RBX47C09274312749A0AB42427A40B7BF4D">
+						<Item class="UICorner" referent="RBXC3650D28413E465AAF17B16F40C9894B">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -5224,7 +5137,7 @@ updateButton()
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UIStroke" referent="RBXBA5B6EDD106746699A5D392DA5AB1616">
+						<Item class="UIStroke" referent="RBX14552B5E8A1148418C2E2F6D18EECC5C">
 							<Properties>
 								<token name="ApplyStrokeMode">1</token>
 								<BinaryString name="AttributesSerialize"></BinaryString>
@@ -5251,7 +5164,7 @@ updateButton()
 								<int name="ZIndex">1</int>
 							</Properties>
 						</Item>
-						<Item class="TextLabel" referent="RBXF5F8224CFBE4481F9181F518A0696903">
+						<Item class="TextLabel" referent="RBX94466F87BB874E69A551FF05FB9F34D5">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -5321,7 +5234,7 @@ updateButton()
 								<token name="SizeConstraint">0</token>
 								<int64 name="SourceAssetId">-1</int64>
 								<BinaryString name="Tags"></BinaryString>
-								<string name="Text">&#195;&#131;&#194;&#174;&#195;&#130;&#194;&#128;&#195;&#130;&#194;&#130;FREE</string>
+								<string name="Text">&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#131;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#174;&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#130;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#128;&#195;&#131;&#194;&#131;&#195;&#130;&#194;&#130;&#195;&#131;&#194;&#130;&#195;&#130;&#194;&#130;FREE</string>
 								<Color3 name="TextColor3">
 									<R>1</R>
 									<G>1</G>
@@ -5344,7 +5257,7 @@ updateButton()
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="UIStroke" referent="RBX7DCD75EB5CB24AFBA9737A6083F24B4F">
+							<Item class="UIStroke" referent="RBXCCDC95B4DFD14D79A9063C044832973C">
 								<Properties>
 									<token name="ApplyStrokeMode">0</token>
 									<BinaryString name="AttributesSerialize"></BinaryString>
@@ -5373,7 +5286,7 @@ updateButton()
 							</Item>
 						</Item>
 					</Item>
-					<Item class="UIStroke" referent="RBXCD8D61B8BE4C444E9742540938086348">
+					<Item class="UIStroke" referent="RBX8C1D4667D9A046E599EED802806826BB">
 						<Properties>
 							<token name="ApplyStrokeMode">0</token>
 							<BinaryString name="AttributesSerialize"></BinaryString>
@@ -5400,7 +5313,7 @@ updateButton()
 							<int name="ZIndex">1</int>
 						</Properties>
 					</Item>
-					<Item class="TextLabel" referent="RBX7F1A9F473076463BA6F5FBC7B61FEAD8">
+					<Item class="TextLabel" referent="RBXAA62EFE27C034A43A179886AB32EDB2F">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -5493,7 +5406,7 @@ updateButton()
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UIStroke" referent="RBX7729A7F19C9C41E4BF595CF96D1DC20D">
+						<Item class="UIStroke" referent="RBX04D1EC94FBBB4CFB9DCA4FD163575D44">
 							<Properties>
 								<token name="ApplyStrokeMode">0</token>
 								<BinaryString name="AttributesSerialize"></BinaryString>
@@ -5521,7 +5434,7 @@ updateButton()
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="ImageLabel" referent="RBX998748BE8B73441A95AE132A19328C8C">
+					<Item class="ImageLabel" referent="RBX6D0491C6EA754023A428246EB1B46B68">
 						<Properties>
 							<bool name="Active">false</bool>
 							<Vector2 name="AnchorPoint">
@@ -5619,7 +5532,7 @@ updateButton()
 						</Properties>
 					</Item>
 				</Item>
-				<Item class="UIPadding" referent="RBX181FC551FF5D4FB88D3874E7D67818DE">
+				<Item class="UIPadding" referent="RBX5C9EBCF6844E4A3F86812F53E42598F5">
 					<Properties>
 						<BinaryString name="AttributesSerialize"></BinaryString>
 						<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -5646,7 +5559,7 @@ updateButton()
 					</Properties>
 				</Item>
 			</Item>
-			<Item class="UIStroke" referent="RBXBE0FDABE45F74FBA8AB4FFA302BEB0F2">
+			<Item class="UIStroke" referent="RBXC428F4ACBD22491F9847CB1CA2AAAE99">
 				<Properties>
 					<token name="ApplyStrokeMode">0</token>
 					<BinaryString name="AttributesSerialize"></BinaryString>
@@ -5673,7 +5586,7 @@ updateButton()
 					<int name="ZIndex">1</int>
 				</Properties>
 			</Item>
-			<Item class="UIGradient" referent="RBXB2FDEF57427845F9AB037B17DD457237">
+			<Item class="UIGradient" referent="RBX4E7D4D1614F14741800A2CA0D83C523B">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
