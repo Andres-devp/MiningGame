@@ -56,15 +56,18 @@ function PickfallController.init()
                        if countdownLabel then
                                countdownLabel.Text = "00:00"
                                print("[PickfallController] Countdown reset to 00:00")
-
                        end
                        joined = false
                        if joinButton then
                                joinButton.Text = DEFAULT_JOIN_TEXT
                                joinButton.AutoButtonColor = true
                                joinButton.Active = true
-                               joinButton.Visible = true
+                               joinButton.Visible = false
                                print("[PickfallController] Join button reset")
+                       end
+                       if container then
+                               container.Visible = false
+                               print("[PickfallController] Container hidden")
 
                        end
                elseif state == "countdown" then
@@ -80,6 +83,11 @@ function PickfallController.init()
                        else
                                print("[PickfallController] joinButton missing during countdown")
                        end
+                       if container then
+                               container.Visible = true
+                               print("[PickfallController] Container shown")
+
+                       end
                elseif state == "running" then
                        if countdownLabel then
                                countdownLabel.Text = "Evento en progreso"
@@ -88,16 +96,14 @@ function PickfallController.init()
                        if joinButton then
                                joinButton.Visible = false
                                print("[PickfallController] Join button hidden")
-
+                       end
+                       if container then
+                               container.Visible = false
+                               print("[PickfallController] Container hidden")
                        end
                else
                        print("[PickfallController] Unknown state", state)
-               end
-               if container then
-                       container.Visible = state ~= "running"
-                       print("[PickfallController] Container visibility", container.Visible)
-               else
-                       print("[PickfallController] container missing")
+
                end
        end)
 

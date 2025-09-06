@@ -239,18 +239,18 @@ end
 
 local function cycle()
         while true do
-                print("[PickfallEventService] Waiting", ROUND_INTERVAL, "seconds for next round")
-                task.wait(ROUND_INTERVAL)
+
                 runRound()
                 while active do
                         task.wait(1)
                 end
-                registrationOpen = true
-                broadcast("idle")
+                print("[PickfallEventService] Waiting", ROUND_INTERVAL, "seconds for next round")
+                task.wait(ROUND_INTERVAL)
+
         end
 end
 
-registrationOpen = true
+registrationOpen = false
 resetOreBlocks()
 
 broadcast("idle")
