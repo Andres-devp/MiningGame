@@ -2,7 +2,6 @@
 
 local Players            = game:GetService("Players")
 local UserInputService   = game:GetService("UserInputService")
-local CollectionService  = game:GetService("CollectionService")
 local ReplicatedStorage  = game:GetService("ReplicatedStorage")
 local Workspace          = game:GetService("Workspace")
 
@@ -37,23 +36,10 @@ local function isStoneModel(model: Instance?): boolean
 
         local nodeType = model:GetAttribute("NodeType")
         if nodeType then
-                nodeType = string.lower(tostring(nodeType))
-                if nodeType:find("stone", 1, true) then return true end
-                if nodeType == "crystal" then return false end
+                return string.lower(tostring(nodeType)) ~= "crystal"
         end
         if model:GetAttribute("IsMinable") then
                 return true
-        end
-        if CollectionService:HasTag(model, "Stone") then return true end
-        if model:IsA("Model") then
-                if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, "Stone") then return true end
-                local hit = model:FindFirstChild("Hitbox")
-                if hit and hit:IsA("BasePart") and CollectionService:HasTag(hit, "Stone") then return true end
-                for _, d in ipairs(model:GetDescendants()) do
-                        if d:IsA("BasePart") and CollectionService:HasTag(d, "Stone") then
-                                return true
-                        end
-                end
         end
         return false
 

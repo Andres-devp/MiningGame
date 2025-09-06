@@ -1,11 +1,7 @@
 
 
-local CollectionService = game:GetService("CollectionService")
 local HttpService       = game:GetService("HttpService")
 local Workspace         = game:GetService("Workspace")
-
-local TAG_STONE         = "Stone"
-local TAG_CRYSTAL       = "Crystal"
 local ATTR_NODE_ID      = "NodeId"
 
 local NodeService = {}
@@ -13,17 +9,6 @@ local NodeService = {}
 local idToNode   : {[string]: Model} = {}
 local nodeToId   : {[Instance]: string} = {}
 local conns      : {[Instance]: RBXScriptConnection} = {}
-
-local function hasTagDeep(model: Model, tag: string): boolean
-	if CollectionService:HasTag(model, tag) then return true end
-	if model.PrimaryPart and CollectionService:HasTag(model.PrimaryPart, tag) then return true end
-	for _, d in ipairs(model:GetDescendants()) do
-		if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
-			return true
-		end
-	end
-	return false
-end
 
 local KNOWN_ORES = {
         Stone = true,
@@ -37,13 +22,7 @@ local KNOWN_ORES = {
 local function ensureDefaults(model: Model)
         local nodeType = model:GetAttribute("NodeType")
         if not nodeType or nodeType == "" then
-                if hasTagDeep(model, TAG_CRYSTAL) then
-                        nodeType = "Crystal"
-                elseif hasTagDeep(model, TAG_STONE) then
-                        nodeType = "Stone"
-                else
-                        nodeType = model.Name
-                end
+                nodeType = model.Name
                 model:SetAttribute("NodeType", nodeType)
         end
 
@@ -72,19 +51,16 @@ end
 
 local function isNodeModel(model: Model?): boolean
         if not model or not model:IsA("Model") then return false end
-        if hasTagDeep(model, TAG_STONE) or hasTagDeep(model, TAG_CRYSTAL) then
-                return true
-        end
         if model:GetAttribute("IsMinable") or model:GetAttribute("NodeType") then
                 return true
         end
         return KNOWN_ORES[model.Name] == true
 end
 
-local function rootModelForTagged(inst: Instance?): Model?
-	if not inst then return nil end
-	if inst:IsA("Model") then return inst end
-	return inst:FindFirstAncestorOfClass("Model")
+local function rootModel(inst: Instance?): Model?
+        if not inst then return nil end
+        if inst:IsA("Model") then return inst end
+        return inst:FindFirstAncestorOfClass("Model")
 end
 
 local function makeNodeId(): string
@@ -166,44 +142,25 @@ function NodeService.count()
 end
 
 local function registerIfNode(inst: Instance)
-	local mdl = rootModelForTagged(inst)
-	if mdl and isNodeModel(mdl) then
-		NodeService.register(mdl)
-	end
-end
-
-local function unregisterIfNode(inst: Instance)
-	local mdl = rootModelForTagged(inst)
-	if mdl and nodeToId[mdl] then
-		NodeService.unregister(mdl)
-	end
+        local mdl = rootModel(inst)
+        if mdl and isNodeModel(mdl) and not nodeToId[mdl] then
+                NodeService.register(mdl)
+        end
 end
 
 function NodeService.start()
 
         local added = 0
-        for _, tag in ipairs({TAG_STONE, TAG_CRYSTAL}) do
-                for _, inst in ipairs(CollectionService:GetTagged(tag)) do
-                        local mdl = rootModelForTagged(inst)
-                        if mdl and isNodeModel(mdl) and not nodeToId[mdl] then
-                                NodeService.register(mdl); added += 1
-                        end
-                end
-        end
-
         for _, inst in ipairs(Workspace:GetDescendants()) do
                 if inst:IsA("Model") and isNodeModel(inst) and not nodeToId[inst] then
-                        NodeService.register(inst); added += 1
+                        NodeService.register(inst)
+                        added += 1
                 end
         end
 
+        Workspace.DescendantAdded:Connect(registerIfNode)
 
-        for _, tag in ipairs({TAG_STONE, TAG_CRYSTAL}) do
-                CollectionService:GetInstanceAddedSignal(tag):Connect(registerIfNode)
-                CollectionService:GetInstanceRemovedSignal(tag):Connect(unregisterIfNode)
-	end
-
-	print(("[NodeService] Índice iniciado: %d nodos registrados."):format(added))
+        print(("[NodeService] Índice iniciado: %d nodos registrados."):format(added))
 end
 
 function NodeService.isNode(model: Model): boolean

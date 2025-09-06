@@ -3,7 +3,6 @@
 local Players            = game:GetService("Players")
 local RunService         = game:GetService("RunService")
 local UserInputService   = game:GetService("UserInputService")
-local CollectionService  = game:GetService("CollectionService")
 local ReplicatedStorage  = game:GetService("ReplicatedStorage")
 local Workspace          = game:GetService("Workspace")
 
@@ -36,19 +35,6 @@ local function distOK(part)
     return (root and part) and ((root.Position - part.Position).Magnitude <= MAX_DISTANCE) or false
 end
 
-local function hasTagDeep(inst, tag)
-    if CollectionService:HasTag(inst, tag) then return true end
-    if inst:IsA("Model") then
-        if inst.PrimaryPart and CollectionService:HasTag(inst.PrimaryPart, tag) then return true end
-        for _, d in ipairs(inst:GetDescendants()) do
-            if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
-                return true
-            end
-        end
-    end
-    return false
-end
-
 local function focusPart(inst)
     if not inst then return nil end
     if inst:IsA("BasePart") then return inst end
@@ -70,8 +56,6 @@ local function nodeInfoFrom(inst)
     if inst:GetAttribute("IsMinable") then
         return "Stone", focusPart(inst)
     end
-    if hasTagDeep(inst, "Crystal") then return "Crystal", focusPart(inst) end
-    if hasTagDeep(inst, "Stone") then return "Stone", focusPart(inst) end
     return nil
 end
 
@@ -97,7 +81,7 @@ local function hasEquippedPickaxeClient()
     for _, inst in ipairs(ch:GetChildren()) do
         if inst:IsA("Tool") then
             local lname = inst.Name:lower()
-            if lname:find("pick") or lname:find("pico") or CollectionService:HasTag(inst, "Pickaxe") then
+            if lname:find("pick") or lname:find("pico") or inst:GetAttribute("Pickaxe") then
 
                 return true
             end
