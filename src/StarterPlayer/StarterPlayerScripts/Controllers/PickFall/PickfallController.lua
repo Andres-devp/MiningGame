@@ -19,7 +19,9 @@ local guiFolder = player:WaitForChild("PlayerGui"):WaitForChild("PickFall")
 local gui       = guiFolder:WaitForChild("PickfallGui")
 local joinButton = gui:FindFirstChild("JoinButton") or gui:FindFirstChild("Inscribirse") or gui:FindFirstChildWhichIsA("TextButton")
 local stateLabel = gui:FindFirstChild("StateText") or gui:FindFirstChild("StatusLabel") or gui:FindFirstChildWhichIsA("TextLabel")
-local container = joinButton and joinButton.Parent or gui:FindFirstChildWhichIsA("Frame")
+local container   = joinButton and joinButton.Parent or gui:FindFirstChildWhichIsA("Frame")
+
+local DEFAULT_JOIN_TEXT = joinButton and joinButton.Text or "Inscribirse"
 
 local joined = false
 local countdownConn, countdownTime
@@ -35,10 +37,13 @@ function PickfallController.init()
        print("[PickfallController] init")
        if joinButton then
                joinButton.MouseButton1Click:Connect(function()
+                       if joined then return end
                        print("[PickfallController] Join button clicked")
                        JoinEvent:FireServer()
                        joined = true
-                       joinButton.Visible = false
+                       joinButton.Text = "Registrado"
+                       joinButton.AutoButtonColor = false
+                       joinButton.Active = false
                end)
        else
                print("[PickfallController] Join button not found")
@@ -55,7 +60,12 @@ function PickfallController.init()
                                stateLabel.Text = "Evento inactivo"
                        end
                        joined = false
-                       if joinButton then joinButton.Visible = true end
+                       if joinButton then
+                               joinButton.Text = DEFAULT_JOIN_TEXT
+                               joinButton.AutoButtonColor = true
+                               joinButton.Active = true
+                               joinButton.Visible = true
+                       end
                elseif state == "countdown" then
                        countdownTime = tonumber(data) or 0
                        updateCountdown()
@@ -65,7 +75,7 @@ function PickfallController.init()
                                        updateCountdown()
                                end)
                        end
-                       if joinButton then joinButton.Visible = not joined end
+                       if joinButton then joinButton.Visible = true end
                elseif state == "running" then
                        if countdownConn then
                                countdownConn:Disconnect()
@@ -96,6 +106,9 @@ function PickfallController.init()
                end
                joined = false
                if joinButton then
+                       joinButton.Text = DEFAULT_JOIN_TEXT
+                       joinButton.AutoButtonColor = true
+                       joinButton.Active = true
                        joinButton.Visible = true
                end
                if container then
