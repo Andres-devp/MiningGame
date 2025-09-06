@@ -66,9 +66,9 @@ local function assignPlot(player)
 end
 
 local function removePlot(player)
-	local plotNameValue = player:FindFirstChild("PlotName")
-	local plotName = plotNameValue and plotNameValue.Value or ""
-	if plotName ~= "" and PlotManager.plotsData[plotName] then
+        local plotNameValue = player:FindFirstChild("PlotName")
+        local plotName = plotNameValue and plotNameValue.Value or ""
+        if plotName ~= "" and PlotManager.plotsData[plotName] then
 		
 		for node in pairs(PlotManager.plotsData[plotName].rocks) do
 			if node and node.Parent then node:Destroy() end
@@ -83,19 +83,35 @@ local function removePlot(player)
 		PlotManager.plotsData[plotName]._lastMaxCrystals = nil
 		print("La parcela " .. plotName .. " ha sido liberada.")
 	end
-	if plotNameValue then plotNameValue.Value = "" end
+        if plotNameValue then plotNameValue.Value = "" end
+end
+
+local function teleportPlayerToOwnPlot(player)
+        local plotNameValue = player:FindFirstChild("PlotName")
+        local plotName = plotNameValue and plotNameValue.Value or ""
+        local data = (plotName ~= "" and PlotManager.plotsData[plotName]) or nil
+        if data then
+                teleportToPlot(player, data.model)
+        end
+end
+
+local function onPlayerAdded(player)
+        assignPlot(player)
+        player.CharacterAdded:Connect(function()
+                teleportPlayerToOwnPlot(player)
+        end)
 end
 
 function PlotManager:init()
-	Players.PlayerAdded:Connect(assignPlot)
-	Players.PlayerRemoving:Connect(removePlot)
+        Players.PlayerAdded:Connect(onPlayerAdded)
+        Players.PlayerRemoving:Connect(removePlot)
 
-	
-	for _, p in ipairs(Players:GetPlayers()) do
-		task.defer(assignPlot, p)
-	end
 
-	print("[PlotManager] Eventos de jugador conectados.")
+        for _, p in ipairs(Players:GetPlayers()) do
+                task.defer(onPlayerAdded, p)
+        end
+
+        print("[PlotManager] Eventos de jugador conectados.")
 end
 function PlotManager:getPlotName(player)
 	local v = player:FindFirstChild("PlotName")
