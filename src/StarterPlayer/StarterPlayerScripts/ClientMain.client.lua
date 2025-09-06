@@ -6,19 +6,7 @@ local controllers = root:WaitForChild("Controllers")
 local Players = game:GetService("Players")
 local player  = Players.LocalPlayer
 
-if player:GetAttribute("ClientMainReady") then
-    print("[ClientMain] Controladores ya inicializados, omitiendo.")
-    return
-end
-
-print("[ClientMain] Esperando a que el personaje esté disponible...")
-local character = player.Character or player.CharacterAdded:Wait()
-print(("[ClientMain] Personaje disponible: %s"):format(character:GetFullName()))
-print("[ClientMain] Esperando HumanoidRootPart...")
-character:WaitForChild("HumanoidRootPart")
-print("[ClientMain] HumanoidRootPart encontrado, iniciando controladores.")
-
-player:SetAttribute("ClientMainReady", true)
+player:SetAttribute("ClientMainReady", false)
 
 local function loadModule(container, path)
         local inst = container
@@ -68,32 +56,55 @@ local SaleDialogController = loadModule(controllers, "SaleDialogController") or 
 
 local SoundManager         = loadModule(modulesPath, "SoundManager")         or {}
 
-print("[ClientMain] Inicializando UIController.init")
-call(UIController,     "init")
-print("[ClientMain] Inicializando MiningController.start")
-call(MiningController, "start", nil, SoundManager)
+local function initControllers(character)
+    print(("[ClientMain] Personaje disponible: %s"):format(character:GetFullName()))
+    print("[ClientMain] Esperando HumanoidRootPart...")
+    character:WaitForChild("HumanoidRootPart")
+    print("[ClientMain] HumanoidRootPart encontrado, iniciando controladores.")
 
-if type(InputController.init) == "function" then
-print("[ClientMain] Inicializando InputController.init")
-local ok, err = pcall(function() InputController.init() end)
-print(ok and "[ClientMain] InputController.init OK"
-      or   ("[ClientMain] InputController.init ERROR: "..tostring(err)))
-else
-print("[ClientMain] InputController loaded (side-effect).")
+    player:SetAttribute("ClientMainReady", true)
+
+    print("[ClientMain] Inicializando UIController.init")
+    call(UIController,     "init")
+    print("[ClientMain] Inicializando MiningController.start")
+    call(MiningController, "start", nil, SoundManager)
+
+    if type(InputController.init) == "function" then
+        print("[ClientMain] Inicializando InputController.init")
+        local ok, err = pcall(function() InputController.init() end)
+        print(ok and "[ClientMain] InputController.init OK"
+              or   ("[ClientMain] InputController.init ERROR: "..tostring(err)))
+    else
+        print("[ClientMain] InputController loaded (side-effect).")
+    end
+
+    print("[ClientMain] Inicializando ShopController.init")
+    call(ShopController,       "init")
+    print("[ClientMain] Inicializando TPButtons.init")
+    call(TPButtons,            "init")
+    print("[ClientMain] Inicializando ShopPromptController.init")
+    call(ShopPromptController, "init")
+    print("[ClientMain] Inicializando CloseButtonController.init")
+    call(CloseButtonController,"init")
+    print("[ClientMain] Inicializando PickfallController.init")
+    call(PickfallController, "init")
+    print("[ClientMain] Inicializando SaleDialogController.init")
+    call(SaleDialogController, "init")
+
+    print("--- ClientMain: controllers initialized (UI, Mining, Input, ShopUI, TP, ShopPrompt, CloseButtons).")
 end
 
-print("[ClientMain] Inicializando ShopController.init")
-call(ShopController,       "init")
-print("[ClientMain] Inicializando TPButtons.init")
-call(TPButtons,            "init")
-print("[ClientMain] Inicializando ShopPromptController.init")
-call(ShopPromptController, "init")
-print("[ClientMain] Inicializando CloseButtonController.init")
-call(CloseButtonController,"init")
-print("[ClientMain] Inicializando PickfallController.init")
-call(PickfallController, "init")
-print("[ClientMain] Inicializando SaleDialogController.init")
-call(SaleDialogController, "init")
+local function onCharacterAdded(character)
+    player:SetAttribute("ClientMainReady", false)
+    initControllers(character)
+end
 
-print("--- ClientMain: controllers initialized (UI, Mining, Input, ShopUI, TP, ShopPrompt, CloseButtons).")
+player.CharacterAdded:Connect(onCharacterAdded)
+
+local current = player.Character
+if current then
+    onCharacterAdded(current)
+else
+    print("[ClientMain] Esperando a que el personaje esté disponible...")
+end
 
