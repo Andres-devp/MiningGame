@@ -24,12 +24,14 @@ print("[PickfallController] GUI elements", guiFolder, gui, container, joinButton
 
 local DEFAULT_JOIN_TEXT = joinButton.Text
 
+
 local joined = false
 
 local function formatTime(t)
         local m = math.floor(t/60)
         local s = math.floor(t%60)
         return string.format("%02d:%02d", m, s)
+
 end
 
 function PickfallController.init()
@@ -66,6 +68,7 @@ function PickfallController.init()
                        if container then
                                container.Visible = false
                                print("[PickfallController] Container hidden")
+
                        end
                elseif state == "countdown" then
                        local t = tonumber(data) or 0
@@ -83,6 +86,7 @@ function PickfallController.init()
                        if container then
                                container.Visible = true
                                print("[PickfallController] Container shown")
+
                        end
                elseif state == "running" then
                        if countdownLabel then
@@ -99,11 +103,13 @@ function PickfallController.init()
                        end
                else
                        print("[PickfallController] Unknown state", state)
+
                end
        end)
 
        WinnerEvent.OnClientEvent:Connect(function(name)
                print("[PickfallController] WinnerEvent", name)
+
                if countdownLabel then
                        if name and name ~= "" then
                                countdownLabel.Text = name .. " ganó!"
