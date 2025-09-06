@@ -210,19 +210,19 @@ end
 
 local function runRound()
         print("[PickfallEventService] runRound invoked")
-        if not next(participants) then
-                print("\tNo participants")
-                broadcast("idle")
-                registrationOpen = true
-                return
-        end
         registrationOpen = true
-        print("\tCountdown starting with", #participants, "participants")
+        print("\tCountdown starting")
         for t = COUNTDOWN, 1, -1 do
                 broadcast("countdown", t)
                 task.wait(1)
         end
         registrationOpen = false
+        if not next(participants) then
+                print("\tNo participants after countdown")
+                broadcast("idle")
+                registrationOpen = true
+                return
+        end
         print("\tTeleporting players")
         teleport()
         active = true
