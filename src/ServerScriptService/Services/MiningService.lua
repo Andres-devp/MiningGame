@@ -1,7 +1,6 @@
 
 
 local Players            = game:GetService("Players")
-local CollectionService  = game:GetService("CollectionService")
 local ReplicatedStorage  = game:GetService("ReplicatedStorage")
 local RunService         = game:GetService("RunService")
 local Workspace          = game:GetService("Workspace")
@@ -44,19 +43,6 @@ local function distOK(player, part)
 	return (hrp and part) and ((hrp.Position - part.Position).Magnitude <= MAX_DISTANCE) or false
 end
 
-local function hasTagDeep(inst: Instance, tag: string): boolean
-        if CollectionService:HasTag(inst, tag) then return true end
-        if inst:IsA("Model") then
-                if inst.PrimaryPart and CollectionService:HasTag(inst.PrimaryPart, tag) then return true end
-                for _, d in ipairs(inst:GetDescendants()) do
-                        if d:IsA("BasePart") and CollectionService:HasTag(d, tag) then
-                                return true
-                        end
-                end
-        end
-        return false
-end
-
 local function focusPart(inst: Instance?): BasePart?
         if not inst then return nil end
         if inst:IsA("BasePart") then return inst end
@@ -80,12 +66,15 @@ end
 local function hasPickaxeServer(player)
 	local ch = player.Character
 	if not ch then return false end
-	if ch:FindFirstChild("PickaxeModel") then return true end
-	for _, inst in ipairs(ch:GetChildren()) do
-		if inst:IsA("Tool") and (inst.Name:lower():find("pick") or CollectionService:HasTag(inst, "Pickaxe")) then
-			return true
-		end
-	end
+        if ch:FindFirstChild("PickaxeModel") then return true end
+        for _, inst in ipairs(ch:GetChildren()) do
+                if inst:IsA("Tool") then
+                        local lname = inst.Name:lower()
+                        if lname:find("pick") or inst:GetAttribute("Pickaxe") then
+                                return true
+                        end
+                end
+        end
 	local flag = player:FindFirstChild("PickaxeEquipped")
 	return (flag and flag.Value) or false
 end
@@ -141,12 +130,15 @@ local function mineStone(player, model: Instance)
         end
 
         if typeof(model) ~= "Instance" or not (model:IsA("Model") or model:IsA("BasePart")) then
-
                 return
         end
-        local hasStoneTag = hasTagDeep(model, "Stone")
+
+        local nodeType = model:GetAttribute("NodeType")
         local isMinable = model:GetAttribute("IsMinable")
-        if not hasStoneTag and not isMinable then
+        if nodeType == "Crystal" then
+                return
+        end
+        if not nodeType and not isMinable then
                 return
         end
         if not ownsPlotForModel(player, model) then
@@ -227,12 +219,12 @@ local function beginCrystal(player, model: Model)
 		return
 	end
 
-	if typeof(model) ~= "Instance" or not model:IsA("Model") then
-		EventBus.sendToClient(player, Topics.MiningCrystalAck, { ok = false }); return
-	end
-	if not hasTagDeep(model, "Crystal") then
-		EventBus.sendToClient(player, Topics.MiningCrystalAck, { ok = false }); return
-	end
+        if typeof(model) ~= "Instance" or not model:IsA("Model") then
+                EventBus.sendToClient(player, Topics.MiningCrystalAck, { ok = false }); return
+        end
+        if model:GetAttribute("NodeType") ~= "Crystal" then
+                EventBus.sendToClient(player, Topics.MiningCrystalAck, { ok = false }); return
+        end
 	if not hasPickaxeServer(player) then
 		EventBus.sendToClient(player, Topics.MiningCrystalAck, { ok = false }); return
 	end

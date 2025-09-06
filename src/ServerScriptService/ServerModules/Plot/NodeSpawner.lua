@@ -1,7 +1,6 @@
 
 
 local ServerStorage     = game:GetService("ServerStorage")
-local CollectionService = game:GetService("CollectionService")
 local Players           = game:GetService("Players")
 local RunService        = game:GetService("RunService")
 
@@ -147,16 +146,15 @@ end
 local function spawnNode(plotData, nodeType)
 	if not (plotData and plotData.model) then return false end
 
-	local zonePart, usedZone = findZonePart(plotData.model, nodeType)
-	if not zonePart then return false end
+        local zonePart = findZonePart(plotData.model, nodeType)
+        if not zonePart then return false end
 
-	local tpl = findTemplate(nodeType)
-	if not tpl then return false end
+        local tpl = findTemplate(nodeType)
+        if not tpl then return false end
 
         local node = tpl:Clone()
-        node.Parent = ensureNodesContainer(plotData.model)
 
-        
+
        if node:GetAttribute("MaxHealth") == nil then
                if nodeType == "CommonStone" then
                        node:SetAttribute("MaxHealth", 1)
@@ -185,7 +183,6 @@ local function spawnNode(plotData, nodeType)
                node:SetAttribute("NodeType", nodeType)
        end
 
-        
         if not node.PrimaryPart then
                 local any = anyBasePart(node)
                 if any then node.PrimaryPart = any end
@@ -193,12 +190,12 @@ local function spawnNode(plotData, nodeType)
 
         placeOnTop(node, zonePart)
 
-        
         if nodeType == "Crystal" then
                 ensureCrystalGui(node)
         end
 
-        
+        node.Parent = ensureNodesContainer(plotData.model)
+
         if nodeType == "CommonStone" then
                 plotData.rocks[node] = true
         else
