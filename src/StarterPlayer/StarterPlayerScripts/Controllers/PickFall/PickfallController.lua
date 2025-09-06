@@ -2,7 +2,6 @@
 
 local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local RunService        = game:GetService("RunService")
 
 local player = Players.LocalPlayer
 
@@ -25,13 +24,12 @@ local DEFAULT_JOIN_TEXT = joinButton.Text
 
 
 local joined = false
-local countdownConn, countdownTime
 
-local function updateCountdown()
-        if not countdownLabel then return end
-        local m = math.floor(countdownTime/60)
-        local s = math.floor(countdownTime%60)
-        countdownLabel.Text = string.format("%02d:%02d", m, s)
+local function formatTime(t)
+        local m = math.floor(t/60)
+        local s = math.floor(t%60)
+        return string.format("%02d:%02d", m, s)
+
 end
 
 function PickfallController.init()
@@ -53,10 +51,7 @@ function PickfallController.init()
        StateEvent.OnClientEvent:Connect(function(state, data)
                print("[PickfallController] StateEvent", state, data)
                if state == "idle" then
-                       if countdownConn then
-                               countdownConn:Disconnect()
-                               countdownConn = nil
-                       end
+
                        if countdownLabel then
                                countdownLabel.Text = "00:00"
                        end
@@ -68,20 +63,13 @@ function PickfallController.init()
                                joinButton.Visible = true
                        end
                elseif state == "countdown" then
-                       countdownTime = tonumber(data) or 0
-                       updateCountdown()
-                       if not countdownConn then
-                               countdownConn = RunService.Heartbeat:Connect(function(dt)
-                                       countdownTime = math.max(0, countdownTime - dt)
-                                       updateCountdown()
-                               end)
+                       local t = tonumber(data) or 0
+                       if countdownLabel then
+                               countdownLabel.Text = formatTime(t)
                        end
                        if joinButton then joinButton.Visible = true end
                elseif state == "running" then
-                       if countdownConn then
-                               countdownConn:Disconnect()
-                               countdownConn = nil
-                       end
+
                        if countdownLabel then
                                countdownLabel.Text = "Evento en progreso"
                        end
@@ -94,10 +82,7 @@ function PickfallController.init()
 
        WinnerEvent.OnClientEvent:Connect(function(name)
                print("[PickfallController] WinnerEvent", name)
-               if countdownConn then
-                       countdownConn:Disconnect()
-                       countdownConn = nil
-               end
+
                if countdownLabel then
                        if name and name ~= "" then
                                countdownLabel.Text = name .. " ganó!"
