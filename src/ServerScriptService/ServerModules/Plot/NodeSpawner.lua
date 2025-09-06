@@ -1,5 +1,3 @@
-
-
 local ServerStorage     = game:GetService("ServerStorage")
 local Players           = game:GetService("Players")
 local RunService        = game:GetService("RunService")
@@ -12,10 +10,59 @@ local nodeTemplates = ServerStorage:WaitForChild("NodeTemplates")
 local ORE_WEIGHTS = {
     Stone   = 50,
     Coal    = 30,
+    Bronze  = 20,
     Emerald = 10,
     Gold    = 6,
     Diamond = 4,
 }
+
+-- load reward/max-health info from available ore templates so node stats
+-- match the ones defined in the main ore models
+local function loadOreStats()
+    local stats = {}
+
+    local function pull(folder)
+        if not folder then
+            return
+        end
+        for _, inst in ipairs(folder:GetChildren()) do
+            local name = inst.Name
+            stats[name] = stats[name] or {}
+            local h = inst:GetAttribute("MaxHealth")
+            local r = inst:GetAttribute("Reward")
+            if h ~= nil then
+                stats[name].MaxHealth = h
+            end
+            if r ~= nil then
+                stats[name].Reward = r
+            end
+        end
+    end
+
+    -- prefer dedicated ore folders if present
+    local ss = ServerStorage:FindFirstChild("PickFall")
+    pull(ss and ss:FindFirstChild("Ores"))
+
+    local rs = game:GetService("ReplicatedStorage")
+    local pf = rs:FindFirstChild("PickFall")
+    pull(pf and pf:FindFirstChild("OreTemplates"))
+
+    -- finally, fall back to nodeTemplates themselves
+    pull(nodeTemplates)
+
+    return stats
+end
+
+local ORE_STATS = loadOreStats()
+local DEFAULT_REWARDS = {
+    Stone = 1,
+    Coal = 2,
+    Bronze = 3,
+    Emerald = 4,
+    Gold = 5,
+    Diamond = 6,
+}
+
 
 local function pickOreType()
     local total = 0
@@ -189,17 +236,15 @@ local function spawnNode(plotData, nodeType)
 
         local node = tpl:Clone()
 
+        local stats = ORE_STATS[finalType] or {}
+
         if node:GetAttribute("MaxHealth") == nil then
-                if finalType == "Stone" then
-                        node:SetAttribute("MaxHealth", 1)
-                else
-                        node:SetAttribute("MaxHealth", 20)
-                end
+                node:SetAttribute("MaxHealth", stats.MaxHealth or (finalType == "Stone" and 1 or 20))
         end
 
         if node:GetAttribute("Reward") == nil then
-                local rewards = { Stone = 1, Coal = 2, Emerald = 3, Gold = 4, Diamond = 5 }
-                node:SetAttribute("Reward", rewards[finalType] or 1)
+                node:SetAttribute("Reward", stats.Reward or DEFAULT_REWARDS[finalType] or 0)
+
         end
 
         if node:GetAttribute("Health") == nil then

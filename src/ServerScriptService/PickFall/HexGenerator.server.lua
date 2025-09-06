@@ -12,13 +12,16 @@ local CFG = {
     baseWeights = {
         Stone = 40,
         Coal = 25,
+        Bronze = 20,
+
         Emerald = 15,
         Gold = 8,
         Diamond = 4,
     },
     -- Optional per-layer overrides: [layer] = {OreName = weight, ...}
     layerOverrides = {
-        [1] = { Stone = 50, Coal = 30, Emerald = 10, Gold = 6, Diamond = 4 },
+        [1] = { Stone = 50, Coal = 30, Bronze = 20, Emerald = 10, Gold = 6, Diamond = 4 },
+
         -- Add more overrides as needed
     },
 }
@@ -30,6 +33,33 @@ local Workspace = game:GetService("Workspace")
 local ServerStorage = game:GetService("ServerStorage")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local NodeService = require(script.Parent.Parent:WaitForChild("Services"):WaitForChild("NodeService"))
+
+-- reuse ore stats so spawned blocks match the main ore definitions
+local function loadOreStats()
+    local stats = {}
+
+    local function pull(folder)
+        if not folder then return end
+        for _, inst in ipairs(folder:GetChildren()) do
+            local name = inst.Name
+            stats[name] = stats[name] or {}
+            local h = inst:GetAttribute("MaxHealth")
+            local r = inst:GetAttribute("Reward")
+            if h ~= nil then stats[name].MaxHealth = h end
+            if r ~= nil then stats[name].Reward = r end
+        end
+    end
+
+    local ss = ServerStorage:FindFirstChild("PickFall")
+    pull(ss and ss:FindFirstChild("Ores"))
+
+    local pf = ReplicatedStorage:FindFirstChild("PickFall")
+    pull(pf and pf:FindFirstChild("OreTemplates"))
+
+    return stats
+end
+
+local ORE_STATS = loadOreStats()
 
 -- Fetch templates from the defined locations
 local function getTemplates()
@@ -49,7 +79,8 @@ local function getTemplates()
     assert(folder, "Ore templates not found in expected locations")
     print("HexGenerator: using template folder", folder:GetFullName())
 
-    local names = { "Stone", "Coal", "Emerald", "Gold", "Diamond" }
+    local names = { "Stone", "Coal", "Bronze", "Emerald", "Gold", "Diamond" }
+
     local templates = {}
     for _, name in ipairs(names) do
         local inst = folder:FindFirstChild(name)
@@ -102,6 +133,7 @@ local function applyRadialBias(weights, dx, dz, size)
     local t = math.clamp(dist / maxDist, 0, 1)
     w.Stone = (w.Stone or 0) * (1 + t * 0.5)
     w.Coal = (w.Coal or 0) * (1 + t * 0.3)
+    w.Bronze = (w.Bronze or 0) * (1 + t * 0.25)
     local center = 1 - t
     w.Emerald = (w.Emerald or 0) * (1 + center * 0.3)
     w.Gold = (w.Gold or 0) * (1 + center * 0.4)
@@ -229,9 +261,10 @@ for layer = 1, CFG.layers do
             if clone:GetAttribute("NodeType") == nil then
                 clone:SetAttribute("NodeType", oreName)
             end
+            local stats = ORE_STATS[oreName] or {}
             local maxHealth = clone:GetAttribute("MaxHealth")
             if maxHealth == nil then
-                maxHealth = (oreName == "Stone") and 1 or 20
+                maxHealth = stats.MaxHealth or ((oreName == "Stone") and 1 or 20)
                 clone:SetAttribute("MaxHealth", maxHealth)
             end
             if clone:GetAttribute("Health") == nil then
@@ -241,7 +274,7 @@ for layer = 1, CFG.layers do
                 clone:SetAttribute("IsMinable", true)
             end
             if clone:GetAttribute("Reward") == nil then
-                clone:SetAttribute("Reward", 0)
+                clone:SetAttribute("Reward", stats.Reward or 0)
             end
             if clone:GetAttribute("RequiresPickaxe") == nil then
                 clone:SetAttribute("RequiresPickaxe", true)
