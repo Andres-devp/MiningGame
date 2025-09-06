@@ -248,7 +248,8 @@ EventBus.registerClient(Topics.MiningFeedback, function(payload)
         end
     else
         if ClientSoundManager and pos then
-            ClientSoundManager:playComboSound("BreakSound", pos)
+            local sound = (kind == "Gold") and "GoldSound" or "StoneSound"
+            ClientSoundManager:playComboSound(sound, pos)
         end
         if pos then
             VisualFX.impactDust(pos)

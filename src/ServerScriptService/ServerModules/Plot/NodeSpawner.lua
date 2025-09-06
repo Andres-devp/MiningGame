@@ -8,6 +8,30 @@ local NodeSpawner = {}
 
 local nodeTemplates = ServerStorage:WaitForChild("NodeTemplates")
 
+-- weighted list of ore types ordered from lowest to highest value
+local ORE_WEIGHTS = {
+    Stone   = 50,
+    Coal    = 30,
+    Emerald = 10,
+    Gold    = 6,
+    Diamond = 4,
+}
+
+local function pickOreType()
+    local total = 0
+    for _, w in pairs(ORE_WEIGHTS) do
+        total += w
+    end
+    local r = math.random() * total
+    for ore, w in pairs(ORE_WEIGHTS) do
+        r -= w
+        if r <= 0 then
+            return ore
+        end
+    end
+    return "Stone"
+end
+
 function NodeSpawner:init()
         local plotManager = require(script.Parent:WaitForChild("PlotManager"))
         self:start(plotManager)
@@ -144,44 +168,51 @@ local function ensureCrystalGui(node)
 end
 
 local function spawnNode(plotData, nodeType)
-	if not (plotData and plotData.model) then return false end
+        if not (plotData and plotData.model) then return false end
 
         local zonePart = findZonePart(plotData.model, nodeType)
         if not zonePart then return false end
 
-        local tpl = findTemplate(nodeType)
-        if not tpl then return false end
+        local finalType = nodeType
+        local tpl
+        if nodeType == "CommonStone" then
+                finalType = pickOreType()
+                tpl = nodeTemplates:FindFirstChild(finalType)
+                if not tpl then
+                        dwarn(("No template for ore '%s'"):format(finalType))
+                        return false
+                end
+        else
+                tpl = findTemplate(nodeType)
+                if not tpl then return false end
+        end
 
         local node = tpl:Clone()
 
+        if node:GetAttribute("MaxHealth") == nil then
+                if finalType == "Stone" then
+                        node:SetAttribute("MaxHealth", 1)
+                else
+                        node:SetAttribute("MaxHealth", 20)
+                end
+        end
 
-       if node:GetAttribute("MaxHealth") == nil then
-               if nodeType == "CommonStone" then
-                       node:SetAttribute("MaxHealth", 1)
-               else
-                       node:SetAttribute("MaxHealth", 20)
-               end
-       end
+        if node:GetAttribute("Reward") == nil then
+                local rewards = { Stone = 1, Coal = 2, Emerald = 3, Gold = 4, Diamond = 5 }
+                node:SetAttribute("Reward", rewards[finalType] or 1)
+        end
 
-       if node:GetAttribute("Reward") == nil then
-               if nodeType == "CommonStone" then
-                       node:SetAttribute("Reward", 1)
-               else
-                       node:SetAttribute("Reward", 5)
-               end
-       end
+        if node:GetAttribute("Health") == nil then
+                node:SetAttribute("Health", node:GetAttribute("MaxHealth"))
+        end
 
-       if node:GetAttribute("Health") == nil then
-               node:SetAttribute("Health", node:GetAttribute("MaxHealth"))
-       end
+        if node:GetAttribute("IsMinable") == nil then
+                node:SetAttribute("IsMinable", true)
+        end
 
-       if node:GetAttribute("IsMinable") == nil then
-               node:SetAttribute("IsMinable", true)
-       end
-
-       if node:GetAttribute("NodeType") == nil then
-               node:SetAttribute("NodeType", nodeType)
-       end
+        if node:GetAttribute("NodeType") == nil then
+                node:SetAttribute("NodeType", finalType)
+        end
 
         if not node.PrimaryPart then
                 local any = anyBasePart(node)
@@ -190,7 +221,7 @@ local function spawnNode(plotData, nodeType)
 
         placeOnTop(node, zonePart)
 
-        if nodeType == "Crystal" then
+        if finalType == "Crystal" or nodeType == "Crystal" then
                 ensureCrystalGui(node)
         end
 
