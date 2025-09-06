@@ -167,7 +167,7 @@ local function mineStone(player, model: Instance)
                 DataService.addResource(player, "stones", reward * buffMultiplier(player))
 
                 EventBus.sendToClient(player, Topics.MiningFeedback, {
-                        kind = "stone",
+                        kind = nodeType or "stone",
                         position = focus.Position,
                 })
                 

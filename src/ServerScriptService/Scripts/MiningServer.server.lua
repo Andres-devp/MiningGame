@@ -116,7 +116,14 @@ SubtractHealthRE.OnServerEvent:Connect(function(player, object, healthSubtractio
     if newHealth <= 0 then
         local pos = objPos(object) or Vector3.new()
         local nodeType = object:GetAttribute("NodeType") or "stone"
-        local soundName = nodeType == "Crystal" and "CrystalSound" or "BreakSound"
+        local soundName
+        if nodeType == "Crystal" then
+            soundName = "CrystalSound"
+        elseif nodeType == "Gold" then
+            soundName = "GoldSound"
+        else
+            soundName = "StoneSound"
+        end
         SoundManager:playSound(soundName, pos)
 
         local reward = tonumber(object:GetAttribute("Reward")) or 0

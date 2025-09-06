@@ -14,7 +14,8 @@ local function findSoundTemplate(name: string): Sound?
 end
 
 SoundManager.soundTemplates = {
-        BreakSound      = findSoundTemplate("BreakSound"),
+        StoneSound      = findSoundTemplate("StoneSound") or findSoundTemplate("BreakSound"),
+        GoldSound       = findSoundTemplate("GoldSound") or findSoundTemplate("StoneSound") or findSoundTemplate("BreakSound"),
         CrystalSound    = findSoundTemplate("CrystalSound"),
         ProgressCrystal = findSoundTemplate("ProgressCrystal"),
         ConversionSound = findSoundTemplate("ConversionSound"),

@@ -61,15 +61,15 @@
 				<float name="Volume">0.5</float>
 			</Properties>
 		</Item>
-		<Item class="Sound" referent="RBXC9DF56DA10CC4AD2BDBA7FE8B0D8A7F0">
-			<Properties>
+                <Item class="Sound" referent="RBXC9DF56DA10CC4AD2BDBA7FE8B0D8A7F0">
+                        <Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 				<bool name="DefinesCapabilities">false</bool>
 				<bool name="IsMutedForCapture">false</bool>
 				<NumberRange name="LoopRegion">0 60000 </NumberRange>
 				<bool name="Looped">false</bool>
-				<string name="Name">BreakSound</string>
+                                <string name="Name">StoneSound</string>
 				<bool name="PlayOnRemove">false</bool>
 				<NumberRange name="PlaybackRegion">0 60000 </NumberRange>
 				<bool name="PlaybackRegionsEnabled">false</bool>
@@ -79,13 +79,38 @@
 				<float name="RollOffMinDistance">10</float>
 				<token name="RollOffMode">3</token>
 				<Ref name="SoundGroup">null</Ref>
-				<Content name="SoundId"><url>rbxassetid://7158347304</url></Content>
-				<int64 name="SourceAssetId">-1</int64>
-				<BinaryString name="Tags"></BinaryString>
-				<double name="TimePosition">0</double>
-				<float name="Volume">0.5</float>
-			</Properties>
-		</Item>
+                                <Content name="SoundId"><url>rbxassetid://7158347304</url></Content>
+                                <int64 name="SourceAssetId">-1</int64>
+                                <BinaryString name="Tags"></BinaryString>
+                                <double name="TimePosition">0</double>
+                                <float name="Volume">0.5</float>
+                        </Properties>
+                </Item>
+                <Item class="Sound" referent="RBXGOLDSOUNDREF00000000000000000000">
+                        <Properties>
+                                <BinaryString name="AttributesSerialize"></BinaryString>
+                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+                                <bool name="DefinesCapabilities">false</bool>
+                                <bool name="IsMutedForCapture">false</bool>
+                                <NumberRange name="LoopRegion">0 60000 </NumberRange>
+                                <bool name="Looped">false</bool>
+                                <string name="Name">GoldSound</string>
+                                <bool name="PlayOnRemove">false</bool>
+                                <NumberRange name="PlaybackRegion">0 60000 </NumberRange>
+                                <bool name="PlaybackRegionsEnabled">false</bool>
+                                <float name="PlaybackSpeed">1</float>
+                                <bool name="Playing">false</bool>
+                                <float name="RollOffMaxDistance">10000</float>
+                                <float name="RollOffMinDistance">10</float>
+                                <token name="RollOffMode">3</token>
+                                <Ref name="SoundGroup">null</Ref>
+                                <Content name="SoundId"><url>rbxassetid://0</url></Content>
+                                <int64 name="SourceAssetId">-1</int64>
+                                <BinaryString name="Tags"></BinaryString>
+                                <double name="TimePosition">0</double>
+                                <float name="Volume">0.5</float>
+                        </Properties>
+                </Item>
 		<Item class="Sound" referent="RBXE9E80B0A3BCF47D39F12804735242E72">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
