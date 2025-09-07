@@ -91,7 +91,9 @@ local function resetOreBlocks()
 end
 
 local function broadcast(state, data)
-        print("[PickfallEventService] broadcast", state, data)
+        if state ~= "countdown" then
+                print("[PickfallEventService] broadcast", state, data)
+        end
         currentState, currentData = state, data
         StateEvent:FireAllClients(state, data)
 end
@@ -231,9 +233,7 @@ end
 local function runRound()
         print("[PickfallEventService] runRound invoked")
         registrationOpen = true
-        print("\tCountdown starting")
         for t = COUNTDOWN, 1, -1 do
-                print("\tCountdown tick", t)
                 broadcast("countdown", t)
                 task.wait(1)
         end
