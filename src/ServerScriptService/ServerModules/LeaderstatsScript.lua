@@ -206,26 +206,29 @@ function LeaderstatsScript:init()
 		task.defer(function() givePickaxeIfOwned(player) end)
 	end)
 
-	Players.PlayerRemoving:Connect(function(player)
-		saveData(player.UserId)
-		cache[player.UserId] = nil
-	end)
+        Players.PlayerRemoving:Connect(function(player)
+                saveData(player.UserId)
+                task.wait()
+                cache[player.UserId] = nil
+        end)
 
 	
 	task.spawn(function()
 		while true do
 			task.wait(60)
-			for _, pl in ipairs(Players:GetPlayers()) do
-				saveData(pl.UserId)
-			end
+                        for _, pl in ipairs(Players:GetPlayers()) do
+                                saveData(pl.UserId)
+                                task.wait()
+                        end
 		end
 	end)
 
 	game:BindToClose(function()
-		for _, pl in ipairs(Players:GetPlayers()) do
-			saveData(pl.UserId)
-		end
-	end)
+                for _, pl in ipairs(Players:GetPlayers()) do
+                        saveData(pl.UserId)
+                        task.wait()
+                end
+        end)
 
 	print("[LeaderstatsScript] DataStore listo (gems, stones, upgrades, tools, automine).")
 end
