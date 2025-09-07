@@ -10,17 +10,17 @@ local CFG = {
 
     debug = true,
     baseWeights = {
-        Stone = 40,
-        Coal = 25,
-        Bronze = 20,
+        Stone = 70,
+        Coal = 12,
+        Bronze = 8,
 
-        Emerald = 15,
-        Gold = 8,
-        Diamond = 4,
+        Emerald = 5,
+        Gold = 3,
+        Diamond = 2,
     },
     -- Optional per-layer overrides: [layer] = {OreName = weight, ...}
     layerOverrides = {
-        [1] = { Stone = 50, Coal = 30, Bronze = 20, Emerald = 10, Gold = 6, Diamond = 4 },
+        [1] = { Stone = 80, Coal = 10, Bronze = 5, Emerald = 3, Gold = 1, Diamond = 1 },
 
         -- Add more overrides as needed
     },
