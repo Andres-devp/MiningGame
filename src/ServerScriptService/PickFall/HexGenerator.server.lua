@@ -1,7 +1,7 @@
 local CFG = {
     layers = 5, -- number of vertical layers
     layerStep = -25, -- vertical offset between layers
-    radius = 7, -- axial radius of the honeycomb (in tiles)
+    radius = 9, -- axial radius of the honeycomb (in tiles)
     topOffsetY = 0, -- offset from arena base to top layer
     tileYaw = 30, -- rotation of each tile in degrees
     spacingXY = 1.0, -- multiplier for horizontal offsets
