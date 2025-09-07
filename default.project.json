@@ -12,9 +12,10 @@
       "Plots":             { "$path": "src/Workspace/Plots.rbxmx" },
       "SpawnLocation":     { "$path": "src/Workspace/SpawnLocation.rbxmx" },
       "Cave":              { "$path": "src/Workspace/Cave.rbxmx" },
+      "Capsule":           { "$path": "src/Workspace/Capsule.rbxmx" },      
       "LeaderboardDisplay":{ "$path": "src/Workspace/LeaderboardDisplay.rbxmx" },
       "TiendaPico":        { "$path": "src/Workspace/TiendaPico.rbxmx" },
-      "Shops":            { "$path": "src/Workspace/Shops.rbxmx" },
+      "Shops":             { "$path": "src/Workspace/Shops.rbxmx" },
       "Baseplate":         { "$path": "src/Workspace/Baseplate.rbxmx" },
       "PickaxeBasic":      { "$path": "src/Workspace/PickaxeBasic.rbxmx" },
       "Lights":            { "$path": "src/Workspace/Lights.rbxmx" },
@@ -32,7 +33,7 @@
       "Services":      { "$path": "src/ServerScriptService/Services" },
       "Systems":       { "$path": "src/ServerScriptService/Systems" },
       "Scripts":       { "$path": "src/ServerScriptService/Scripts" },
-      "PickFall":     { "$path": "src/ServerScriptService/PickFall" }
+      "PickFall":      { "$path": "src/ServerScriptService/PickFall" }
     },
 
     "ServerStorage": {
