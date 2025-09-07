@@ -9,6 +9,7 @@ local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
 local button = playerGui:WaitForChild("MainGui"):WaitForChild("AutoMineButton")
+local gradient = button:FindFirstChildOfClass("UIGradient")
 
 -- EventBus
 local EventBus = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventBus"))
@@ -23,21 +24,33 @@ if label then
     if button:IsA("TextButton") then button.Text = "" end
     label.BackgroundTransparency = 1
     label.Size = UDim2.fromScale(1, 1)
+    label.Position = UDim2.fromScale(0.5, 0.5)
+    label.AnchorPoint = Vector2.new(0.5, 0.5)
+    label.TextWrapped = true
     label.TextScaled = true
     label.Font = Enum.Font.GothamBlack
     label.TextStrokeTransparency = 0
     label.TextColor3 = Color3.new(1,1,1)
+    label.TextXAlignment = Enum.TextXAlignment.Center
+    label.TextYAlignment = Enum.TextYAlignment.Center
 else
     label = button :: TextButton
     label.TextScaled = true
     label.Font = Enum.Font.GothamBlack
     label.TextStrokeTransparency = 0
     label.TextColor3 = Color3.new(1,1,1)
+    label.TextXAlignment = Enum.TextXAlignment.Center
+    label.TextYAlignment = Enum.TextYAlignment.Center
+    label.TextWrapped = true
 end
 
 local COLOR_ON  = Color3.fromRGB(40, 167, 69)
 local COLOR_OFF = Color3.fromRGB(220, 53, 69)
 local COLOR_BUY = Color3.fromRGB(0, 123, 255)
+
+local GRADIENT_ON  = ColorSequence.new(Color3.fromRGB(40,167,69), Color3.fromRGB(33,134,54))
+local GRADIENT_OFF = ColorSequence.new(Color3.fromRGB(220,53,69), Color3.fromRGB(176,43,55))
+local GRADIENT_BUY = ColorSequence.new(Color3.fromRGB(0,123,255), Color3.fromRGB(0,92,191))
 
 -- Valores replicados (los crea el server)
 local ownsAutoMinePass = player:WaitForChild("OwnsAutoMinePass")
@@ -50,13 +63,16 @@ local function updateButton()
         if autoVal and autoVal.Value then
             setText("AUTO-MINADO: ON")
             button.BackgroundColor3 = COLOR_ON
+            if gradient then gradient.Color = GRADIENT_ON end
         else
             setText("AUTO-MINADO: OFF")
             button.BackgroundColor3 = COLOR_OFF
+            if gradient then gradient.Color = GRADIENT_OFF end
         end
     else
         setText("AUTO-MINADO")
         button.BackgroundColor3 = COLOR_BUY
+        if gradient then gradient.Color = GRADIENT_BUY end
     end
 end
 
