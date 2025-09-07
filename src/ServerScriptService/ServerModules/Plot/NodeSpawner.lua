@@ -8,12 +8,12 @@ local nodeTemplates = ServerStorage:WaitForChild("NodeTemplates")
 
 -- weighted list of ore types ordered from lowest to highest value
 local ORE_WEIGHTS = {
-    Stone   = 50,
-    Coal    = 30,
-    Bronze  = 20,
-    Emerald = 10,
-    Gold    = 6,
-    Diamond = 4,
+    Stone   = 80,
+    Coal    = 10,
+    Bronze  = 5,
+    Emerald = 3,
+    Gold    = 1,
+    Diamond = 1,
 }
 
 -- load reward/max-health info from available ore templates so node stats
