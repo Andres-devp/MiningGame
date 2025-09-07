@@ -69,7 +69,7 @@
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
 					<X>0</X>
-					<Y>12.0878677</Y>
+					<Y>54.7808609</Y>
 					<Z>0</Z>
 					<R00>0</R00>
 					<R01>0</R01>
@@ -90,7 +90,7 @@
 				<SharedString name="ChildData2">w4gIysUfcgxT5uTJpOlidA==</SharedString>
 				<string name="CollisionGroup">Default</string>
 				<int name="CollisionGroupId">0</int>
-				<Color3uint8 name="Color3uint8">4293782250</Color3uint8>
+				<Color3uint8 name="Color3uint8">4285438410</Color3uint8>
 				<int name="ComponentIndex">-1</int>
 				<PhysicalProperties name="CustomPhysicalProperties">
 					<CustomPhysics>false</CustomPhysics>
@@ -180,9 +180,9 @@
 					<Z>0</Z>
 				</Vector3>
 				<Vector3 name="size">
-					<X>230.016281</X>
-					<Y>138.576447</Y>
-					<Z>138.576462</Z>
+					<X>192.593216</X>
+					<Y>163.341003</Y>
+					<Z>163.341019</Z>
 				</Vector3>
 			</Properties>
 		</Item>

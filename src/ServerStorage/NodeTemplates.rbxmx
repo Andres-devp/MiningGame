@@ -519,7 +519,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -540,7 +540,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -561,7 +561,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -582,7 +582,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -737,7 +737,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -758,7 +758,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -779,7 +779,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -800,7 +800,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -955,7 +955,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -976,7 +976,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -997,7 +997,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -1018,7 +1018,7 @@
 						<Properties>
 							<float name="Angle">90</float>
 							<BinaryString name="AttributesSerialize"></BinaryString>
-							<float name="Brightness">1.5</float>
+							<float name="Brightness">1</float>
 							<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 							<Color3 name="Color">
 								<R>0.56078434</R>
@@ -1321,7 +1321,7 @@
 					<bool name="CastShadow">true</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
-					<Color3uint8 name="Color3uint8">4288914085</Color3uint8>
+					<Color3uint8 name="Color3uint8">4288062900</Color3uint8>
 					<PhysicalProperties name="CustomPhysicalProperties">
 						<CustomPhysics>false</CustomPhysics>
 					</PhysicalProperties>
@@ -1731,7 +1731,7 @@
 					<bool name="CastShadow">true</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
-					<Color3uint8 name="Color3uint8">4279308561</Color3uint8>
+					<Color3uint8 name="Color3uint8">4280560435</Color3uint8>
 					<PhysicalProperties name="CustomPhysicalProperties">
 						<CustomPhysics>false</CustomPhysics>
 					</PhysicalProperties>
@@ -2141,7 +2141,7 @@
 					<bool name="CastShadow">true</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
-					<Color3uint8 name="Color3uint8">4289352960</Color3uint8>
+					<Color3uint8 name="Color3uint8">4292247618</Color3uint8>
 					<PhysicalProperties name="CustomPhysicalProperties">
 						<CustomPhysics>false</CustomPhysics>
 					</PhysicalProperties>
@@ -2551,7 +2551,7 @@
 					<bool name="CastShadow">true</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
-					<Color3uint8 name="Color3uint8">4293900344</Color3uint8>
+					<Color3uint8 name="Color3uint8">4294495056</Color3uint8>
 					<PhysicalProperties name="CustomPhysicalProperties">
 						<CustomPhysics>false</CustomPhysics>
 					</PhysicalProperties>
@@ -2961,7 +2961,7 @@
 					<bool name="CastShadow">true</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
-					<Color3uint8 name="Color3uint8">4278255360</Color3uint8>
+					<Color3uint8 name="Color3uint8">4281911689</Color3uint8>
 					<PhysicalProperties name="CustomPhysicalProperties">
 						<CustomPhysics>false</CustomPhysics>
 					</PhysicalProperties>
@@ -3371,7 +3371,7 @@
 					<bool name="CastShadow">true</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
-					<Color3uint8 name="Color3uint8">4278255615</Color3uint8>
+					<Color3uint8 name="Color3uint8">4283489003</Color3uint8>
 					<PhysicalProperties name="CustomPhysicalProperties">
 						<CustomPhysics>false</CustomPhysics>
 					</PhysicalProperties>

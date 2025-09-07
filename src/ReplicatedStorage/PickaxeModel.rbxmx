@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Tool" referent="RBX76E12A325E564D47818EB32BF45D624A">
+	<Item class="Tool" referent="RBXDEC85401BB434544BB7C1C487DD50416">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<bool name="CanBeDropped">true</bool>
@@ -72,33 +72,33 @@
 				</CFrame>
 			</OptionalCoordinateFrame>
 		</Properties>
-                <Item class="IntValue" referent="RBXC495EEA6BB974D86802C2D2C37F6BDB0">
-                        <Properties>
-                                <BinaryString name="AttributesSerialize"></BinaryString>
-                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                                <bool name="DefinesCapabilities">false</bool>
-                                <string name="Name">Recompensa</string>
-                                <int64 name="SourceAssetId">-1</int64>
-                                <BinaryString name="Tags"></BinaryString>
-                                <int64 name="Value">5</int64>
-                        </Properties>
-                </Item>
-               <Item class="IntValue" referent="RBX0D53AF3528FB4B2E90977DC981200003">
-                       <Properties>
-                               <BinaryString name="AttributesSerialize"></BinaryString>
-                               <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                               <bool name="DefinesCapabilities">false</bool>
-                               <string name="Name">HealthSubtraction</string>
-                               <int64 name="SourceAssetId">-1</int64>
-                               <BinaryString name="Tags"></BinaryString>
-                               <int64 name="Value">1</int64>
-                       </Properties>
-               </Item>
-                <Item class="Part" referent="RBXA96FB0D556CB41589CAF4B33AA5528E0">
-                        <Properties>
-                                <bool name="Anchored">false</bool>
-                                <BinaryString name="AttributesSerialize"></BinaryString>
-                                <bool name="AudioCanCollide">true</bool>
+		<Item class="IntValue" referent="RBXE90A523385484B73B4CE152A97025F65">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<string name="Name">Recompensa</string>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<int64 name="Value">5</int64>
+			</Properties>
+		</Item>
+		<Item class="IntValue" referent="RBX07D4D14A8D7242E8A7B5D278CC472897">
+			<Properties>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
+				<bool name="DefinesCapabilities">false</bool>
+				<string name="Name">HealthSubtraction</string>
+				<int64 name="SourceAssetId">-1</int64>
+				<BinaryString name="Tags"></BinaryString>
+				<int64 name="Value">1</int64>
+			</Properties>
+		</Item>
+		<Item class="Part" referent="RBX744F6C18C18D423684AAC9F8A2F58D68">
+			<Properties>
+				<bool name="Anchored">false</bool>
+				<BinaryString name="AttributesSerialize"></BinaryString>
+				<bool name="AudioCanCollide">true</bool>
 				<float name="BackParamA">-0.5</float>
 				<float name="BackParamB">0.5</float>
 				<token name="BackSurface">0</token>
@@ -121,7 +121,7 @@
 					<R21>-0.0578913875</R21>
 					<R22>0.0130252177</R22>
 				</CoordinateFrame>
-				<bool name="CanCollide">true</bool>
+				<bool name="CanCollide">false</bool>
 				<bool name="CanQuery">true</bool>
 				<bool name="CanTouch">true</bool>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -193,7 +193,7 @@
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBX9D6C56D1A0DB4D93B76569C8CD41D99F">
+		<Item class="Part" referent="RBX5646EDED66004F2FB55C943549CF313F">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -220,7 +220,7 @@
 					<R21>-0.0578913875</R21>
 					<R22>-0.0130252177</R22>
 				</CoordinateFrame>
-				<bool name="CanCollide">true</bool>
+				<bool name="CanCollide">false</bool>
 				<bool name="CanQuery">true</bool>
 				<bool name="CanTouch">true</bool>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -292,7 +292,7 @@
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBXA426EFC97F294853A9BF9B0F8BFA0725">
+		<Item class="Part" referent="RBX8EBB427CA49545D1B416F7F969FD1121">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -319,7 +319,7 @@
 					<R21>-0.0578917339</R21>
 					<R22>-0.998237908</R22>
 				</CoordinateFrame>
-				<bool name="CanCollide">true</bool>
+				<bool name="CanCollide">false</bool>
 				<bool name="CanQuery">true</bool>
 				<bool name="CanTouch">true</bool>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -391,7 +391,7 @@
 				</Vector3>
 			</Properties>
 		</Item>
-		<Item class="Part" referent="RBX8E1F937805B44EDBAA293E0DC9333F48">
+		<Item class="Part" referent="RBX6B93710F726E41D988EC1EE6EF7F2DD0">
 			<Properties>
 				<bool name="Anchored">false</bool>
 				<BinaryString name="AttributesSerialize"></BinaryString>
@@ -489,7 +489,7 @@
 					<Z>0.24632588</Z>
 				</Vector3>
 			</Properties>
-			<Item class="WeldConstraint" referent="RBX6268D3FD9472461BAD1CE641B6C98314">
+			<Item class="WeldConstraint" referent="RBXA73156289A2C4F74A24D910E7658D8C2">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<CoordinateFrame name="CFrame0">
@@ -509,14 +509,14 @@
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
 					<string name="Name">WeldConstraint</string>
-					<Ref name="Part0Internal">RBX8E1F937805B44EDBAA293E0DC9333F48</Ref>
-					<Ref name="Part1Internal">RBXA96FB0D556CB41589CAF4B33AA5528E0</Ref>
+					<Ref name="Part0Internal">RBX6B93710F726E41D988EC1EE6EF7F2DD0</Ref>
+					<Ref name="Part1Internal">RBX744F6C18C18D423684AAC9F8A2F58D68</Ref>
 					<int64 name="SourceAssetId">-1</int64>
 					<int name="State">3</int>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="WeldConstraint" referent="RBX7CB75118976D47CB87559F7FDBC4F0DA">
+			<Item class="WeldConstraint" referent="RBX5453F4FDC7FD4D11993114F4D78F4DE2">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<CoordinateFrame name="CFrame0">
@@ -536,14 +536,14 @@
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
 					<string name="Name">WeldConstraint</string>
-					<Ref name="Part0Internal">RBX8E1F937805B44EDBAA293E0DC9333F48</Ref>
-					<Ref name="Part1Internal">RBX9D6C56D1A0DB4D93B76569C8CD41D99F</Ref>
+					<Ref name="Part0Internal">RBX6B93710F726E41D988EC1EE6EF7F2DD0</Ref>
+					<Ref name="Part1Internal">RBX5646EDED66004F2FB55C943549CF313F</Ref>
 					<int64 name="SourceAssetId">-1</int64>
 					<int name="State">3</int>
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="WeldConstraint" referent="RBX7C653531554A4B91A4D3FBCF293AE7D3">
+			<Item class="WeldConstraint" referent="RBX07A73633E38E4EA19BFA7E43F28D240E">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<CoordinateFrame name="CFrame0">
@@ -563,8 +563,8 @@
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 					<bool name="DefinesCapabilities">false</bool>
 					<string name="Name">WeldConstraint</string>
-					<Ref name="Part0Internal">RBX8E1F937805B44EDBAA293E0DC9333F48</Ref>
-					<Ref name="Part1Internal">RBXA426EFC97F294853A9BF9B0F8BFA0725</Ref>
+					<Ref name="Part0Internal">RBX6B93710F726E41D988EC1EE6EF7F2DD0</Ref>
+					<Ref name="Part1Internal">RBX8EBB427CA49545D1B416F7F969FD1121</Ref>
 					<int64 name="SourceAssetId">-1</int64>
 					<int name="State">3</int>
 					<BinaryString name="Tags"></BinaryString>
