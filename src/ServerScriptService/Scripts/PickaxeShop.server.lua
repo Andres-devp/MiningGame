@@ -79,6 +79,8 @@ local function equipPickaxe(player, id)
         local clone2 = newTool:Clone()
         clone2.Parent = sg
     end
+
+    player:SetAttribute("EquippedPickaxe", id)
 end
 
 local function handlePurchase(prompt, player)
@@ -147,23 +149,33 @@ end
 SHOPS_FOLDER.ChildAdded:Connect(connectStand)
 
 Players.PlayerAdded:Connect(function(player)
-    local owned = Instance.new("Folder")
-    owned.Name = "OwnedPickaxes"
-    owned.Parent = player
+    local owned = player:FindFirstChild("OwnedPickaxes")
+    if not owned then
+        owned = Instance.new("Folder")
+        owned.Name = "OwnedPickaxes"
+        owned.Parent = player
+    end
 
-    local basic = Instance.new("BoolValue")
-    basic.Name = "basic"
-    basic.Value = true
-    basic.Parent = owned
+    if not owned:FindFirstChild("basic") then
+        local basic = Instance.new("BoolValue")
+        basic.Name = "basic"
+        basic.Value = true
+        basic.Parent = owned
+    end
 end)
 
 for _, player in ipairs(Players:GetPlayers()) do
-    local owned = Instance.new("Folder")
-    owned.Name = "OwnedPickaxes"
-    owned.Parent = player
+    local owned = player:FindFirstChild("OwnedPickaxes")
+    if not owned then
+        owned = Instance.new("Folder")
+        owned.Name = "OwnedPickaxes"
+        owned.Parent = player
+    end
 
-    local basic = Instance.new("BoolValue")
-    basic.Name = "basic"
-    basic.Value = true
-    basic.Parent = owned
+    if not owned:FindFirstChild("basic") then
+        local basic = Instance.new("BoolValue")
+        basic.Name = "basic"
+        basic.Value = true
+        basic.Parent = owned
+    end
 end
