@@ -9,22 +9,38 @@ local Players            = game:GetService("Players")
 local DataStoreService   = game:GetService("DataStoreService")
 local ReplicatedStorage  = game:GetService("ReplicatedStorage")
 local MarketplaceService = game:GetService("MarketplaceService")
+local ServerStorage      = game:GetService("ServerStorage")
 
 local LeaderstatsScript = {}
 
 local AUTOMINE_PASS_ID  = 1406821381
 local STORE_NAME        = "ACM_PlayerData_V1"
 
+local PickaxeDefs = require(ReplicatedStorage:WaitForChild("Config"):WaitForChild("PickaxeDefs"))
+local TOOLS_PATH = ServerStorage:WaitForChild("Tools"):WaitForChild("Pickaxes")
+
+local ID_TO_TOOL = {
+        basic   = "PickaxeBasic",
+        copper  = "PickaxeCopper",
+        iron    = "PickaxeIron",
+        gold    = "PickaxeGold",
+        crystal = "PickaxeCrystal",
+}
+
 local DEFAULT_DATA = {
-	gems = 0,
-	stones = 0,
+        gems = 0,
+        stones = 0,
 	upgrades = {
 		RockAmount       = START_ROCK_AMOUNT,
 		SpawnRate        = START_SPAWN_RATE,
-		CrystalAmount    = START_CRYSTAL_AMOUNT,
-		CrystalSpawnRate = START_CRYSTAL_SPAWN_RATE,
-	},
-	tools = { HasPickaxe = false },
+                CrystalAmount    = START_CRYSTAL_AMOUNT,
+                CrystalSpawnRate = START_CRYSTAL_SPAWN_RATE,
+        },
+        tools = { HasPickaxe = false },
+        pickaxes = {
+                owned = { basic = true },
+                equipped = "basic",
+        },
 }
 
 local function deepcopy(t)
@@ -171,8 +187,99 @@ local function buildTools(player, data)
 	end)
 end
 
+local function equipPickaxe(player, id)
+        local toolName = ID_TO_TOOL[id]
+        if not toolName then return end
+
+        for _, container in ipairs({player.Backpack, player.Character}) do
+                if container then
+                        for _, tool in ipairs(container:GetChildren()) do
+                                if tool:IsA("Tool") and tool.Name:match("^Pickaxe") then
+                                        tool:Destroy()
+                                end
+                        end
+                end
+        end
+
+        local template = TOOLS_PATH:FindFirstChild(toolName)
+        if not template then return end
+
+        local newTool = template:Clone()
+        local def = PickaxeDefs[id]
+        if def then
+                newTool:SetAttribute("Power", def.power)
+                newTool:SetAttribute("Cooldown", def.cooldown)
+                newTool:SetAttribute("AOE", def.aoe)
+                newTool:SetAttribute("Id", id)
+        end
+
+        newTool.Parent = player.Backpack
+
+        local sg = player:FindFirstChild("StarterGear")
+        if sg then
+                local clone2 = newTool:Clone()
+                clone2.Parent = sg
+        end
+
+        player:SetAttribute("EquippedPickaxe", id)
+end
+
+local function buildPickaxes(player, data)
+        local folder = player:FindFirstChild("OwnedPickaxes") or Instance.new("Folder")
+        folder.Name = "OwnedPickaxes"
+        folder.Parent = player
+
+        local function connectValue(bv)
+                if not bv:IsA("BoolValue") then return end
+                local id = bv.Name
+                bv:GetPropertyChangedSignal("Value"):Connect(function()
+                        local d = cache[player.UserId]
+                        if d then
+                                d.pickaxes.owned[id] = bv.Value
+                        end
+                end)
+        end
+
+        for id, owned in pairs(data.pickaxes.owned) do
+                local bv = folder:FindFirstChild(id) or Instance.new("BoolValue")
+                bv.Name = id
+                bv.Value = owned and true or false
+                bv.Parent = folder
+                connectValue(bv)
+        end
+
+        folder.ChildAdded:Connect(function(child)
+                if child:IsA("BoolValue") then
+                        local d = cache[player.UserId]
+                        if d then
+                                d.pickaxes.owned[child.Name] = child.Value
+                        end
+                        connectValue(child)
+                end
+        end)
+
+        player:SetAttribute("EquippedPickaxe", data.pickaxes.equipped or "basic")
+        player:GetAttributeChangedSignal("EquippedPickaxe"):Connect(function()
+                local d = cache[player.UserId]
+                if d then
+                        d.pickaxes.equipped = player:GetAttribute("EquippedPickaxe")
+                end
+        end)
+end
+
 local function givePickaxeIfOwned(player)
-    -- legacy pickaxe model removed; handled by PickaxeShop
+        local owned = player:FindFirstChild("OwnedPickaxes")
+        local id = player:GetAttribute("EquippedPickaxe")
+        if not owned then return end
+        local target = id
+        local flag = target and owned:FindFirstChild(target)
+        if not (flag and flag.Value) then
+                target = "basic"
+                flag = owned:FindFirstChild(target)
+        end
+        if flag and flag.Value then
+                equipPickaxe(player, target)
+        end
 end
 
 local function buildAutoMineValues(player)
@@ -215,12 +322,13 @@ function LeaderstatsScript:init()
 	Players.PlayerAdded:Connect(function(player)
 		local data = loadData(player.UserId)
 
-		buildLeaderstats(player, data)
-		buildStones(player, data)
-		buildUpgrades(player, data)
-		buildTools(player, data)
-		buildAutoMineValues(player)
-		refreshOwnership(player)
+                buildLeaderstats(player, data)
+                buildStones(player, data)
+                buildUpgrades(player, data)
+                buildTools(player, data)
+                buildPickaxes(player, data)
+                buildAutoMineValues(player)
+                refreshOwnership(player)
 
 		player.CharacterAdded:Connect(function()
 			givePickaxeIfOwned(player)
