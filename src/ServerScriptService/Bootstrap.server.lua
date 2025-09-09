@@ -8,7 +8,6 @@ local modules = {
     "Plot/NodeSpawner",
     "PlayerDataLegacy",
     "LeaderboardHandler",
-    "ShopService",
     "SellService",
     "Plot/UpgradeHandler",
     "LeaderstatsScript",
