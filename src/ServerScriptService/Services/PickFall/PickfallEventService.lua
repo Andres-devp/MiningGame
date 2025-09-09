@@ -4,6 +4,7 @@ local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService        = game:GetService("RunService")
 local Workspace         = game:GetService("Workspace")
+local TweenService      = game:GetService("TweenService")
 
 local Remotes        = ReplicatedStorage:WaitForChild("Remotes")
 local PickfallFolder = Remotes:WaitForChild("PickFall")
@@ -117,8 +118,12 @@ local function connectOreTouch(ore)
                         local part = ore.PrimaryPart or ore:FindFirstChildWhichIsA("BasePart", true)
                         color = part and part.Color or Color3.new(1, 1, 1)
                 end
-                highlight.FillColor = color
-                highlight.OutlineColor = color
+                local highlightColor = color:Lerp(Color3.new(1, 1, 1), 0.5)
+                highlight.FillColor = highlightColor
+                highlight.OutlineColor = highlightColor
+                highlight.FillTransparency = 0.5
+                highlight.OutlineTransparency = 0
+
                 highlight.Parent = ore
 
                 local delayTime = ore:GetAttribute("MaxHealth") or 1
@@ -128,7 +133,15 @@ local function connectOreTouch(ore)
                                 task.wait(1)
                         end
                         if highlight then
-                                highlight:Destroy()
+                                local tween = TweenService:Create(highlight, TweenInfo.new(0.3, Enum.EasingStyle.Linear), {
+                                        FillTransparency = 1,
+                                        OutlineTransparency = 1,
+                                })
+                                tween.Completed:Connect(function()
+                                        highlight:Destroy()
+                                end)
+                                tween:Play()
+
                         end
                         if ore:IsA("Model") then
                                 for _, p in ipairs(ore:GetDescendants()) do
