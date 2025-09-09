@@ -4,6 +4,7 @@ local Players           = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService        = game:GetService("RunService")
 local Workspace         = game:GetService("Workspace")
+local TweenService      = game:GetService("TweenService")
 
 local Remotes        = ReplicatedStorage:WaitForChild("Remotes")
 local PickfallFolder = Remotes:WaitForChild("PickFall")
@@ -106,11 +107,39 @@ local function connectOreTouch(ore)
                 fallingOres[ore] = true
                 print("[PickfallEventService] ore touched", ore.Name)
 
+                local highlight = Instance.new("Highlight")
+                highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                highlight.Adornee = ore
+
+                local color
+                if ore:IsA("BasePart") then
+                        color = ore.Color
+                else
+                        local part = ore.PrimaryPart or ore:FindFirstChildWhichIsA("BasePart", true)
+                        color = part and part.Color or Color3.new(1, 1, 1)
+                end
+                local highlightColor = color:Lerp(Color3.new(1, 1, 1), 0.5)
+                highlight.FillColor = highlightColor
+                highlight.OutlineColor = highlightColor
+                highlight.FillTransparency = 0.5
+                highlight.OutlineTransparency = 0
+                highlight.Parent = ore
+
                 local delayTime = ore:GetAttribute("MaxHealth") or 1
                 task.spawn(function()
                         for i = delayTime, 1, -1 do
                                 ore:SetAttribute("Health", i - 1)
                                 task.wait(1)
+                        end
+                        if highlight then
+                                local tween = TweenService:Create(highlight, TweenInfo.new(0.3, Enum.EasingStyle.Linear), {
+                                        FillTransparency = 1,
+                                        OutlineTransparency = 1,
+                                })
+                                tween.Completed:Connect(function()
+                                        highlight:Destroy()
+                                end)
+                                tween:Play()
                         end
                         if ore:IsA("Model") then
                                 for _, p in ipairs(ore:GetDescendants()) do
