@@ -18,6 +18,7 @@ local registerFrame = gui:WaitForChild("Register")
 local joinButton = registerFrame:WaitForChild("JoinButton")
 local countdownLabel = registerFrame:WaitForChild("CountDown")
 local selectMode = gui:WaitForChild("SelectMode")
+
 local mode1Button = selectMode:WaitForChild("Mode1")
 local mode2Button = selectMode:WaitForChild("Mode2")
 
@@ -60,6 +61,7 @@ else
 warn("[PickfallController] Join button not found")
 end
 
+
 mode1Button.MouseButton1Click:Connect(function()
 sendJoin(1)
 end)
@@ -98,6 +100,7 @@ elseif state == "countdown" then
         registerFrame.Visible = true
  end
  end
+
 elseif state == "running" then
 if countdownLabel then
 countdownLabel.Text = "Evento en progreso"
@@ -108,6 +111,7 @@ joinButton.Visible = false
 end
 if registerFrame then
         registerFrame.Visible = false
+
 end
 end
 end)
@@ -130,6 +134,7 @@ joinButton.Visible = true
 end
 if registerFrame then
         registerFrame.Visible = true
+
 end
 end)
 end

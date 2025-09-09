@@ -260,6 +260,7 @@ return
 end
 local m = tonumber(mode) or 1
 participants[plr] = { startCFrame = hrp.CFrame, mode = m }
+
 local total = 0
         for _ in pairs(participants) do total += 1 end
         print("\tRegistered", plr.Name, "mode", m, "total participants", total)
@@ -326,6 +327,7 @@ teleport()
 if currentMode == 2 then
 for _, ore in ipairs(oreFolder:GetChildren()) do
 ore:SetAttribute("IsMinable", false)
+
 connectOreTouch(ore)
 end
 end
