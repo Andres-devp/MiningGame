@@ -53,11 +53,14 @@ joinButton.MouseButton1Click:Connect(function()
 if joined then
 return
 end
+joinButton.Active = false
+joinButton.AutoButtonColor = false
 selectMode.Visible = true
 end)
 else
 warn("[PickfallController] Join button not found")
 end
+
 
 mode1Button.MouseButton1Click:Connect(function()
 sendJoin(1)
@@ -81,21 +84,23 @@ joinButton.Visible = false
 end
 if registerFrame then
         registerFrame.Visible = false
-
 end
 elseif state == "countdown" then
-local t = tonumber(data) or 0
-if countdownLabel then
-countdownLabel.Text = formatTime(t)
-end
-selectMode.Visible = false
-if joinButton then
-joinButton.Visible = true
-end
-if registerFrame then
+ local t = tonumber(data) or 0
+ if countdownLabel then
+ countdownLabel.Text = formatTime(t)
+ end
+ if not selectMode.Visible and not joined then
+ if joinButton then
+ joinButton.Visible = true
+ joinButton.Active = true
+ joinButton.AutoButtonColor = true
+ end
+ if registerFrame then
         registerFrame.Visible = true
+ end
+ end
 
-end
 elseif state == "running" then
 if countdownLabel then
 countdownLabel.Text = "Evento en progreso"
