@@ -15,6 +15,17 @@ function PickaxeShopController.init()
 
     local currentPrompt
 
+    local function findFirstAncestorWithAttribute(instance, attribute)
+        local parent = instance.Parent
+        while parent do
+            if parent:GetAttribute(attribute) ~= nil then
+                return parent
+            end
+            parent = parent.Parent
+        end
+        return nil
+    end
+
     local function getPrice(stand, id)
         local price = stand:GetAttribute("Price")
         local def = PickaxeDefs[id]
@@ -24,12 +35,12 @@ function PickaxeShopController.init()
         return price
     end
 
-      local function refresh(prompt)
-          local stand = prompt:FindFirstAncestorWithAttribute("PickaxeId")
-          if not stand then return end
-          local id = stand:GetAttribute("PickaxeId")
-          if not id then return end
-          local def = PickaxeDefs[id]
+    local function refresh(prompt)
+        local stand = findFirstAncestorWithAttribute(prompt, "PickaxeId")
+        if not stand then return end
+        local id = stand:GetAttribute("PickaxeId")
+        if not id then return end
+        local def = PickaxeDefs[id]
 
         if not def then return end
 
