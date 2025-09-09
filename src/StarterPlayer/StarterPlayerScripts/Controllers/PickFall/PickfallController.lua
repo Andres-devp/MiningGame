@@ -47,6 +47,7 @@ joinButton.Active = false
 selectMode.Visible = false
 end
 
+
 if joinButton then
 joinButton.MouseButton1Click:Connect(function()
 if joined then
@@ -116,6 +117,7 @@ WinnerEvent.OnClientEvent:Connect(function(name)
 if countdownLabel then
 if name and name ~= "" then
 countdownLabel.Text = name .. " gano!"
+
 else
 countdownLabel.Text = "Sin ganador"
 end
@@ -132,6 +134,7 @@ if registerFrame then
         registerFrame.Visible = true
 end
 end)
+
 end
 
 return PickfallController
