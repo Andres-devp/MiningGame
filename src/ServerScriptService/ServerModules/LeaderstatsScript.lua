@@ -152,19 +152,7 @@ local function buildTools(player, data)
 end
 
 local function givePickaxeIfOwned(player)
-	local owned = player:FindFirstChild("OwnedTools")
-	local flag = owned and owned:FindFirstChild("HasPickaxe")
-	if flag and flag.Value then
-		local bp = player:FindFirstChild("Backpack")
-		if bp and not bp:FindFirstChild("PickaxeModel") then
-			local tpl = ReplicatedStorage:FindFirstChild("PickaxeModel")
-			if tpl then
-				local item = tpl:Clone()
-				item.Name = "PickaxeModel"
-				item.Parent = bp
-			end
-		end
-	end
+    -- legacy pickaxe model removed; handled by PickaxeShop
 end
 
 local function buildAutoMineValues(player)
