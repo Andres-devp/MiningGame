@@ -18,6 +18,7 @@ local registerFrame = gui:WaitForChild("Register")
 local joinButton = registerFrame:WaitForChild("JoinButton")
 local countdownLabel = registerFrame:WaitForChild("CountDown")
 local selectMode = gui:WaitForChild("SelectMode")
+
 local mode1Button = selectMode:WaitForChild("Mode1")
 local mode2Button = selectMode:WaitForChild("Mode2")
 
@@ -80,6 +81,7 @@ joinButton.Visible = false
 end
 if registerFrame then
         registerFrame.Visible = false
+
 end
 elseif state == "countdown" then
 local t = tonumber(data) or 0
@@ -92,6 +94,7 @@ joinButton.Visible = true
 end
 if registerFrame then
         registerFrame.Visible = true
+
 end
 elseif state == "running" then
 if countdownLabel then
@@ -103,6 +106,7 @@ joinButton.Visible = false
 end
 if registerFrame then
         registerFrame.Visible = false
+
 end
 end
 end)
@@ -125,6 +129,7 @@ joinButton.Visible = true
 end
 if registerFrame then
         registerFrame.Visible = true
+
 end
 end)
 end
