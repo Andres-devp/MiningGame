@@ -40,48 +40,48 @@ local currentState, currentData = "idle", nil
 
 local function setupOreBlocks()
   print("[PickfallEventService] Preparing ore blocks")
-  for _, ore in ipairs(oreFolder:GetChildren()) do
-    local nodeType = ore:GetAttribute("NodeType") or ore.Name
-    if ore:GetAttribute("NodeType") == nil then
-      ore:SetAttribute("NodeType", nodeType)
-    end
-
-    local mh = ore:GetAttribute("MaxHealth")
-    if mh == nil then
-      mh = (ore.Name == "CommonStone") and 1 or 20
-      ore:SetAttribute("MaxHealth", mh)
-    end
-
-    if ore:GetAttribute("Health") == nil then
-      ore:SetAttribute("Health", mh)
-    end
-
-    if ore:GetAttribute("IsMinable") == nil then
-      ore:SetAttribute("IsMinable", true)
-    end
-
-    if ore:GetAttribute("Reward") == nil then
-      ore:SetAttribute("Reward", 0)
-    end
-
-    if ore:GetAttribute("RequiresPickaxe") == nil then
-      ore:SetAttribute("RequiresPickaxe", true)
-    end
-
-    if ore:IsA("Model") then
-      for _, part in ipairs(ore:GetDescendants()) do
-        if part:IsA("BasePart") then
-          part.Anchored = true
-          part.CanCollide = true
-          part.CanTouch = true
-        end
+  for _, ore in ipairs(oreFolder:GetDescendants()) do
+    if ore:IsA("Model") or ore:IsA("BasePart") then
+      local nodeType = ore:GetAttribute("NodeType") or ore.Name
+      if ore:GetAttribute("NodeType") == nil then
+        ore:SetAttribute("NodeType", nodeType)
       end
-    elseif ore:IsA("BasePart") then
-      ore.Anchored = true
-      ore.CanCollide = true
-      ore.CanTouch = true
-    else
-      print("\tWarning: unsupported ore type", ore.ClassName)
+
+      local mh = ore:GetAttribute("MaxHealth")
+      if mh == nil then
+        mh = (ore.Name == "CommonStone") and 1 or 20
+        ore:SetAttribute("MaxHealth", mh)
+      end
+
+      if ore:GetAttribute("Health") == nil then
+        ore:SetAttribute("Health", mh)
+      end
+
+      if ore:GetAttribute("IsMinable") == nil then
+        ore:SetAttribute("IsMinable", true)
+      end
+
+      if ore:GetAttribute("Reward") == nil then
+        ore:SetAttribute("Reward", 0)
+      end
+
+      if ore:GetAttribute("RequiresPickaxe") == nil then
+        ore:SetAttribute("RequiresPickaxe", true)
+      end
+
+      if ore:IsA("Model") then
+        for _, part in ipairs(ore:GetDescendants()) do
+          if part:IsA("BasePart") then
+            part.Anchored = true
+            part.CanCollide = true
+            part.CanTouch = true
+          end
+        end
+      elseif ore:IsA("BasePart") then
+        ore.Anchored = true
+        ore.CanCollide = true
+        ore.CanTouch = true
+      end
     end
   end
 end
@@ -91,7 +91,7 @@ local function resetOreBlocks()
   setupOreBlocks()
 
 
-  for _, ore in ipairs(oreFolder:GetChildren()) do
+  for _, ore in ipairs(oreFolder:GetDescendants()) do
     if ore:IsA("Model") then
       NodeService.register(ore)
     end
@@ -331,11 +331,12 @@ print("\tSelected mode", currentMode)
 print("\tTeleporting players")
 teleport()
 if currentMode == 2 then
-for _, ore in ipairs(oreFolder:GetChildren()) do
-ore:SetAttribute("IsMinable", false)
-
-connectOreTouch(ore)
-end
+ for _, ore in ipairs(oreFolder:GetDescendants()) do
+ if ore:IsA("Model") or ore:IsA("BasePart") then
+ ore:SetAttribute("IsMinable", false)
+ connectOreTouch(ore)
+ end
+ end
 end
 active = true
 print("\tRound active")
