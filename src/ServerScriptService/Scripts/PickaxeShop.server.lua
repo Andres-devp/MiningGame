@@ -45,6 +45,7 @@ local function ensureStandAttributes(stand)
     end
 end
 
+
 local function equipPickaxe(player, id)
     local toolName = ID_TO_TOOL[id]
     if not toolName then return end

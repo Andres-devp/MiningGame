@@ -48,6 +48,7 @@ function PickaxeShopController.init()
         end
         if not id then return end
 
+
         local def = PickaxeDefs[id]
 
         if not def then return end
