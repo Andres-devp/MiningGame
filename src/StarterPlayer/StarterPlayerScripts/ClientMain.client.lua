@@ -49,7 +49,7 @@ local MiningController     = loadModule(controllers, "PickFall/MiningController"
 local InputController      = loadModule(controllers, "InputController")      or {} 
 local ShopController       = loadModule(controllers, "Plot/ShopController")       or {}
 local TPButtons            = loadModule(controllers, "Plot/TPButtons")            or {}
-local ShopPromptController = loadModule(controllers, "ShopPromptController") or {}
+local PickaxeShopController = loadModule(controllers, "PickaxeShopController") or {}
 local CloseButtonController= loadModule(controllers, "CloseButtonController") or {}
 local PickfallController   = loadModule(controllers, "PickFall/PickfallController")   or {}
 local SaleDialogController = loadModule(controllers, "SaleDialogController") or {}
@@ -83,7 +83,7 @@ local function initControllers(character)
     print("[ClientMain] Inicializando TPButtons.init")
     call(TPButtons,            "init")
     print("[ClientMain] Inicializando ShopPromptController.init")
-    call(ShopPromptController, "init")
+    call(PickaxeShopController, "init")
     print("[ClientMain] Inicializando CloseButtonController.init")
     call(CloseButtonController,"init")
     print("[ClientMain] Inicializando PickfallController.init")
