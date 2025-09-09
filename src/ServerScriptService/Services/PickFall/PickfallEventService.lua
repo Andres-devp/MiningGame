@@ -123,6 +123,7 @@ local function connectOreTouch(ore)
                 highlight.OutlineColor = highlightColor
                 highlight.FillTransparency = 0.5
                 highlight.OutlineTransparency = 0
+
                 highlight.Parent = ore
 
                 local delayTime = ore:GetAttribute("MaxHealth") or 1
@@ -140,6 +141,7 @@ local function connectOreTouch(ore)
                                         highlight:Destroy()
                                 end)
                                 tween:Play()
+
                         end
                         if ore:IsA("Model") then
                                 for _, p in ipairs(ore:GetDescendants()) do
