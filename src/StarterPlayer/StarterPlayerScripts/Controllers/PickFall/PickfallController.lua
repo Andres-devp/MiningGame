@@ -47,6 +47,7 @@ joinButton.Active = false
 selectMode.Visible = false
 end
 
+
 if joinButton then
 joinButton.MouseButton1Click:Connect(function()
 if joined then
@@ -130,6 +131,8 @@ joinButton.Visible = true
 end
 if registerFrame then
         registerFrame.Visible = true
+end
+end)
 end
 end)
 end

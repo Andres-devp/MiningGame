@@ -105,6 +105,7 @@ local function connectOreTouch(ore)
                 end
                 fallingOres[ore] = true
                 print("[PickfallEventService] ore touched", ore.Name)
+
                 local delayTime = ore:GetAttribute("MaxHealth") or 1
                 task.spawn(function()
                         for i = delayTime, 1, -1 do
@@ -122,6 +123,7 @@ local function connectOreTouch(ore)
                                 ore.Anchored = false
                                 ore.CanCollide = false
                         end
+
                 end)
         end
 
@@ -131,6 +133,7 @@ local function connectOreTouch(ore)
                         local char = hit.Parent
                         local plr = Players:GetPlayerFromCharacter(char)
                                 or Players:GetPlayerFromCharacter(char and char.Parent)
+
                         if plr then
                                 startTimer()
                         end
@@ -263,6 +266,7 @@ return
 end
 local m = tonumber(mode) or 1
 participants[plr] = { startCFrame = hrp.CFrame, mode = m }
+
 local total = 0
         for _ in pairs(participants) do total += 1 end
         print("\tRegistered", plr.Name, "mode", m, "total participants", total)
@@ -329,6 +333,7 @@ teleport()
 if currentMode == 2 then
 for _, ore in ipairs(oreFolder:GetChildren()) do
 ore:SetAttribute("IsMinable", false)
+
 connectOreTouch(ore)
 end
 end
