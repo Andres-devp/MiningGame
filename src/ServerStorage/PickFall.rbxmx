@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Folder" referent="RBX2507DBCD2563482FB6E0EFCEEE082EA9">
+	<Item class="Folder" referent="RBX6D164A81128647079AA4843227E0EF81">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -11,7 +11,7 @@
 			<int64 name="SourceAssetId">-1</int64>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="Folder" referent="RBX8F143C3B5BFB44B4A23329E1E2847146">
+		<Item class="Folder" referent="RBX37AF5E8852A1460DB3D1A2AD81D3362A">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -20,7 +20,7 @@
 				<int64 name="SourceAssetId">-1</int64>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
-			<Item class="MeshPart" referent="RBXCECDCB1B857C416787883FA1D262287D">
+			<Item class="MeshPart" referent="RBX01A3994E83F74FD99A5C170C0D5C78BE">
 				<Properties>
 					<SharedString name="AeroMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
 					<bool name="Anchored">false</bool>
@@ -35,7 +35,7 @@
 					<token name="BottomSurface">0</token>
 					<token name="BottomSurfaceInput">0</token>
 					<CoordinateFrame name="CFrame">
-						<X>-2.01355743</X>
+						<X>4.46683025</X>
 						<Y>2.4211185</Y>
 						<Z>-261.783234</Z>
 						<R00>1</R00>
@@ -52,10 +52,10 @@
 					<bool name="CanQuery">true</bool>
 					<bool name="CanTouch">true</bool>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-					<bool name="CastShadow">true</bool>
+					<bool name="CastShadow">false</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
-					<Color3uint8 name="Color3uint8">4289352960</Color3uint8>
+					<Color3uint8 name="Color3uint8">4293900344</Color3uint8>
 					<PhysicalProperties name="CustomPhysicalProperties">
 						<CustomPhysics>false</CustomPhysics>
 					</PhysicalProperties>
@@ -89,7 +89,7 @@
 					<token name="Material">256</token>
 					<string name="MaterialVariantSerialized">Studs</string>
 					<Content name="MeshId"><url>rbxassetid://3426741243</url></Content>
-					<string name="Name">Bronze</string>
+					<string name="Name">Gold</string>
 					<SharedString name="PhysicalConfigData">h0uebj9RXCxcOFfKoSg0HQ==</SharedString>
 					<BinaryString name="PhysicsData"></BinaryString>
 					<CoordinateFrame name="PivotOffset">
@@ -155,7 +155,7 @@
 					</Vector3>
 				</Properties>
 			</Item>
-			<Item class="MeshPart" referent="RBXE81CF584CCBE45CD80B056B7427814F9">
+			<Item class="MeshPart" referent="RBX2881D6ED84C742169EEC4CFEDF2AC25B">
 				<Properties>
 					<SharedString name="AeroMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
 					<bool name="Anchored">false</bool>
@@ -187,7 +187,7 @@
 					<bool name="CanQuery">true</bool>
 					<bool name="CanTouch">true</bool>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-					<bool name="CastShadow">true</bool>
+					<bool name="CastShadow">false</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
 					<Color3uint8 name="Color3uint8">4278255360</Color3uint8>
@@ -290,7 +290,7 @@
 					</Vector3>
 				</Properties>
 			</Item>
-			<Item class="MeshPart" referent="RBX39FD450DEBC841378F5F535E497FEF53">
+			<Item class="MeshPart" referent="RBX4A1FD33DF12D481FBB2010019641DA11">
 				<Properties>
 					<SharedString name="AeroMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
 					<bool name="Anchored">false</bool>
@@ -322,7 +322,7 @@
 					<bool name="CanQuery">true</bool>
 					<bool name="CanTouch">true</bool>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-					<bool name="CastShadow">true</bool>
+					<bool name="CastShadow">false</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
 					<Color3uint8 name="Color3uint8">4279308561</Color3uint8>
@@ -425,7 +425,7 @@
 					</Vector3>
 				</Properties>
 			</Item>
-			<Item class="MeshPart" referent="RBX44E2FE9CA43142FB84C615ADA5213FDB">
+			<Item class="MeshPart" referent="RBX23CD611DBD594E778E0BD077C39B83A3">
 				<Properties>
 					<SharedString name="AeroMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
 					<bool name="Anchored">false</bool>
@@ -457,7 +457,7 @@
 					<bool name="CanQuery">true</bool>
 					<bool name="CanTouch">true</bool>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-					<bool name="CastShadow">true</bool>
+					<bool name="CastShadow">false</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
 					<Color3uint8 name="Color3uint8">4284702562</Color3uint8>
@@ -560,7 +560,7 @@
 					</Vector3>
 				</Properties>
 			</Item>
-			<Item class="MeshPart" referent="RBX88ED16A70AAB4250936A86488396FAE6">
+			<Item class="MeshPart" referent="RBXEA6D766B34F64D13AF524D9DE7D07030">
 				<Properties>
 					<SharedString name="AeroMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
 					<bool name="Anchored">false</bool>
@@ -592,7 +592,7 @@
 					<bool name="CanQuery">true</bool>
 					<bool name="CanTouch">true</bool>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-					<bool name="CastShadow">true</bool>
+					<bool name="CastShadow">false</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
 					<Color3uint8 name="Color3uint8">4278255615</Color3uint8>
@@ -695,7 +695,7 @@
 					</Vector3>
 				</Properties>
 			</Item>
-			<Item class="MeshPart" referent="RBXF0C086B442F4430CB55CE4316ED6E2A4">
+			<Item class="MeshPart" referent="RBXE0704A025AD8453DA57915C074E2EA4E">
 				<Properties>
 					<SharedString name="AeroMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
 					<bool name="Anchored">false</bool>
@@ -710,7 +710,7 @@
 					<token name="BottomSurface">0</token>
 					<token name="BottomSurfaceInput">0</token>
 					<CoordinateFrame name="CFrame">
-						<X>4.46683025</X>
+						<X>-2.01355743</X>
 						<Y>2.4211185</Y>
 						<Z>-261.783234</Z>
 						<R00>1</R00>
@@ -727,10 +727,10 @@
 					<bool name="CanQuery">true</bool>
 					<bool name="CanTouch">true</bool>
 					<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-					<bool name="CastShadow">true</bool>
+					<bool name="CastShadow">false</bool>
 					<string name="CollisionGroup">Default</string>
 					<int name="CollisionGroupId">0</int>
-					<Color3uint8 name="Color3uint8">4293900344</Color3uint8>
+					<Color3uint8 name="Color3uint8">4289352960</Color3uint8>
 					<PhysicalProperties name="CustomPhysicalProperties">
 						<CustomPhysics>false</CustomPhysics>
 					</PhysicalProperties>
@@ -764,7 +764,7 @@
 					<token name="Material">256</token>
 					<string name="MaterialVariantSerialized">Studs</string>
 					<Content name="MeshId"><url>rbxassetid://3426741243</url></Content>
-					<string name="Name">Gold</string>
+					<string name="Name">Bronze</string>
 					<SharedString name="PhysicalConfigData">h0uebj9RXCxcOFfKoSg0HQ==</SharedString>
 					<BinaryString name="PhysicsData"></BinaryString>
 					<CoordinateFrame name="PivotOffset">

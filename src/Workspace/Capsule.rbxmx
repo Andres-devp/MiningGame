@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Model" referent="RBXCDC2AC2106054BA68786E48BAC7ED175">
+	<Item class="Model" referent="RBX61A3989EB8F9412985D8D828810AB830">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -32,14 +32,14 @@
 			<string name="Name">Capsule</string>
 			<bool name="NeedsPivotMigration">false</bool>
 			<Ref name="PrimaryPart">null</Ref>
-			<float name="ScaleFactor">24.7457943</float>
+			<float name="ScaleFactor">29.6959724</float>
 			<int64 name="SourceAssetId">9615823880</int64>
 			<BinaryString name="Tags"></BinaryString>
 			<OptionalCoordinateFrame name="WorldPivotData">
 				<CFrame>
-					<X>-1.01251658e-06</X>
-					<Y>23.1636829</Y>
-					<Z>1.46652135e-11</Z>
+					<X>-1.57807847e-06</X>
+					<Y>36.1022339</Y>
+					<Z>2.26232921e-11</Z>
 					<R00>-4.37113883e-08</R00>
 					<R01>-1</R01>
 					<R02>1.44839287e-05</R02>
@@ -52,7 +52,7 @@
 				</CFrame>
 			</OptionalCoordinateFrame>
 		</Properties>
-		<Item class="UnionOperation" referent="RBX0895E38801F04282AD510EAD9A904990">
+		<Item class="UnionOperation" referent="RBXA9B61DB750A64E57B46A0A453DE7C3BB">
 			<Properties>
 				<SharedString name="AeroMeshData">yuZpQdnvvUBOTYh1jqZ2cA==</SharedString>
 				<bool name="Anchored">true</bool>
@@ -68,9 +68,9 @@
 				<token name="BottomSurface">0</token>
 				<token name="BottomSurfaceInput">0</token>
 				<CoordinateFrame name="CFrame">
-					<X>0</X>
-					<Y>54.7808609</Y>
-					<Z>0</Z>
+					<X>-3.63016738e-07</X>
+					<Y>74.0441513</Y>
+					<Z>5.02443226e-12</Z>
 					<R00>0</R00>
 					<R01>0</R01>
 					<R02>1</R02>
@@ -180,9 +180,9 @@
 					<Z>0</Z>
 				</Vector3>
 				<Vector3 name="size">
-					<X>192.593216</X>
-					<Y>163.341003</Y>
-					<Z>163.341019</Z>
+					<X>231.119781</X>
+					<Y>196.01593</Y>
+					<Z>196.015945</Z>
 				</Vector3>
 			</Properties>
 		</Item>
