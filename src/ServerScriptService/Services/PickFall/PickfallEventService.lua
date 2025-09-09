@@ -106,11 +106,29 @@ local function connectOreTouch(ore)
                 fallingOres[ore] = true
                 print("[PickfallEventService] ore touched", ore.Name)
 
+                local highlight = Instance.new("Highlight")
+                highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                highlight.Adornee = ore
+
+                local color
+                if ore:IsA("BasePart") then
+                        color = ore.Color
+                else
+                        local part = ore.PrimaryPart or ore:FindFirstChildWhichIsA("BasePart", true)
+                        color = part and part.Color or Color3.new(1, 1, 1)
+                end
+                highlight.FillColor = color
+                highlight.OutlineColor = color
+                highlight.Parent = ore
+
                 local delayTime = ore:GetAttribute("MaxHealth") or 1
                 task.spawn(function()
                         for i = delayTime, 1, -1 do
                                 ore:SetAttribute("Health", i - 1)
                                 task.wait(1)
+                        end
+                        if highlight then
+                                highlight:Destroy()
                         end
                         if ore:IsA("Model") then
                                 for _, p in ipairs(ore:GetDescendants()) do
