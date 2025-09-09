@@ -14,10 +14,11 @@ local PickfallController = {}
 local guiFolder = player:WaitForChild("PlayerGui"):WaitForChild("PickFall")
 
 local gui       = guiFolder:WaitForChild("PickfallGui")
-local container = gui:WaitForChild("Frame")
-local joinButton = container:WaitForChild("JoinButton")
-local countdownLabel = container:WaitForChild("CountDown")
-local selectMode = container:WaitForChild("SelectMode")
+local registerFrame = gui:WaitForChild("Register")
+local joinButton = registerFrame:WaitForChild("JoinButton")
+local countdownLabel = registerFrame:WaitForChild("CountDown")
+local selectMode = gui:WaitForChild("SelectMode")
+
 local mode1Button = selectMode:WaitForChild("Mode1")
 local mode2Button = selectMode:WaitForChild("Mode2")
 
@@ -34,6 +35,7 @@ return string.format("%02d:%02d", m, s)
 end
 
 function PickfallController.init()
+selectMode.Visible = false
 local function sendJoin(mode)
 if joined then
 return
@@ -77,8 +79,9 @@ joinButton.AutoButtonColor = true
 joinButton.Active = true
 joinButton.Visible = false
 end
-if container then
-container.Visible = false
+if registerFrame then
+        registerFrame.Visible = false
+
 end
 elseif state == "countdown" then
 local t = tonumber(data) or 0
@@ -89,8 +92,9 @@ selectMode.Visible = false
 if joinButton then
 joinButton.Visible = true
 end
-if container then
-container.Visible = true
+if registerFrame then
+        registerFrame.Visible = true
+
 end
 elseif state == "running" then
 if countdownLabel then
@@ -100,8 +104,9 @@ selectMode.Visible = false
 if joinButton then
 joinButton.Visible = false
 end
-if container then
-container.Visible = false
+if registerFrame then
+        registerFrame.Visible = false
+
 end
 end
 end)
@@ -122,8 +127,9 @@ joinButton.AutoButtonColor = true
 joinButton.Active = true
 joinButton.Visible = true
 end
-if container then
-container.Visible = true
+if registerFrame then
+        registerFrame.Visible = true
+
 end
 end)
 end
