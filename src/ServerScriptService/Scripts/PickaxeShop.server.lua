@@ -15,6 +15,17 @@ local ID_TO_TOOL = {
     crystal = "PickaxeCrystal",
 }
 
+local function findFirstAncestorWithAttribute(instance, attribute)
+    local parent = instance.Parent
+    while parent do
+        if parent:GetAttribute(attribute) ~= nil then
+            return parent
+        end
+        parent = parent.Parent
+    end
+    return nil
+end
+
 local function equipPickaxe(player, id)
     local toolName = ID_TO_TOOL[id]
     if not toolName then return end
@@ -51,7 +62,7 @@ local function equipPickaxe(player, id)
 end
 
 local function handlePurchase(prompt, player)
-    local stand = prompt:FindFirstAncestorWithAttribute("PickaxeId")
+    local stand = findFirstAncestorWithAttribute(prompt, "PickaxeId")
     if not stand then return end
 
     local id = stand:GetAttribute("PickaxeId")
