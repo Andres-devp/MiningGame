@@ -116,7 +116,8 @@ end)
 WinnerEvent.OnClientEvent:Connect(function(name)
 if countdownLabel then
 if name and name ~= "" then
-countdownLabel.Text = name .. " ganó!"
+countdownLabel.Text = name .. " gano!"
+
 else
 countdownLabel.Text = "Sin ganador"
 end
@@ -133,8 +134,7 @@ if registerFrame then
         registerFrame.Visible = true
 end
 end)
-end
-end)
+
 end
 
 return PickfallController
