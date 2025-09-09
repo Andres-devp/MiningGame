@@ -32,6 +32,10 @@ local participants = {}
 local registrationOpen = false
 local active = false
 
+local currentMode = 1
+local oreTouchedConnections = {}
+local fallingOres = {}
+
 local currentState, currentData = "idle", nil
 
 local function setupOreBlocks()
@@ -68,10 +72,14 @@ local function setupOreBlocks()
       for _, part in ipairs(ore:GetDescendants()) do
         if part:IsA("BasePart") then
           part.Anchored = true
+          part.CanCollide = true
+          part.CanTouch = true
         end
       end
     elseif ore:IsA("BasePart") then
       ore.Anchored = true
+      ore.CanCollide = true
+      ore.CanTouch = true
     else
       print("\tWarning: unsupported ore type", ore.ClassName)
     end
@@ -79,15 +87,66 @@ local function setupOreBlocks()
 end
 
 local function resetOreBlocks()
-  
+
   setupOreBlocks()
 
-  
+
   for _, ore in ipairs(oreFolder:GetChildren()) do
     if ore:IsA("Model") then
       NodeService.register(ore)
     end
   end
+end
+
+local function connectOreTouch(ore)
+        local function startTimer()
+                if fallingOres[ore] then
+                        return
+                end
+                fallingOres[ore] = true
+                print("[PickfallEventService] ore touched", ore.Name)
+                local delayTime = ore:GetAttribute("MaxHealth") or 1
+                task.spawn(function()
+                        for i = delayTime, 1, -1 do
+                                ore:SetAttribute("Health", i - 1)
+                                task.wait(1)
+                        end
+                        if ore:IsA("Model") then
+                                for _, p in ipairs(ore:GetDescendants()) do
+                                        if p:IsA("BasePart") then
+                                                p.Anchored = false
+                                                p.CanCollide = false
+                                        end
+                                end
+                        elseif ore:IsA("BasePart") then
+                                ore.Anchored = false
+                                ore.CanCollide = false
+                        end
+                end)
+        end
+
+        local function bind(part)
+                part.CanTouch = true
+                local conn = part.Touched:Connect(function(hit)
+                        local char = hit.Parent
+                        local plr = Players:GetPlayerFromCharacter(char)
+                                or Players:GetPlayerFromCharacter(char and char.Parent)
+                        if plr then
+                                startTimer()
+                        end
+                end)
+                table.insert(oreTouchedConnections, conn)
+        end
+
+        if ore:IsA("Model") then
+                for _, part in ipairs(ore:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                                bind(part)
+                        end
+                end
+        elseif ore:IsA("BasePart") then
+                bind(ore)
+        end
 end
 
 local function broadcast(state, data)
@@ -109,10 +168,16 @@ local function resetAll()
                         end
                 end
         end
-        participants = {}
-        active = false
-        resetOreBlocks()
-        print("[PickfallEventService] resetAll complete")
+participants = {}
+active = false
+for _, conn in ipairs(oreTouchedConnections) do
+conn:Disconnect()
+end
+oreTouchedConnections = {}
+fallingOres = {}
+currentMode = 1
+resetOreBlocks()
+print("[PickfallEventService] resetAll complete")
 
 end
 
@@ -176,30 +241,31 @@ RunService.Heartbeat:Connect(function()
         end
 end)
 
-JoinEvent.OnServerEvent:Connect(function(plr)
-        print("[PickfallEventService] JoinEvent from", plr and plr.Name, "registrationOpen=", registrationOpen)
-        if not registrationOpen then
-                print("\tRegistration closed")
-                return
-        end
-        if participants[plr] then
-                print("\tAlready registered")
-                return
-        end
-        local char = plr.Character
-        if not char then
-                print("\tNo character")
-                return
-        end
-        local hrp = char:FindFirstChild("HumanoidRootPart")
-        if not hrp then
-                print("\tNo HumanoidRootPart")
-                return
-        end
-        participants[plr] = { startCFrame = hrp.CFrame }
-        local total = 0
+JoinEvent.OnServerEvent:Connect(function(plr, mode)
+print("[PickfallEventService] JoinEvent from", plr and plr.Name, "registrationOpen=", registrationOpen)
+if not registrationOpen then
+print("\tRegistration closed")
+return
+end
+if participants[plr] then
+print("\tAlready registered")
+return
+end
+local char = plr.Character
+if not char then
+print("\tNo character")
+return
+end
+local hrp = char:FindFirstChild("HumanoidRootPart")
+if not hrp then
+print("\tNo HumanoidRootPart")
+return
+end
+local m = tonumber(mode) or 1
+participants[plr] = { startCFrame = hrp.CFrame, mode = m }
+local total = 0
         for _ in pairs(participants) do total += 1 end
-        print("\tRegistered", plr.Name, "total participants", total)
+        print("\tRegistered", plr.Name, "mode", m, "total participants", total)
 end)
 
 local function teleport()
@@ -237,18 +303,38 @@ local function runRound()
                 broadcast("countdown", t)
                 task.wait(1)
         end
-        registrationOpen = false
-        if not next(participants) then
-                print("\tNo participants after countdown")
-                broadcast("idle")
-                registrationOpen = true
-                return
-        end
-        print("\tTeleporting players")
-        teleport()
-        active = true
-        print("\tRound active")
-        broadcast("running")
+registrationOpen = false
+if not next(participants) then
+print("\tNo participants after countdown")
+broadcast("idle")
+registrationOpen = true
+return
+end
+local counts = {}
+for _, info in pairs(participants) do
+local m = info.mode or 1
+counts[m] = (counts[m] or 0) + 1
+end
+currentMode = 1
+local maxCount = 0
+for m, c in pairs(counts) do
+if c > maxCount then
+maxCount = c
+currentMode = m
+end
+end
+print("\tSelected mode", currentMode)
+print("\tTeleporting players")
+teleport()
+if currentMode == 2 then
+for _, ore in ipairs(oreFolder:GetChildren()) do
+ore:SetAttribute("IsMinable", false)
+connectOreTouch(ore)
+end
+end
+active = true
+print("\tRound active")
+broadcast("running")
 end
 
 local function cycle()
