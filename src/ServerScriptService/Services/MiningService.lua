@@ -13,6 +13,7 @@ local RateLimiter  = require(script.Parent:WaitForChild("RateLimiter"))
 local Shared     = ReplicatedStorage:WaitForChild("Shared")
 local EventBus   = require(Shared:WaitForChild("events"):WaitForChild("EventBus"))
 local Topics     = require(Shared:WaitForChild("events"):WaitForChild("EventTopics"))
+local PickaxeDefs = require(ReplicatedStorage:WaitForChild("Config"):WaitForChild("PickaxeDefs"))
 
 local MAX_DISTANCE   = 18
 local CRYSTAL_TIME   = 1.4
@@ -157,7 +158,12 @@ local function mineStone(player, model: Instance)
 
         local maxH = tonumber(model:GetAttribute("MaxHealth")) or 1
         local current = tonumber(model:GetAttribute("Health")) or maxH
-        local dmg = hasPickaxeServer(player) and 2 or 1
+        local dmg = 1
+        if hasPickaxeServer(player) then
+                local id = player:GetAttribute("EquippedPickaxe")
+                local def = id and PickaxeDefs[id]
+                dmg = (def and def.power) or 1
+        end
         dmg = dmg * buffMultiplier(player)
         local newHealth = math.max(0, current - dmg)
         model:SetAttribute("Health", newHealth)
