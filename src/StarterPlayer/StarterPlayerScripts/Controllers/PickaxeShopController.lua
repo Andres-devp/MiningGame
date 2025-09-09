@@ -15,27 +15,47 @@ function PickaxeShopController.init()
 
     local currentPrompt
 
+    local function findFirstAncestorWithAttribute(instance, attribute)
+        local parent = instance.Parent
+        while parent do
+            if parent:GetAttribute(attribute) ~= nil then
+                return parent
+            end
+            parent = parent.Parent
+        end
+        return nil
+    end
+
     local function getPrice(stand, id)
         local price = stand:GetAttribute("Price")
         local def = PickaxeDefs[id]
-        if price == nil and def then
+        if (price == nil or price == 0) and def then
             price = def.price
         end
         return price
     end
 
-      local function refresh(prompt)
-          local stand = prompt:FindFirstAncestorWithAttribute("PickaxeId")
-          if not stand then return end
-          local id = stand:GetAttribute("PickaxeId")
-          if not id then return end
-          local def = PickaxeDefs[id]
+    local function refresh(prompt)
+        local stand = findFirstAncestorWithAttribute(prompt, "PickaxeId") or prompt.Parent
+        if not stand then return end
+
+        local id = stand:GetAttribute("PickaxeId")
+        if not id or id == "" then
+            local fromName = stand.Name:match("^Stand(.+)$")
+            if fromName then
+                id = fromName:lower()
+            end
+        end
+        if not id then return end
+
+        local def = PickaxeDefs[id]
 
         if not def then return end
 
         prompt.ObjectText = def.name
 
         local price = getPrice(stand, id)
+        if not price then return end
         local ownedFlag = owned:FindFirstChild(id)
         if ownedFlag and ownedFlag.Value then
             prompt.ActionText = "Equipar"

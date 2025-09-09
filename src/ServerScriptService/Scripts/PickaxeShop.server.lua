@@ -15,6 +15,36 @@ local ID_TO_TOOL = {
     crystal = "PickaxeCrystal",
 }
 
+local function findFirstAncestorWithAttribute(instance, attribute)
+    local parent = instance.Parent
+    while parent do
+        if parent:GetAttribute(attribute) ~= nil then
+            return parent
+        end
+        parent = parent.Parent
+    end
+    return nil
+end
+
+local function ensureStandAttributes(stand)
+    local id = stand:GetAttribute("PickaxeId")
+    if not id or id == "" then
+        local fromName = stand.Name:match("^Stand(.+)$")
+        if fromName then
+            id = fromName:lower()
+            stand:SetAttribute("PickaxeId", id)
+        end
+    end
+
+    local price = stand:GetAttribute("Price")
+    if (price == nil or price == 0) and id then
+        local def = PickaxeDefs[id]
+        if def and def.price then
+            stand:SetAttribute("Price", def.price)
+        end
+    end
+end
+
 local function equipPickaxe(player, id)
     local toolName = ID_TO_TOOL[id]
     if not toolName then return end
@@ -51,7 +81,7 @@ local function equipPickaxe(player, id)
 end
 
 local function handlePurchase(prompt, player)
-    local stand = prompt:FindFirstAncestorWithAttribute("PickaxeId")
+    local stand = findFirstAncestorWithAttribute(prompt, "PickaxeId")
     if not stand then return end
 
     local id = stand:GetAttribute("PickaxeId")
@@ -99,9 +129,11 @@ local function handlePurchase(prompt, player)
 end
 
 local function connectStand(stand)
-    local prompt = stand:FindFirstChildWhichIsA("ProximityPrompt", true)
+    ensureStandAttributes(stand)
 
+    local prompt = stand:FindFirstChildWhichIsA("ProximityPrompt", true)
     if not prompt then return end
+
     prompt.Triggered:Connect(function(player)
         handlePurchase(prompt, player)
     end)
@@ -123,3 +155,14 @@ Players.PlayerAdded:Connect(function(player)
     basic.Value = true
     basic.Parent = owned
 end)
+
+for _, player in ipairs(Players:GetPlayers()) do
+    local owned = Instance.new("Folder")
+    owned.Name = "OwnedPickaxes"
+    owned.Parent = player
+
+    local basic = Instance.new("BoolValue")
+    basic.Name = "basic"
+    basic.Value = true
+    basic.Parent = owned
+end
