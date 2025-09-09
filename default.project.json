@@ -14,10 +14,9 @@
       "Cave":              { "$path": "src/Workspace/Cave.rbxmx" },
       "Capsule":           { "$path": "src/Workspace/Capsule.rbxmx" },      
       "LeaderboardDisplay":{ "$path": "src/Workspace/LeaderboardDisplay.rbxmx" },
-      "TiendaPico":        { "$path": "src/Workspace/TiendaPico.rbxmx" },
+      "PickaxeShops":     { "$path": "src/Workspace/PickaxeShops.rbxmx" },
       "Shops":             { "$path": "src/Workspace/Shops.rbxmx" },
       "Baseplate":         { "$path": "src/Workspace/Baseplate.rbxmx" },
-      "PickaxeBasic":      { "$path": "src/Workspace/PickaxeBasic.rbxmx" },
       "Lights":            { "$path": "src/Workspace/Lights.rbxmx" },
       "PickfallArena":     { "$path": "src/Workspace/PickfallArena.rbxmx" },
       "Camera":            { "$className": "Camera" },
@@ -40,7 +39,8 @@
       "$className": "ServerStorage",
       "$ignoreUnknownInstances": true,
       "NodeTemplates": { "$path": "src/ServerStorage/NodeTemplates.rbxmx" },
-      "TagList":       { "$path": "src/ServerStorage/TagList.rbxmx" }
+      "Tools":         { "$path": "src/ServerStorage/Tools.rbxmx" },
+      "PickFall":      { "$path": "src/ServerStorage/PickFall.rbxmx" }
       
     },
 
@@ -50,8 +50,8 @@
 
       "Remotes":      { "$path": "src/ReplicatedStorage/Remotes.rbxmx" },
       "Shared":       { "$path": "src/ReplicatedStorage/Shared" },
+      "Config":       { "$path": "src/ReplicatedStorage/Config" },
       "Sounds":       { "$path": "src/ReplicatedStorage/Sounds.rbxmx" },
-      "PickaxeModel": { "$path": "src/ReplicatedStorage/PickaxeModel.rbxmx" },
       "Dialog":       { "$path": "src/ReplicatedStorage/Dialog.lua" }
     },
 
