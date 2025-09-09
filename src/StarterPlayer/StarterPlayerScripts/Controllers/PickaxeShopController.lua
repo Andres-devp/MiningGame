@@ -24,11 +24,13 @@ function PickaxeShopController.init()
         return price
     end
 
-    local function refresh(prompt)
-        local stand = prompt.Parent
-        local id = stand:GetAttribute("PickaxeId")
-        if not id then return end
-        local def = PickaxeDefs[id]
+      local function refresh(prompt)
+          local stand = prompt:FindFirstAncestorWithAttribute("PickaxeId")
+          if not stand then return end
+          local id = stand:GetAttribute("PickaxeId")
+          if not id then return end
+          local def = PickaxeDefs[id]
+
         if not def then return end
 
         prompt.ObjectText = def.name
