@@ -53,6 +53,7 @@ end
 local function handlePurchase(prompt, player)
     local stand = prompt:FindFirstAncestorWithAttribute("PickaxeId")
     if not stand then return end
+
     local id = stand:GetAttribute("PickaxeId")
     if not id then return end
     local price = stand:GetAttribute("Price")
@@ -99,6 +100,7 @@ end
 
 local function connectStand(stand)
     local prompt = stand:FindFirstChildWhichIsA("ProximityPrompt", true)
+
     if not prompt then return end
     prompt.Triggered:Connect(function(player)
         handlePurchase(prompt, player)

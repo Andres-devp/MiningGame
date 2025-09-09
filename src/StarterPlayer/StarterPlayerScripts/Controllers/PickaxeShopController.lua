@@ -30,6 +30,7 @@ function PickaxeShopController.init()
           local id = stand:GetAttribute("PickaxeId")
           if not id then return end
           local def = PickaxeDefs[id]
+
         if not def then return end
 
         prompt.ObjectText = def.name

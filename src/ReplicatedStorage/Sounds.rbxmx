@@ -2,7 +2,7 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Folder" referent="RBX3D1FBB65A39D4C5BBF6FEB23A8DD6CE9">
+	<Item class="Folder" referent="RBXE34848D261DB45689D6FBDFE885C1C14">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -11,7 +11,7 @@
 			<int64 name="SourceAssetId">-1</int64>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="Sound" referent="RBXF88498142B70469593157AF1EFBA0ABD">
+		<Item class="Sound" referent="RBX1EAD4F08C5A04DBE8F3DDF8960597B51">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -36,7 +36,7 @@
 				<float name="Volume">3.5</float>
 			</Properties>
 		</Item>
-		<Item class="Sound" referent="RBX939B4198A9DA4627A0A01810A9016D7A">
+		<Item class="Sound" referent="RBXE99984093B134A2DA426692D136F1C38">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -61,24 +61,15 @@
 				<float name="Volume">0.5</float>
 			</Properties>
 		</Item>
-<<<<<<< HEAD
-		<Item class="Sound" referent="RBX89BFE34946F14239985AD37E5C1C97DB">
+		<Item class="Sound" referent="RBX19CB89794B534721A8A6B02F9E68F20B">
 			<Properties>
-=======
-                <Item class="Sound" referent="RBXC9DF56DA10CC4AD2BDBA7FE8B0D8A7F0">
-                        <Properties>
->>>>>>> 162fec65883680603b49faf263bee6da79ed9bfc
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
 				<bool name="DefinesCapabilities">false</bool>
 				<bool name="IsMutedForCapture">false</bool>
 				<NumberRange name="LoopRegion">0 60000 </NumberRange>
 				<bool name="Looped">false</bool>
-<<<<<<< HEAD
 				<string name="Name">StoneSound</string>
-=======
-                                <string name="Name">StoneSound</string>
->>>>>>> 162fec65883680603b49faf263bee6da79ed9bfc
 				<bool name="PlayOnRemove">false</bool>
 				<NumberRange name="PlaybackRegion">0 60000 </NumberRange>
 				<bool name="PlaybackRegionsEnabled">false</bool>
@@ -88,7 +79,6 @@
 				<float name="RollOffMinDistance">10</float>
 				<token name="RollOffMode">3</token>
 				<Ref name="SoundGroup">null</Ref>
-<<<<<<< HEAD
 				<Content name="SoundId"><url>rbxassetid://7158347304</url></Content>
 				<int64 name="SourceAssetId">-1</int64>
 				<BinaryString name="Tags"></BinaryString>
@@ -96,42 +86,7 @@
 				<float name="Volume">0.5</float>
 			</Properties>
 		</Item>
-		<Item class="Sound" referent="RBXA3D893AB687242E99E67760861F3A642">
-=======
-                                <Content name="SoundId"><url>rbxassetid://7158347304</url></Content>
-                                <int64 name="SourceAssetId">-1</int64>
-                                <BinaryString name="Tags"></BinaryString>
-                                <double name="TimePosition">0</double>
-                                <float name="Volume">0.5</float>
-                        </Properties>
-                </Item>
-                <Item class="Sound" referent="RBXGOLDSOUNDREF00000000000000000000">
-                        <Properties>
-                                <BinaryString name="AttributesSerialize"></BinaryString>
-                                <SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
-                                <bool name="DefinesCapabilities">false</bool>
-                                <bool name="IsMutedForCapture">false</bool>
-                                <NumberRange name="LoopRegion">0 60000 </NumberRange>
-                                <bool name="Looped">false</bool>
-                                <string name="Name">GoldSound</string>
-                                <bool name="PlayOnRemove">false</bool>
-                                <NumberRange name="PlaybackRegion">0 60000 </NumberRange>
-                                <bool name="PlaybackRegionsEnabled">false</bool>
-                                <float name="PlaybackSpeed">1</float>
-                                <bool name="Playing">false</bool>
-                                <float name="RollOffMaxDistance">10000</float>
-                                <float name="RollOffMinDistance">10</float>
-                                <token name="RollOffMode">3</token>
-                                <Ref name="SoundGroup">null</Ref>
-                                <Content name="SoundId"><url>rbxassetid://0</url></Content>
-                                <int64 name="SourceAssetId">-1</int64>
-                                <BinaryString name="Tags"></BinaryString>
-                                <double name="TimePosition">0</double>
-                                <float name="Volume">0.5</float>
-                        </Properties>
-                </Item>
-		<Item class="Sound" referent="RBXE9E80B0A3BCF47D39F12804735242E72">
->>>>>>> 162fec65883680603b49faf263bee6da79ed9bfc
+		<Item class="Sound" referent="RBX2A347000AD2F47409B575DB4319E0F99">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -156,7 +111,7 @@
 				<float name="Volume">0.5</float>
 			</Properties>
 		</Item>
-		<Item class="Sound" referent="RBX37C173AFF95849E695ECCFAE53B7BF32">
+		<Item class="Sound" referent="RBX1AFA7F5978DA4316BDB38E53646D0012">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -181,7 +136,7 @@
 				<float name="Volume">0.5</float>
 			</Properties>
 		</Item>
-		<Item class="Sound" referent="RBX4EABD8CD684C49E4AC88C1DB452B3B41">
+		<Item class="Sound" referent="RBX90CD145F5151499C81226060434A74BA">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -206,7 +161,7 @@
 				<float name="Volume">0.5</float>
 			</Properties>
 		</Item>
-		<Item class="Sound" referent="RBX704351EB52AE4E80AA2A11ED4E8EAED1">
+		<Item class="Sound" referent="RBXF107910624C14A71B14BE731D2E9F70D">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
@@ -231,7 +186,7 @@
 				<float name="Volume">0.5</float>
 			</Properties>
 		</Item>
-		<Item class="Sound" referent="RBX0DA17E56327747F985640165DBEBE711">
+		<Item class="Sound" referent="RBX980AA88CE95943468F77F7C490B3FC99">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<SecurityCapabilities name="Capabilities">0</SecurityCapabilities>
