@@ -203,14 +203,21 @@ function M.init()
 
                 
                 local statsGui      = playerGui:FindFirstChild("PlayerStatsGui") or findDesc(playerGui, "PlayerStatsGui")
-                local statsContainer = statsGui and (statsGui:FindFirstChild("Container") or findDesc(statsGui, "Container"))
-                local gemsCounter   = statsContainer and (statsContainer:FindFirstChild("GemsCounter") or findDesc(statsContainer, "GemsCounter"))
-                local stonesCounter = statsContainer and (statsContainer:FindFirstChild("StonesCounter") or findDesc(statsContainer, "StonesCounter"))
+                local gemsCounter   = statsGui and (statsGui:FindFirstChild("GemsCounter") or findDesc(statsGui, "GemsCounter"))
+
+                local cashCounter   = nil
+                if statsGui then
+                        cashCounter = statsGui:FindFirstChild("CashCounter") or findDesc(statsGui, "CashCounter")
+                        if not cashCounter then
+                                cashCounter = statsGui:FindFirstChild("StonesCounter") or findDesc(statsGui, "StonesCounter")
+                        end
+                end
+
                 local gemsBtn       = gemsCounter and (gemsCounter:FindFirstChild("ImageButton") or findDesc(gemsCounter, "ImageButton"))
-                local stonesBtn     = stonesCounter and (stonesCounter:FindFirstChild("ImageButton") or findDesc(stonesCounter, "ImageButton"))
+                local cashBtn       = cashCounter and (cashCounter:FindFirstChild("ImageButton") or findDesc(cashCounter, "ImageButton"))
 
                 print("[ShopController] gemsBtn", gemsBtn)
-                print("[ShopController] stonesBtn", stonesBtn)
+                print("[ShopController] cashBtn", cashBtn)
 
                 local function openShop(source)
                         robuxFrame.Visible = true
@@ -219,8 +226,8 @@ function M.init()
                 if gemsBtn then
                         gemsBtn.Activated:Connect(function() openShop("gems") end)
                 end
-                if stonesBtn then
-                        stonesBtn.Activated:Connect(function() openShop("stones") end)
+                if cashBtn then
+                        cashBtn.Activated:Connect(function() openShop("cash") end)
                 end
         end
 

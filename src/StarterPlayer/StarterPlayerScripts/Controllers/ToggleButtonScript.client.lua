@@ -10,15 +10,17 @@ local playerGui = player:WaitForChild("PlayerGui")
 
 local button = playerGui:WaitForChild("MainGui"):WaitForChild("AutoMineButton")
 local gradient = button:FindFirstChildOfClass("UIGradient")
+local defaultBackgroundColor = button.BackgroundColor3
+local defaultGradientColor = gradient and gradient.Color
 
 -- EventBus
 local EventBus = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventBus"))
 local Topics   = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("events"):WaitForChild("EventTopics"))
 
--- ⚠️ Mismo ID que en GamePassService
+-- Mismo ID que en GamePassService
 local AUTO_MINE_PASS_ID = 1406821381
 
--- ====== UI label único ======
+-- ====== UI label unico ======
 local label = button:FindFirstChildOfClass("TextLabel")
 if label then
     if button:IsA("TextButton") then button.Text = "" end
@@ -44,12 +46,7 @@ else
     label.TextWrapped = true
 end
 
-local COLOR_ON  = Color3.fromRGB(40, 167, 69)
-local COLOR_OFF = Color3.fromRGB(220, 53, 69)
 local COLOR_BUY = Color3.fromRGB(0, 123, 255)
-
-local GRADIENT_ON  = ColorSequence.new(Color3.fromRGB(40,167,69), Color3.fromRGB(33,134,54))
-local GRADIENT_OFF = ColorSequence.new(Color3.fromRGB(220,53,69), Color3.fromRGB(176,43,55))
 local GRADIENT_BUY = ColorSequence.new(Color3.fromRGB(0,123,255), Color3.fromRGB(0,92,191))
 
 -- Valores replicados (los crea el server)
@@ -58,16 +55,20 @@ local autoVal = player:FindFirstChild("AutoMineEnabled") or player:WaitForChild(
 
 local function setText(t) label.Text = t end
 
+local function applyDefaultAppearance()
+    button.BackgroundColor3 = defaultBackgroundColor
+    if gradient and defaultGradientColor then
+        gradient.Color = defaultGradientColor
+    end
+end
+
 local function updateButton()
     if ownsAutoMinePass.Value then
+        applyDefaultAppearance()
         if autoVal and autoVal.Value then
             setText("AUTO-MINADO: ON")
-            button.BackgroundColor3 = COLOR_ON
-            if gradient then gradient.Color = GRADIENT_ON end
         else
             setText("AUTO-MINADO: OFF")
-            button.BackgroundColor3 = COLOR_OFF
-            if gradient then gradient.Color = GRADIENT_OFF end
         end
     else
         setText("AUTO-MINADO")
@@ -106,6 +107,6 @@ end)
 ownsAutoMinePass.Changed:Connect(updateButton)
 if autoVal then autoVal.Changed:Connect(updateButton) end
 
--- Sync inicial (por si el server aún no escribió)
+-- Sync inicial (por si el server aun no escribio)
 EventBus.sendToServer(Topics.AutoMineSyncRequest, {})
 updateButton()

@@ -23,48 +23,64 @@ end
 
 local _playerGui: PlayerGui
 local _statsGui: Instance
-local _container: Instance
 local _gemsLabel: TextLabel
-local _stonesLabel: TextLabel
-local _stonesValue: IntValue
+local _cashLabel: TextLabel
+local _cashValue: IntValue
 local _gemsValue: IntValue
 
 function UIController:update()
-	if _stonesLabel and _stonesValue then
-		_stonesLabel.Text = fmt(_stonesValue.Value)
+	if _cashLabel and _cashValue then
+		_cashLabel.Text = fmt(_cashValue.Value)
 	end
 	if _gemsLabel and _gemsValue then
 		_gemsLabel.Text = fmt(_gemsValue.Value)
 	end
 end
 
+local function resolveCashValue(leaderstats: Instance): IntValue
+	local value = player:FindFirstChild("Cash")
+	if not value and leaderstats then
+		value = leaderstats:FindFirstChild("Cash")
+	end
+	if not value then
+		value = player:FindFirstChild("Stones")
+	end
+	if value then
+		return value :: IntValue
+	end
+	return player:WaitForChild("Stones") :: IntValue
+end
+
 function UIController:init()
 	
 	local leaderstats = player:WaitForChild("leaderstats")
-	_gemsValue   = leaderstats:WaitForChild("Gems") :: IntValue
-	_stonesValue = player:WaitForChild("Stones")    :: IntValue
+	_gemsValue = leaderstats:WaitForChild("Gems") :: IntValue
+	_cashValue = resolveCashValue(leaderstats)
 
 	
 	_playerGui = player:WaitForChild("PlayerGui")
-
-	
 	_statsGui  = _playerGui:WaitForChild("PlayerStatsGui")
-	_container = _statsGui:FindFirstChild("Container") or _statsGui:WaitForChild("Container")
 
-	local gemsCounter   = _container:FindFirstChild("GemsCounter")   or _container:WaitForChild("GemsCounter")
-	local stonesCounter = _container:FindFirstChild("StonesCounter") or _container:WaitForChild("StonesCounter")
+	local gemsCounter = _statsGui:FindFirstChild("GemsCounter")
+	if not gemsCounter then
+		gemsCounter = findDescendantByName(_statsGui, "GemsCounter")
+	end
 
-	
-	_gemsLabel   = findDescendantByName(gemsCounter, "AmountLabel")   :: TextLabel
-	_stonesLabel = findDescendantByName(stonesCounter, "AmountLabel") :: TextLabel
+	local cashCounter = _statsGui:FindFirstChild("CashCounter")
+	if not cashCounter then
+		cashCounter = _statsGui:FindFirstChild("StonesCounter") or findDescendantByName(_statsGui, "CashCounter") or findDescendantByName(_statsGui, "StonesCounter")
+	end
 
-	if not _gemsLabel or not _stonesLabel then
-		error("[UIController] No se encontró 'AmountLabel' dentro de GemsCounter/StonesCounter. Revisa la GUI.")
+	_gemsLabel = findDescendantByName(gemsCounter, "AmountLabel") :: TextLabel
+	_cashLabel = findDescendantByName(cashCounter, "AmountLabel") :: TextLabel
+
+	if not _gemsLabel or not _cashLabel then
+		error("[UIController] No se encontro 'AmountLabel' dentro de GemsCounter/CashCounter. Revisa la GUI.")
 	end
 
 	
-	_stonesValue.Changed:Connect(function() UIController:update() end)
-	_gemsValue.Changed:Connect(function()   UIController:update() end)
+	_cashValue.Changed:Connect(function() UIController:update() end)
+	_gemsValue.Changed:Connect(function() UIController:update() end)
 
 	
 	UIController:update()
@@ -73,3 +89,4 @@ function UIController:init()
 end
 
 return UIController
+
