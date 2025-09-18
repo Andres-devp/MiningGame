@@ -48,6 +48,7 @@ local UIController         = loadModule(controllers, "UIController")         or 
 local MiningController     = loadModule(controllers, "PickFall/MiningController")     or {}
 local InputController      = loadModule(controllers, "InputController")      or {} 
 local ShopController       = loadModule(controllers, "Plot/ShopController")       or {}
+local HoverSoundController = loadModule(controllers, "ButtonHoverSoundController") or {}
 local TPButtons            = loadModule(controllers, "Plot/TPButtons")            or {}
 local PickaxeShopController = loadModule(controllers, "PickaxeShopController") or {}
 local CloseButtonController= loadModule(controllers, "CloseButtonController") or {}
@@ -80,6 +81,8 @@ local function initControllers(character)
 
     print("[ClientMain] Inicializando ShopController.init")
     call(ShopController,       "init")
+    print("[ClientMain] Inicializando HoverSoundController.init")
+    call(HoverSoundController, "init")
     print("[ClientMain] Inicializando TPButtons.init")
     call(TPButtons,            "init")
     print("[ClientMain] Inicializando ShopPromptController.init")

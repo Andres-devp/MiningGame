@@ -160,7 +160,7 @@ function Dialog:triggerDialog(player, questionNumber)
             if not option then
                 continue
             end
-            option.text.Text = "<font color='rgb(255,220,127)'>" .. i .. ".)</font> [''" .. response .. "'']"
+            option.text.Text = string.format("<font color='rgb(255,220,127)'>%d.)</font> %s", i, response)
 
             option.Size = UDim2.fromScale(option.Size.X.Scale, 0.4)
             option.text.Position = UDim2.new(0.02, 0, 0.5, 0)
